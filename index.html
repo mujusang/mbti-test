@@ -325,7 +325,7 @@ const TYPE_INFO = {
 
 function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
 
-function signed(v) { return (5 - v) - 2; }
+function signed(v) { return v - 3; }
 
 function axisScore(answers, key, ctx) {
   const def = AXIS_BY_KEY[key];
