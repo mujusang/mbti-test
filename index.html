@@ -74,11 +74,12 @@
     box-shadow:0 1px 0 rgba(60,50,30,.03), 0 8px 22px -18px rgba(50,40,20,.35);
   }
   .card h2{font-size:14px;margin:0 0 10px;color:var(--muted);font-weight:700;letter-spacing:.02em;}
-  .card p{margin:0 0 10px;font-size:14.6px;}
+  .card p{margin:0 0 10px;font-size:14.6px;word-break:keep-all;}
   .card p:last-child{margin-bottom:0;}
+  .lead{word-break:keep-all;}
   .facts{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 0;}
   .fact{font-size:12.8px;color:var(--a);background:var(--aSoft);border-radius:999px;padding:5px 11px;font-weight:600;}
-  .hint{font-size:13.4px;color:var(--muted);margin:14px 2px 0;}
+  .hint{font-size:13.4px;color:var(--muted);margin:14px 2px 0;word-break:keep-all;}
   .hint b{color:var(--b);}
 
   .btnRow{display:flex;flex-direction:column;gap:9px;margin-top:20px;}
@@ -700,7 +701,7 @@ function buildReportText(answers, tieAnswers, r, when) {
   L.push('코어 유형: ' + r.type + ' (' + r.typeInfo.name + ')');
   if (r.surfaceType !== r.type) L.push('검사지 표면 유형: ' + r.surfaceType + ' (' + r.surfaceInfo.name + ')');
   L.push('진단 일시: ' + koreanDateTime(when));
-  L.push('구성: 40문항 + 결정 문답 ' + knum(r.tieCount) + ' 문항. 문항마다 장면을 읽고 두 반응 중 더 자연스러운 쪽을 5단계로 골랐습니다 (1 왼쪽 반응에 완전히, 3 반반, 5 오른쪽 반응에 완전히).');
+  L.push('구성: 40문항' + (r.tieCount ? ' + 결정 문답 ' + knum(r.tieCount) + ' 문항' : '') + '. 문항마다 장면을 읽고 두 반응 중 더 자연스러운 쪽을 5단계로 골랐습니다 (1 왼쪽 반응에 완전히, 3 반반, 5 오른쪽 반응에 완전히).');
   L.push('');
 
   L.push('■ 핵심 해석');
