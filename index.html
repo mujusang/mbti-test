@@ -454,7 +454,7 @@ function buildReportText(answers, r, when) {
   L.push('■ 일할 때와 평소의 차이');
   r.axes.forEach(a => {
     const side = p => (p === 50
-      ? (a.def.a + ' 50% / ' + a.def.b + ' 50%')
+      ? (a.def.a + ' 50 · ' + a.def.b + ' 50 (반반)')
       : ((p > 50 ? a.def.a : a.def.b) + ' ' + Math.max(p, 100 - p) + '%'));
     const gap = Math.abs(a.workA - a.dayA);
     let tail;
