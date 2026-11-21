@@ -325,7 +325,7 @@ const TYPE_INFO = {
 
 function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
 
-function signed(v) { return v - 3; }
+function signed(v) { return 3 - v; }
 
 function axisScore(answers, key, ctx) {
   const def = AXIS_BY_KEY[key];
@@ -437,7 +437,7 @@ function buildReportText(answers, r, when) {
   L.push('[정밀 성격 유형 진단 결과]');
   L.push('유형: ' + r.type + ' (' + r.typeInfo.name + ')');
   L.push('진단 일시: ' + koreanDateTime(when));
-  L.push('문항: ' + QUESTIONS.length + '문항, 5단계 (5 매우 그렇다, 4 그렇다, 3 보통, 2 그렇지 않다, 1 전혀 그렇지 않다)');
+  L.push('문항: ' + QUESTIONS.length + '문항, 5단계 (1 매우 그렇다, 2 그렇다, 3 보통이다, 4 그렇지 않다, 5 전혀 그렇지 않다)');
   L.push('');
 
   L.push('■ 축별 스펙트럼');
@@ -464,10 +464,10 @@ function buildReportText(answers, r, when) {
   });
   L.push('');
 
-  L.push('■ 축별 응답 분포 (5, 4, 3, 2, 1 개수)');
+  L.push('■ 축별 응답 분포 (화면에서 고른 번호별 개수)');
   r.axes.forEach(a => {
     const d = a.dist;
-    L.push(a.def.name + ': 5가 ' + d[5] + '개, 4가 ' + d[4] + '개, 3이 ' + d[3] + '개, 2가 ' + d[2] + '개, 1이 ' + d[1] + '개');
+    L.push(a.def.name + ': 1이 ' + d[1] + '개, 2가 ' + d[2] + '개, 3이 ' + d[3] + '개, 4가 ' + d[4] + '개, 5가 ' + d[5] + '개');
   });
   L.push('');
 
@@ -511,11 +511,11 @@ function buildReportText(answers, r, when) {
 
   const STORE = 'mbti40.v1';
   const OPTIONS = [
-    { v:5, label:'매우 그렇다' },
-    { v:4, label:'그렇다' },
+    { v:1, label:'매우 그렇다' },
+    { v:2, label:'그렇다' },
     { v:3, label:'보통이다' },
-    { v:2, label:'그렇지 않다' },
-    { v:1, label:'전혀 그렇지 않다' }
+    { v:4, label:'그렇지 않다' },
+    { v:5, label:'전혀 그렇지 않다' }
   ];
 
   const state = { view:'intro', idx:0, answers:new Array(QUESTIONS.length).fill(null), partial:0 };
