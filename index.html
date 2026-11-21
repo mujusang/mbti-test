@@ -167,6 +167,8 @@
   .mini i.a{background:var(--aSoft);}
   .mini i.b{background:#e3cbb0;}
   .wdAxis{font-size:13px;font-weight:700;color:var(--ink);padding-top:14px;}
+  .wdNote{font-size:12px;color:var(--muted);padding:6px 0 2px;border-top:1px dashed #ece6da;margin-top:6px;}
+  .wdNote b{color:var(--b);font-weight:700;}
 
   .fnRow{padding:8px 0;}
   .fnTop{display:flex;align-items:baseline;gap:7px;margin-bottom:5px;}
@@ -449,18 +451,17 @@ function buildReportText(answers, r, when) {
   });
   L.push('');
 
-  L.push('■ 일할 때와 평소의 차이 (축마다 앞이 일할 때, 뒤가 평소)');
+  L.push('■ 일할 때와 평소의 차이');
   r.axes.forEach(a => {
-    const wB = 100 - a.workA, dB = 100 - a.dayA;
-    const wDom = a.workA >= 50 ? a.def.a : a.def.b;
-    const dDom = a.dayA >= 50 ? a.def.a : a.def.b;
-    const wPct = Math.max(a.workA, wB), dPct = Math.max(a.dayA, dB);
+    const side = p => (p === 50
+      ? (a.def.a + ' 50% / ' + a.def.b + ' 50%')
+      : ((p > 50 ? a.def.a : a.def.b) + ' ' + Math.max(p, 100 - p) + '%'));
     const gap = Math.abs(a.workA - a.dayA);
     let tail;
-    if (a.workA === a.dayA) tail = '차이 없음';
+    if (gap === 0) tail = '차이 없음';
     else if (gap >= 10) tail = '차이 ' + gap + '포인트 (뚜렷한 차이)';
     else tail = '차이 ' + gap + '포인트';
-    L.push(a.def.name + ': 일할 때 ' + wDom + ' ' + wPct + '% / 평소 ' + dDom + ' ' + dPct + '% → ' + tail);
+    L.push(a.def.name + ': 일할 때 ' + side(a.workA) + ' / 평소 ' + side(a.dayA) + ' → ' + tail);
   });
   L.push('');
 
@@ -664,8 +665,11 @@ function buildReportText(answers, r, when) {
   function wdHTML(a) {
     const wB = 100 - a.workA, dB = 100 - a.dayA;
     const clip = n => Math.max(0, Math.min(100, n));
+    const gap = Math.abs(a.workA - a.dayA);
+    const note = gap === 0 ? '두 장면 차이 없음'
+      : ('차이 <b>' + gap + '포인트</b>' + (gap >= 10 ? ' · 뚜렷한 차이' : ''));
     return '' +
-      '<div class="wdAxis">' + a.def.name + ' <span style="font-weight:400;color:#8a8478;font-size:12px">' + a.def.a + ' ' + a.aName + ' / ' + a.def.b + ' ' + a.bName + '</span></div>' +
+      '<div class="wdAxis">' + a.def.name + ' <span style="font-weight:400;color:#8a8478;font-size:12px">' + a.def.a + ' ' + a.def.aName + ' / ' + a.def.b + ' ' + a.def.bName + '</span></div>' +
       '<div class="wdRow">' +
         '<span class="wdLab">일할 때</span>' +
         '<span class="wdNums">' + (a.workA >= 50 ? '<b>' + a.def.a + ' ' + a.workA + '%</b> · ' + a.def.b + ' ' + wB + '%' : a.def.a + ' ' + a.workA + '% · <b>' + a.def.b + ' ' + wB + '%</b>') + '</span>' +
@@ -675,7 +679,8 @@ function buildReportText(answers, r, when) {
         '<span class="wdLab">평소</span>' +
         '<span class="wdNums">' + (a.dayA >= 50 ? '<b>' + a.def.a + ' ' + a.dayA + '%</b> · ' + a.def.b + ' ' + dB + '%' : a.def.a + ' ' + a.dayA + '% · <b>' + a.def.b + ' ' + dB + '%</b>') + '</span>' +
         '<span class="mini"><i class="a" style="width:' + clip(a.dayA) + '%"></i><i class="b" style="width:' + clip(dB) + '%"></i></span>' +
-      '</div>';
+      '</div>' +
+      '<div class="wdNote">' + note + '</div>';
   }
 
   function resultHTML() {
