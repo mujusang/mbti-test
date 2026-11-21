@@ -2,13 +2,15 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<!-- build: general-public 40Q + tiebreak, 2026-11-22 -->
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>정밀 성격 유형 진단 · 40문항</title>
-<meta name="description" content="네 축이 섞여 있는 사람을 위한 정밀 성격 유형 진단. 축별 스펙트럼과 일할 때와 평소의 차이, 인지기능 8종 성향까지 40문항으로 살펴봅니다.">
+<title>정밀 성격 유형 진단 · 40문항 + 결정 문답</title>
+<meta name="description" content="네 축이 고르게 섞여 있는 사람을 위한 정밀 성격 유형 진단. 40문항으로 네 축과 인지기능을 살피고, 경계에 걸린 축은 결정 문답으로 진짜 코어 유형까지 확정합니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mujusang.github.io/mbti-test/">
-<meta property="og:title" content="정밀 성격 유형 진단 · 40문항">
-<meta property="og:description" content="축별 스펙트럼, 일할 때와 평소의 차이, 인지기능 8종까지. 결과는 한 번에 복사해 비서에게 보낼 수 있습니다.">
+<meta property="og:title" content="정밀 성격 유형 진단 · 40문항 + 결정 문답">
+<meta property="og:description" content="축별 스펙트럼, 일할 때와 평소의 차이, 인지기능 8종, 경계축 결정 문답까지. 결과는 한 번에 복사해 그대로 보낼 수 있습니다.">
 <meta property="og:locale" content="ko_KR">
 <meta name="theme-color" content="#f4f2ec">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233d5a80'/%3E%3Crect x='14' y='14' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3Crect x='34' y='14' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='14' y='34' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='34' y='34' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3C/svg%3E">
@@ -101,11 +103,13 @@
   .qTag{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--b);background:var(--bSoft);border-radius:999px;padding:5px 11px;}
   .qTag.work{color:#2f4f6d;background:var(--aSoft);}
   .qTag.fn{color:#5c6b52;background:#e9efe2;}
+  .qTag.tie{color:#8a3f2a;background:#f7e6df;}
   .qNum{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
   .qText{
     font-size:20px;line-height:1.55;color:var(--ink);font-weight:600;letter-spacing:-.01em;
     margin:0 0 20px;word-break:keep-all;
   }
+  .qSub{font-size:13.4px;color:var(--muted);margin:-10px 0 18px;word-break:keep-all;}
   .opts{display:grid;gap:8px;}
   .opt{
     display:flex;align-items:center;gap:12px;width:100%;text-align:left;
@@ -128,6 +132,34 @@
   .qNav .btn{flex:1 1 0;margin:0;}
   .kb{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;display:none;}
   @media (hover:hover) and (pointer:fine){ .kb{display:block;} }
+
+  /* tie-break stage */
+  .tieList{display:grid;gap:7px;margin:12px 0 0;}
+  .tieItem{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    background:#fbf7ef;border:1px solid #efe6d6;border-radius:12px;padding:10px 13px;
+    font-size:13.4px;color:var(--ink);font-weight:600;
+  }
+  .tieItem span{font-size:12.4px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;}
+  .tieOpts{display:grid;gap:10px;}
+  .tieOpt{
+    display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:16px 16px;font-family:inherit;font-size:16.2px;line-height:1.5;color:var(--body);font-weight:600;
+    cursor:pointer;-webkit-tap-highlight-color:transparent;
+    transition:background .13s ease, border-color .13s ease, color .13s ease;
+    word-break:keep-all;
+  }
+  .tieOpt .tieL{
+    flex:0 0 auto;min-width:44px;height:30px;border-radius:9px;padding:0 7px;
+    display:flex;align-items:center;justify-content:center;gap:4px;
+    font-size:12.5px;font-weight:800;color:var(--a);background:var(--aSoft);border:1px solid #cfdcec;
+  }
+  .tieOpt .tieL em{font-style:normal;font-weight:700;color:#5b7fa6;}
+  .tieOpt:hover{border-color:#cfd8e4;background:#fff;}
+  .tieOpt[aria-pressed="true"]{background:var(--a);border-color:var(--a);color:#fff;}
+  .tieOpt[aria-pressed="true"] .tieL{background:rgba(255,255,255,.20);border-color:rgba(255,255,255,.32);color:#fff;}
+  .tieOpt[aria-pressed="true"] .tieL em{color:#eaf1f9;}
 
   /* result */
   .resTop{padding:16px 2px 4px;text-align:center;}
@@ -156,6 +188,8 @@
   .gNote{font-size:12.5px;color:var(--muted);}
   .gNote b{color:var(--b);font-weight:700;}
   .gNote .edge{color:#9b5c3f;font-weight:700;}
+  .gSub{font-size:11.8px;color:#8f8878;margin-top:3px;font-variant-numeric:tabular-nums;}
+  .legend{font-size:11.8px;color:var(--muted);margin:2px 2px 0;}
 
   .wdRow{display:grid;grid-template-columns:64px 1fr;gap:6px 10px;align-items:center;padding:9px 0;border-bottom:1px dashed #ece6da;}
   .wdRow:last-child{border-bottom:0;}
@@ -171,10 +205,11 @@
   .wdNote b{color:var(--b);font-weight:700;}
 
   .fnRow{padding:8px 0;}
-  .fnTop{display:flex;align-items:baseline;gap:7px;margin-bottom:5px;}
+  .fnTop{display:flex;align-items:baseline;gap:7px;margin-bottom:2px;}
   .fnCode{font-size:12.6px;color:var(--a);background:var(--aSoft);border-radius:6px;padding:1px 6px;font-weight:800;}
   .fnName{font-size:13.2px;color:var(--body);}
   .fnVal{margin-left:auto;font-size:12.6px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .fnDesc{font-size:11.8px;color:#8f8878;margin:0 0 5px;}
   .fnBar{height:7px;border-radius:5px;background:#efe9dd;overflow:hidden;}
   .fnBar i{display:block;height:100%;border-radius:5px;background:#c3cddb;width:0;}
   .fnRow.top .fnCode{background:var(--a);color:#fff;}
@@ -186,9 +221,36 @@
   .c2Main{font-size:15.4px;color:var(--ink);font-weight:700;line-height:1.5;}
   .c2Main em{font-style:normal;color:var(--a);}
   .c2Note{font-size:13.2px;color:var(--muted);margin-top:8px;word-break:keep-all;}
+  .c2Note + .c2Note{margin-top:6px;}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
   .chip2{font-size:12.4px;color:#8a5b3d;background:#f6ede1;border-radius:999px;padding:5px 10px;font-weight:600;font-variant-numeric:tabular-nums;}
   .chip3{font-size:12.4px;color:var(--muted);background:#f1ece1;border-radius:999px;padding:5px 10px;font-variant-numeric:tabular-nums;}
+
+  .cmpCard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px;}
+  .cmpRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14.4px;color:var(--muted);}
+  .cmpRow + .cmpRow{margin-top:6px;}
+  .cmpRow .k{font-size:11.8px;color:var(--muted);min-width:72px;letter-spacing:.02em;}
+  .cmpRow .v{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:.03em;font-variant-numeric:tabular-nums;}
+  .cmpRow .v.core{color:#9b5c3f;}
+  .cmpArrow{font-size:13px;color:var(--b);font-weight:700;}
+
+  .badgeRow{display:flex;flex-wrap:wrap;gap:7px;}
+  .badge{font-size:12.2px;font-weight:700;border-radius:999px;padding:5px 11px;}
+  .badge.flip{color:#8a3f2a;background:#f7e6df;}
+  .badge.keep{color:#3f6a52;background:#e4efe6;}
+  .badge.settle{color:#2f4f6d;background:var(--aSoft);}
+  .badge.none{color:var(--muted);background:#f1ece1;}
+
+  .tieList2{display:grid;gap:10px;}
+  .tieCard{padding:12px 0;border-bottom:1px dashed #ece6da;}
+  .tieCard:last-child{border-bottom:0;padding-bottom:2px;}
+  .tieCard .axisLab{font-size:11.8px;color:var(--b);font-weight:700;letter-spacing:.04em;}
+  .tieCard .axisQ{font-size:13.8px;color:var(--ink);font-weight:700;margin:3px 0 4px;word-break:keep-all;}
+  .tieCard .axisA{font-size:13.2px;color:var(--body);word-break:keep-all;}
+  .tieCard .axisR{font-size:12.2px;margin-top:5px;font-weight:700;}
+  .tieCard .axisR.flip{color:#9b5c3f;}
+  .tieCard .axisR.keep{color:#3f7a5c;}
+  .tieCard .axisR.settle{color:#2f4f6d;}
 
   .report{
     width:100%;margin:10px 0 0;padding:14px;border-radius:14px;border:1px solid var(--line);
@@ -213,6 +275,9 @@
     .typeCode{font-size:44px;}
     .qText{font-size:18.5px;}
     .opt{font-size:15.4px;padding:13px 14px;}
+    .tieOpt{font-size:15.2px;padding:14px 14px;}
+    .tieOpt .tieL{min-width:38px;}
+    .cmpRow .v{font-size:17px;}
   }
 </style>
 </head>
@@ -231,54 +296,70 @@
 /* LOGIC START */
 const AXES = [
   { key:'EI', a:'E', b:'I', aName:'외향', bName:'내향', name:'에너지 방향', desc:'사람과 어울릴 때 기운이 차는가, 혼자 있을 때 충전되는가' },
-  { key:'SN', a:'S', b:'N', aName:'감각', bName:'직관', name:'인식 방식', desc:'실제 경험과 데이터를 먼저 보는가, 큰 그림과 구조를 먼저 보는가' },
-  { key:'TF', a:'T', b:'F', aName:'사고', bName:'감정', name:'판단 기준', desc:'효율과 논리로 판단하는가, 공감과 의미로 판단하는가' },
-  { key:'JP', a:'J', b:'P', aName:'계획', bName:'즉흥', name:'생활 양식', desc:'계획과 통제로 움직이는가, 유연과 즉흥으로 움직이는가' }
+  { key:'SN', a:'S', b:'N', aName:'감각', bName:'직관', name:'인식 방식', desc:'보이는 사실과 경험을 먼저 보는가, 원리와 큰 그림을 먼저 보는가' },
+  { key:'TF', a:'T', b:'F', aName:'사고', bName:'감정', name:'판단 기준', desc:'논리와 기준으로 판단하는가, 마음과 관계로 판단하는가' },
+  { key:'JP', a:'J', b:'P', aName:'계획', bName:'즉흥', name:'생활 양식', desc:'정해 두고 끝내는 쪽인가, 열어 두고 맞추는 쪽인가' }
 ];
 const AXIS_BY_KEY = {};
 AXES.forEach(d => { AXIS_BY_KEY[d.key] = d; });
 
 const BANK = {
   EI: [
-    { pole:'E', ctx:'work', t:'여러 사람과 머리를 맞대고 의논하는 자리에서 생각이 더 잘 정리된다.' },
+    { pole:'E', ctx:'work', t:'여럿이 함께 머리를 맞대고 의논할 때 생각이 더 잘 정리된다.' },
     { pole:'I', ctx:'day',  t:'사람을 만나고 온 날은 혼자 조용히 있어야 기운이 돌아온다.' },
-    { pole:'I', ctx:'work', t:'진료나 업무에 집중할 때 옆에서 말을 걸면 흐름이 끊긴다.' },
-    { pole:'E', ctx:'day',  t:'주말에 사람 만날 약속이 없으면 하루가 무기력하게 흘러간다.' },
-    { pole:'E', ctx:'work', t:'환자나 동료에게 설명하는 도중에 좋은 답이 떠오르는 편이다.' },
-    { pole:'I', ctx:'day',  t:'모임이 끝나면 집에 와서 오늘 있었던 일을 혼자 정리해야 마음이 놓인다.' },
-    { pole:'I', ctx:'work', t:'중요한 결정은 조용히 혼자 정리한 뒤에야 확신이 선다.' },
+    { pole:'I', ctx:'work', t:'집중해야 하는 일을 하는 중에 옆에서 말을 걸면 흐름이 끊겨 처음부터 다시 잡아야 한다.' },
+    { pole:'E', ctx:'day',  t:'주말에 사람 만날 약속이 하나도 없으면 하루가 심심하고 무기력하게 흘러간다.' },
+    { pole:'E', ctx:'work', t:'회의나 수업에서 내 생각을 말로 꺼내는 도중에 더 좋은 답이 떠오른다.' },
+    { pole:'I', ctx:'day',  t:'모임이 끝나고 집에 오면 오늘 있었던 일을 혼자 정리해야 마음이 놓인다.' },
+    { pole:'I', ctx:'work', t:'중요한 결정은 말로 꺼내기 전에 혼자 정리해 봐야 확신이 선다.' },
     { pole:'E', ctx:'day',  t:'처음 보는 사람에게도 먼저 말을 거는 편이다.' }
   ],
   SN: [
-    { pole:'S', ctx:'work', t:'환자를 볼 때 설명보다 실제로 관찰된 소견과 지난 사례가 먼저 신뢰가 간다.' },
+    { pole:'S', ctx:'work', t:'설명을 들을 때 구체적인 예시와 숫자가 있어야 이해가 된다.' },
     { pole:'N', ctx:'day',  t:'눈에 보이는 것보다 그 이면의 의미나 분위기를 먼저 읽는다.' },
-    { pole:'N', ctx:'work', t:'개별 사례를 넘어 그 뒤의 원리와 구조가 잡힐 때 판단이 선다.' },
+    { pole:'N', ctx:'work', t:'사례를 여러 개 보면 그 뒤에 깔린 공통된 원리가 먼저 보인다.' },
     { pole:'S', ctx:'day',  t:'여행이나 나들이는 구체적인 일정과 정보가 정해져 있어야 즐겁다.' },
-    { pole:'S', ctx:'work', t:'새로운 방식을 시도하기보다 이미 검증된 방식이 확실할 때 안심이 된다.' },
+    { pole:'S', ctx:'work', t:'새로운 방법을 시도하기보다 이미 검증된 방법이 확실할 때 안심이 된다.' },
     { pole:'N', ctx:'day',  t:'이야기를 듣다가 연상이 이어져 화제가 옆으로 새는 일이 잦다.' },
-    { pole:'N', ctx:'work', t:'아직 없는 아이디어나 앞으로의 가능성을 그려보는 일이 즐겁다.' },
-    { pole:'S', ctx:'day',  t:'경험한 일은 구체적인 장면과 사실로 또렷하게 기억한다.' }
+    { pole:'N', ctx:'work', t:'아직 없는 것과 앞으로 생길 일을 상상하고 그려 보는 일이 즐겁다.' },
+    { pole:'S', ctx:'day',  t:'경험한 일은 그때의 장면과 사실 그대로 또렷하게 기억한다.' }
   ],
   TF: [
-    { pole:'T', ctx:'work', t:'진료 판단에서는 환자가 서운해하더라도 근거가 분명한 쪽을 택한다.' },
-    { pole:'F', ctx:'day',  t:'친구의 고민을 들을 때 해결책보다 함께 마음 아파하는 게 먼저다.' },
-    { pole:'F', ctx:'work', t:'업무를 지시할 때 내용보다 그 사람이 어떻게 받아들일지를 먼저 생각한다.' },
-    { pole:'T', ctx:'day',  t:'친구의 고민을 들으면 자연스럽게 해결책을 찾아준다.' },
-    { pole:'T', ctx:'work', t:'회의에서 반대 의견이 나오면 감정보다 논리적 타당성을 기준으로 본다.' },
-    { pole:'F', ctx:'day',  t:'사람을 볼 때 능력보다 마음가짐과 신뢰가 먼저 눈에 들어온다.' },
-    { pole:'F', ctx:'work', t:'바쁜 날에도 동료가 힘들어 보이면 하던 일을 멈추고 먼저 살핀다.' },
+    { pole:'T', ctx:'work', t:'틀린 것이 분명하면 상대가 서운해하더라도 바로잡고 넘어가야 한다.' },
+    { pole:'F', ctx:'day',  t:'친구가 힘들다고 하면 이유를 따지기보다 먼저 마음을 알아주고 싶다.' },
+    { pole:'F', ctx:'work', t:'결정을 내릴 때 그 일이 사람들에게 어떻게 느껴질지를 먼저 따진다.' },
+    { pole:'T', ctx:'day',  t:'친구의 고민을 들으면 어디가 문제인지 짚어 주고 싶어진다.' },
+    { pole:'T', ctx:'work', t:'의견이 갈리면 감정보다 근거와 논리로 어느 쪽이 맞는지 가린다.' },
+    { pole:'F', ctx:'day',  t:'사람을 볼 때 실력이나 능력보다 마음가짐과 태도가 먼저 눈에 들어온다.' },
+    { pole:'F', ctx:'work', t:'함께하는 사람이 지쳐 보이면 하던 일을 멈추고 먼저 살핀다.' },
     { pole:'T', ctx:'day',  t:'논리가 맞으면 분위기가 불편해져도 옳고 그름을 짚고 넘어간다.' }
   ],
   JP: [
-    { pole:'J', ctx:'work', t:'하루 일정이 미리 정해져 있어야 마음이 편하다.' },
+    { pole:'J', ctx:'work', t:'할 일은 마감이 닥치기 전에 미리 끝내 두어야 마음이 편하다.' },
     { pole:'P', ctx:'day',  t:'쉬는 날은 계획 없이 그때그때 하고 싶은 대로 보내는 게 좋다.' },
     { pole:'P', ctx:'work', t:'일정이 갑자기 바뀌어도 그 자리에서 새로 짜는 게 어렵지 않다.' },
     { pole:'J', ctx:'day',  t:'집안 물건이나 서류는 정해진 자리에 있어야 마음이 놓인다.' },
-    { pole:'J', ctx:'work', t:'일은 마감이 닥치기 전에 미리 끝내 두어야 안심이 된다.' },
-    { pole:'P', ctx:'day',  t:'결정을 미뤄둘수록 더 나은 선택지가 나타날 것 같아 미루는 편이다.' },
-    { pole:'P', ctx:'work', t:'완벽하게 준비하기보다 일단 시작하고 도중에 고치는 편이다.' },
+    { pole:'J', ctx:'work', t:'시작할 때 순서와 마감을 정해 두고 그대로 밀고 나가는 편이다.' },
+    { pole:'P', ctx:'day',  t:'결정을 미뤄 둘수록 더 나은 선택지가 나타날 것 같아 끝까지 미루는 편이다.' },
+    { pole:'P', ctx:'work', t:'완벽하게 준비되기보다 일단 시작하고 하면서 고치는 편이다.' },
     { pole:'J', ctx:'day',  t:'약속 시간에는 늦지 않게 몇 분 먼저 도착하는 편이다.' }
   ]
+};
+
+/* 경계축 결정 문답: 축마다 양자택일 1문항 */
+const TIE = {
+  EI: { q:'마음이 복잡할 때 결론에 이르는 방식은?',
+        a:'사람을 만나 이야기하고 부딪히는 과정에서 답이 잡힌다.',
+        b:'혼자 조용히 정리하는 시간을 거쳐야 답이 잡힌다.' },
+  SN: { q:'처음 해 보는 일을 앞두고 먼저 손이 가는 쪽은?',
+        a:'일단 한번 해 보고 손에 익히면서 감을 잡는다.',
+        b:'전체 구조와 원리를 먼저 이해하고 나서 움직인다.' },
+  TF: { q:'소중한 사람이 잘못된 선택을 하려 할 때 나는?',
+        a:'기분이 상하더라도 사실과 근거를 들어 말린다.',
+        b:'먼저 그 사람의 마음을 헤아려 주고 조심스럽게 이야기한다.' },
+  JP: { q:'여행이나 큰일을 앞두고 나는?',
+        a:'동선과 순서를 미리 정해 두어야 마음이 편하다.',
+        b:'큰 틀만 정하고 그때그때 정하는 편이 즐겁다.' }
 };
 
 const FN_QUESTIONS = [
@@ -305,6 +386,16 @@ const FN_NAME = {
   Ni:'내향 직관', Ne:'외향 직관', Si:'내향 감각', Se:'외향 감각',
   Ti:'내향 사고', Te:'외향 사고', Fi:'내향 감정', Fe:'외향 감정'
 };
+const FN_DESC = {
+  Ni:'앞으로 벌어질 흐름을 한 장면으로 미리 보는 힘',
+  Ne:'가능성을 사방으로 펼쳐 보는 힘',
+  Si:'경험을 세밀하게 기억하고 비교하는 힘',
+  Se:'지금 이 순간을 있는 그대로 받아들이는 힘',
+  Ti:'개념을 정확하게 따져 정리하는 힘',
+  Te:'목표를 순서와 효율로 밀어붙이는 힘',
+  Fi:'내 안의 옳음과 가치를 지키는 힘',
+  Fe:'사람 사이의 분위기와 마음을 맞추는 힘'
+};
 
 const TYPE_INFO = {
   ISTJ:{ name:'청렴결백한 논리주의자', fn:['Si','Te'], line:'맡은 일을 정확하게 끝까지 해내고, 경험과 원칙을 신뢰합니다.' },
@@ -325,9 +416,16 @@ const TYPE_INFO = {
   ENTJ:{ name:'대담한 통솔자', fn:['Te','Ni'], line:'목표를 세우고 판을 키워 결과까지 가는 사람입니다.' }
 };
 
-function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+const BORDER_LIMIT = 10;   // 축 점수가 50에서 이 값 이내면 경계축으로 보고 결정 문답을 띄운다
+const TIE_WEIGHT = 6;      // 결정 문답 1문항의 무게(보통 문항 3개분, 최대 기여 16점 기준)
 
+function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
 function signed(v) { return 3 - v; }
+
+function pctFromSum(sum, n) {
+  const max = Math.max(1, n * 2);
+  return clamp(Math.round(50 + (sum / max) * 50), 0, 100);
+}
 
 function axisScore(answers, key, ctx) {
   const def = AXIS_BY_KEY[key];
@@ -341,8 +439,7 @@ function axisScore(answers, key, ctx) {
     sum += (q.pole === def.a ? s : -s);
     n++;
   });
-  const max = n * 2 || 1;
-  return { aPct: clamp(Math.round(50 + (sum / max) * 50), 0, 100), n };
+  return { sum, n, aPct: pctFromSum(sum, n) };
 }
 
 function levelOf(diff) {
@@ -361,29 +458,56 @@ function distOf(answers, key) {
   return c;
 }
 
-function computeResult(answers) {
+function borderKeys(answers) {
+  return AXES.filter(def => {
+    const s = axisScore(answers, def.key, null);
+    return Math.abs(s.aPct - 50) <= BORDER_LIMIT;
+  }).map(def => def.key);
+}
+
+function computeResult(answers, tieAnswers) {
+  tieAnswers = tieAnswers || {};
+
   const axes = AXES.map(def => {
     const all = axisScore(answers, def.key, null);
     const work = axisScore(answers, def.key, 'work');
     const day = axisScore(answers, def.key, 'day');
     const aPct = all.aPct;
-    const bPct = 100 - aPct;
-    const letter = aPct > 50 ? def.a : def.b;
-    const domPct = letter === def.a ? aPct : bPct;
     const diff = Math.abs(aPct - 50);
+    const isBorder = diff <= BORDER_LIMIT;
+    const tiePole = (isBorder && tieAnswers[def.key]) ? tieAnswers[def.key] : null;
+
+    let finalSum = all.sum;
+    if (tiePole) finalSum += (tiePole === def.a ? 1 : -1) * TIE_WEIGHT;
+    const finalAPct = tiePole ? pctFromSum(finalSum, all.n) : aPct;
+
+    const surfaceLetter = aPct > 50 ? def.a : def.b;
+    const letter = finalAPct > 50 ? def.a : def.b;
+    const sidePct = letter === def.a ? finalAPct : 100 - finalAPct;
+    const finalDiff = Math.abs(finalAPct - 50);
+    const surfaceEven = aPct === 50;
+
     return {
-      def, aPct, bPct, letter, domPct, diff,
-      level: levelOf(diff),
+      def, aPct, bPct: 100 - aPct, diff, level: levelOf(diff),
+      isBorder, border: isBorder,
       workA: work.aPct, dayA: day.aPct,
+      workLetter: work.aPct >= 50 ? def.a : def.b,
+      dayLetter: day.aPct >= 50 ? def.a : def.b,
+      surfaceLetter, letter, sidePct, finalDiff,
+      finalAPct, aPctFinal: finalAPct,
+      tiePole, surfaceEven,
+      flipped: !!tiePole && !surfaceEven && letter !== surfaceLetter,
       dist: distOf(answers, def.key)
     };
   });
 
   const type = axes.map(x => x.letter).join('');
+  const surfaceType = axes.map(x => x.surfaceLetter).join('');
   const typeInfo = TYPE_INFO[type] || { name:'', fn:['',''], line:'' };
+  const surfaceInfo = TYPE_INFO[surfaceType] || { name:'', fn:['',''], line:'' };
 
   const pct = {};
-  axes.forEach(x => { pct[x.def.a] = x.aPct; pct[x.def.b] = x.bPct; });
+  axes.forEach(x => { pct[x.def.a] = x.finalAPct; pct[x.def.b] = 100 - x.finalAPct; });
 
   // 성향 지수 = 직접 응답(문항) 60% + 축 기울기 40%
   const FN_AXIS = { Ne:['N','E'], Ni:['N','I'], Se:['S','E'], Si:['S','I'], Te:['T','E'], Ti:['T','I'], Fe:['F','E'], Fi:['F','I'] };
@@ -397,7 +521,7 @@ function computeResult(answers) {
   });
   const maxIdx = Math.max.apply(null, Object.keys(idx).map(k => idx[k])) || 1;
   const funcs = Object.keys(idx).map(code => ({
-    code, name: FN_NAME[code], idx: idx[code], rel: Math.round((idx[code] / maxIdx) * 100)
+    code, name: FN_NAME[code], desc: FN_DESC[code], idx: idx[code], rel: Math.round((idx[code] / maxIdx) * 100)
   })).sort((x, y) => y.idx - x.idx);
 
   const top = funcs.slice(0, 3).map(f => f.code);
@@ -417,64 +541,143 @@ function computeResult(answers) {
     if (towardDominant < 0) counterItems.push(i);
   });
 
-  const borderAxes = axes.filter(x => x.diff <= 10);
+  const borderAxes = axes.filter(x => x.isBorder);
+  const flippedAxes = axes.filter(x => x.flipped);
+  const confirmedAxes = axes.filter(x => x.isBorder && !x.flipped);
   const mixedCount = borderAxes.length;
 
-  return { axes, type, typeInfo, funcs, top, agree, neutralItems, counterItems, borderAxes, mixedCount };
+  // 표면과 코어가 같아도, 결정 문답 없이 어느 축도 경계가 아니면 '확정' 상태
+  const coreSettled = borderAxes.length === 0;
+
+  return {
+    axes, type, surfaceType, typeInfo, surfaceInfo, funcs, top, agree,
+    neutralItems, counterItems, borderAxes, flippedAxes, confirmedAxes,
+    mixedCount, coreSettled, tieCount: borderAxes.length
+  };
 }
 
 function ctxLabel(ctx) {
-  if (ctx === 'work') return '일할 때';
-  if (ctx === 'day') return '평소';
+  if (ctx === 'work') return '일·공부할 때';
+  if (ctx === 'day') return '평소·쉴 때';
   return '생각의 결';
 }
 
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function knum(n) { return ['', '한', '두', '세', '네'][n] || String(n); }
 function koreanDateTime(d) {
   return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
 }
 
-function buildReportText(answers, r, when) {
+/* 코어 해석 문장 만들기 */
+function buildInsight(r) {
+  const paras = [];
+
+  if (r.flippedAxes.length) {
+    paras.push('검사지 표면으로는 ' + r.surfaceType + '였지만, 경계에 걸린 축 ' + knum(r.flippedAxes.length) + '개를 결정 문답으로 확정한 결과 코어는 ' + r.type + '입니다. 축마다 점수가 비슷할 때 마지막 한 표를 어디에 두느냐가 진짜 판단 방식을 가릅니다.');
+  } else if (r.borderAxes.length) {
+    paras.push('경계에 걸린 축 ' + knum(r.borderAxes.length) + '개가 결정 문답에서 검사지와 같은 쪽으로 확인되었습니다. 표면과 코어가 같은 ' + r.type + '으로 읽힙니다.');
+  } else {
+    paras.push('네 축 모두 10포인트 넘게 갈려 결정 문답 없이 코어가 정해졌습니다. 결과는 ' + r.type + '입니다.');
+  }
+
+  r.flippedAxes.forEach(x => {
+    let s = x.def.name + ' 축은 결정 문답에서 ' + x.letter + '로 확정되었습니다. 검사지 점수는 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 기울어 있었지만, 마지막 문답이 방향을 바꿨습니다.';
+    if (x.workLetter === x.letter && x.dayLetter !== x.letter) {
+      s += ' 일·공부할 때의 방식(' + x.letter + ')이 판단의 코어이고, 평소의 ' + x.dayLetter + '는 편안할 때 드러나는 표면 성향입니다.';
+    } else if (x.dayLetter === x.letter && x.workLetter !== x.letter) {
+      s += ' 평소의 방식(' + x.letter + ')이 코어이고, 일·공부할 때는 상황에 맞춰 ' + x.workLetter + '로 움직입니다.';
+    } else {
+      s += ' 두 장면의 점수가 모두 비슷했고, 결정 문답 한 문항이 방향을 갈랐습니다.';
+    }
+    paras.push(s);
+  });
+
+  r.confirmedAxes.forEach(x => {
+    if (x.surfaceEven) {
+      paras.push(x.def.name + ' 축은 검사지에서 정확히 반반이었고, 결정 문답에서 ' + x.letter + '로 확정되었습니다. 숫자만으로는 알 수 없던 부분입니다.');
+    } else {
+      paras.push(x.def.name + ' 축은 검사지에서 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 앞섰는데, 결정 문답에서도 ' + x.letter + ' 쪽으로 확인되었습니다. 이 축은 ' + x.letter + ' 성향이 맞습니다.');
+    }
+  });
+
+  // 일할 때와 평소가 크게 갈리는 축
+  const swing = r.axes.filter(x => Math.abs(x.workA - x.dayA) >= 12);
+  if (swing.length) {
+    paras.push('일·공부할 때와 평소의 기울기가 크게 다른 축이 ' + knum(swing.length) + '개입니다(' + swing.map(x => x.def.name).join(', ') + '). 상황에 따라 성향이 바뀌는 이중 엔진으로, 어느 한 장면만 보고 판단하면 유형을 잘못 잡기 쉽습니다.');
+  }
+
+  // 상위 기능과 유형 기준이 어긋날 때
+  if (r.agree === '불일치') {
+    paras.push('측정에서 가장 높게 나온 기능은 ' + r.top[0] + '(' + FN_NAME[r.top[0]] + ')인데, ' + r.type + '의 기준 주기능은 ' + r.typeInfo.fn[0] + '(' + FN_NAME[r.typeInfo.fn[0]] + ')입니다. 이럴 때는 두 유형을 함께 읽어 보는 편이 맞습니다.');
+  }
+
+  return paras;
+}
+
+function sideLabel(x, p) {
+  if (p === 50) return x.def.a + ' 50 · ' + x.def.b + ' 50 (반반)';
+  return (p > 50 ? x.def.a : x.def.b) + ' ' + Math.max(p, 100 - p) + '%';
+}
+
+function desiredLine(x) {
+  const base = '검사지 ' + x.def.a + ' ' + x.aPct + '% / ' + x.def.b + ' ' + x.bPct + '%';
+  if (!x.tiePole) return x.def.name + ': ' + base + ', ' + x.level;
+  const tag = x.flipped ? '표면과 뒤집힘' : (x.surfaceEven ? '반반에서 확정' : '표면과 같음');
+  return x.def.name + ': ' + base + ' → 결정 문답 반영 ' + x.letter + ' ' + x.sidePct + '%, ' + tag;
+}
+
+function buildReportText(answers, tieAnswers, r, when) {
   const L = [];
-  L.push('[정밀 성격 유형 진단 결과]');
-  L.push('유형: ' + r.type + ' (' + r.typeInfo.name + ')');
+  L.push('[성격 유형 정밀 진단 결과]');
+  L.push('코어 유형: ' + r.type + ' (' + r.typeInfo.name + ')');
+  if (r.surfaceType !== r.type) L.push('검사지 표면 유형: ' + r.surfaceType + ' (' + r.surfaceInfo.name + ')');
   L.push('진단 일시: ' + koreanDateTime(when));
-  L.push('문항: ' + QUESTIONS.length + '문항, 5단계 (1 매우 그렇다, 2 그렇다, 3 보통이다, 4 그렇지 않다, 5 전혀 그렇지 않다)');
+  L.push('구성: 40문항 + 결정 문답 ' + knum(r.tieCount) + '문항, 5단계 (1 매우 그렇다, 2 그렇다, 3 보통이다, 4 그렇지 않다, 5 전혀 그렇지 않다)');
   L.push('');
 
-  L.push('■ 축별 스펙트럼');
-  r.axes.forEach(a => {
-    const head = a.diff === 0
-      ? a.def.a + ' 50% / ' + a.def.b + ' 50% → 정확히 반반'
-      : a.def.a + ' ' + a.aPct + '% / ' + a.def.b + ' ' + a.bPct + '% → ' + a.letter + ' 우세 ' + a.diff + '포인트';
-    L.push(a.def.name + ': ' + head + ', ' + a.level);
-  });
+  L.push('■ 핵심 해석');
+  buildInsight(r).forEach(p => L.push(p));
   L.push('');
+
+  L.push('■ 축별 점수 (결정 문답 반영)');
+  r.axes.forEach(x => L.push(desiredLine(x)));
+  L.push('');
+
+  if (r.tieCount) {
+    L.push('■ 결정 문답 (경계축 확정)');
+    let k = 0;
+    r.borderAxes.forEach(x => {
+      k++;
+      const t = TIE[x.def.key];
+      const pick = x.tiePole === x.def.a ? t.a : t.b;
+      L.push('문답 ' + k + '. [' + x.def.name + '] ' + t.q);
+      L.push('   고른 답: ' + pick);
+      L.push('   결과: ' + x.letter + ' 확정, ' + (x.flipped ? '표면 ' + x.surfaceLetter + '에서 뒤집힘' : (x.surfaceEven ? '검사지에서 반반이던 축' : '표면과 같음')));
+    });
+    L.push('');
+  }
 
   L.push('■ 일할 때와 평소의 차이');
-  r.axes.forEach(a => {
-    const side = p => (p === 50
-      ? (a.def.a + ' 50 · ' + a.def.b + ' 50 (반반)')
-      : ((p > 50 ? a.def.a : a.def.b) + ' ' + Math.max(p, 100 - p) + '%'));
-    const gap = Math.abs(a.workA - a.dayA);
+  r.axes.forEach(x => {
+    const gap = Math.abs(x.workA - x.dayA);
     let tail;
     if (gap === 0) tail = '차이 없음';
-    else if (gap >= 10) tail = '차이 ' + gap + '포인트 (뚜렷한 차이)';
+    else if (gap >= 12) tail = '차이 ' + gap + '포인트 (뚜렷한 차이)';
     else tail = '차이 ' + gap + '포인트';
-    L.push(a.def.name + ': 일할 때 ' + side(a.workA) + ' / 평소 ' + side(a.dayA) + ' → ' + tail);
+    L.push(x.def.name + ': 일·공부할 때 ' + sideLabel(x, x.workA) + ' / 평소·쉴 때 ' + sideLabel(x, x.dayA) + ' → ' + tail);
   });
   L.push('');
 
-  L.push('■ 축별 응답 분포 (화면에서 고른 번호별 개수)');
-  r.axes.forEach(a => {
-    const d = a.dist;
-    L.push(a.def.name + ': 1이 ' + d[1] + '개, 2가 ' + d[2] + '개, 3이 ' + d[3] + '개, 4가 ' + d[4] + '개, 5가 ' + d[5] + '개');
+  L.push('■ 축별 응답 분포 (고른 번호별 개수)');
+  r.axes.forEach(x => {
+    const d = x.dist;
+    L.push(x.def.name + ': 1이 ' + d[1] + '개, 2가 ' + d[2] + '개, 3이 ' + d[3] + '개, 4가 ' + d[4] + '개, 5가 ' + d[5] + '개');
   });
   L.push('');
 
-  L.push('■ 인지기능 8종 상대 지수 (가장 높은 기능을 100으로 둔 상대값, 직접 응답과 축 기울기 반영)');
+  L.push('■ 인지기능 8종 상대 지수 (가장 높은 기능을 100으로 둔 상대값)');
   r.funcs.forEach((f, i) => {
-    L.push((i + 1) + '. ' + f.code + ' ' + f.name + ' ' + f.rel);
+    L.push((i + 1) + '. ' + f.code + ' ' + f.name + ' ' + f.rel + ' (' + f.desc + ')');
   });
   L.push('');
 
@@ -483,14 +686,11 @@ function buildReportText(answers, r, when) {
   L.push('측정 상위: ' + r.top.map(c => c + ' ' + FN_NAME[c]).join(', ') + ' → 유형 기준과 ' + r.agree);
   L.push('');
 
-  L.push('■ 경계축과 혼합 응답');
+  L.push('■ 경계축과 응답 습관');
   if (r.borderAxes.length === 0) {
-    L.push('경계축: 없음');
+    L.push('경계축: 없음 (네 축 모두 10포인트 넘게 갈림)');
   } else {
-    L.push('경계축: ' + r.borderAxes.map(a => {
-      const d = Math.abs(a.aPct - 50);
-      return a.def.name + ' (' + a.def.a + ' ' + a.aPct + ' / ' + a.def.b + ' ' + a.bPct + ', ' + d + '포인트)';
-    }).join(', '));
+    L.push('경계축: ' + r.borderAxes.map(x => x.def.name + ' (' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + ', ' + x.diff + '포인트)').join(', '));
   }
   L.push('보통으로 답한 문항: ' + (r.neutralItems.length ? r.neutralItems.map(i => i + 1).join(', ') : '없음'));
   L.push('우세와 반대 방향 응답: ' + (r.counterItems.length ? r.counterItems.map(i => i + 1).join(', ') : '없음'));
@@ -502,6 +702,8 @@ function buildReportText(answers, r, when) {
     const v = answers[i];
     L.push((i + 1) + '. [' + where + '] ' + q.t + ' → ' + (v == null ? '무응답' : v));
   });
+  L.push('');
+  L.push('자기보고식 진단이며 의학적 진단이 아닙니다. 축 점수가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻입니다.');
 
   return L.join('\n');
 }
@@ -510,7 +712,7 @@ function buildReportText(answers, r, when) {
 (function () {
   'use strict';
 
-  const STORE = 'mbti40.v1';
+  const STORE = 'mbti40.v2';
   const OPTIONS = [
     { v:1, label:'매우 그렇다' },
     { v:2, label:'그렇다' },
@@ -519,7 +721,14 @@ function buildReportText(answers, r, when) {
     { v:5, label:'전혀 그렇지 않다' }
   ];
 
-  const state = { view:'intro', idx:0, answers:new Array(QUESTIONS.length).fill(null), partial:0 };
+  const state = {
+    view:'intro',
+    idx:0,
+    answers:new Array(QUESTIONS.length).fill(null),
+    tieAnswers:{},
+    tieList:[],
+    tieIdx:0
+  };
   let lastResult = null;
   let advanceTimer = null;
 
@@ -541,7 +750,12 @@ function buildReportText(answers, r, when) {
 
   function save() {
     try {
-      localStorage.setItem(STORE, JSON.stringify({ answers: state.answers, idx: state.idx }));
+      localStorage.setItem(STORE, JSON.stringify({
+        answers: state.answers,
+        idx: state.idx,
+        tieAnswers: state.tieAnswers,
+        tieIdx: state.tieIdx
+      }));
     } catch (e) {}
   }
   function load() {
@@ -560,9 +774,15 @@ function buildReportText(answers, r, when) {
   function answeredCount() {
     return state.answers.filter(v => v != null).length;
   }
-
   function firstUnanswered() {
     for (let i = 0; i < state.answers.length; i++) if (state.answers[i] == null) return i;
+    return -1;
+  }
+  function tieAnswered() {
+    return state.tieList.filter(k => state.tieAnswers[k]).length;
+  }
+  function firstUnansweredTie() {
+    for (let i = 0; i < state.tieList.length; i++) if (!state.tieAnswers[state.tieList[i]]) return i;
     return -1;
   }
 
@@ -573,6 +793,19 @@ function buildReportText(answers, r, when) {
       tbTitle.textContent = '진단 완료';
       tbCount.textContent = QUESTIONS.length + ' / ' + QUESTIONS.length;
       tbFill.style.width = '100%';
+      return;
+    }
+    if (state.view === 'tieIntro') {
+      tbTitle.textContent = '결정 문답';
+      tbCount.textContent = state.tieList.length + '문항 남음';
+      tbFill.style.width = '100%';
+      return;
+    }
+    if (state.view === 'tie') {
+      tbTitle.textContent = '결정 문답';
+      const done = tieAnswered();
+      tbCount.textContent = done + ' / ' + state.tieList.length;
+      tbFill.style.width = (state.tieList.length ? (done / state.tieList.length * 100) : 100) + '%';
       return;
     }
     tbTitle.textContent = '정밀 성격 유형 진단';
@@ -603,14 +836,15 @@ function buildReportText(answers, r, when) {
       '<div class="card">' +
         '<h2>어떻게 답하면 정확한가</h2>' +
         '<p>정답은 없습니다. 오래 고민하지 말고 <b>지금의 나</b>에 가장 가까운 것을 고르세요.</p>' +
-        '<p>문항마다 <b>일할 때의 나</b>와 <b>평소의 나</b>가 번갈아 나옵니다. 두 장면을 구분해 답하면 축별 차이가 그대로 드러납니다.</p>' +
-        '<p>보통이다(3)를 많이 고르면 경계축으로 잡히고, 그것도 의미 있는 결과입니다. 억지로 한쪽을 고르지 않아도 됩니다.</p>' +
-        '<div class="facts"><span class="fact">40문항</span><span class="fact">5단계 선택</span><span class="fact">약 6분</span><span class="fact">결과 한 번에 복사</span></div>' +
+        '<p>문항은 <b>일·공부할 때의 나</b>와 <b>평소·쉴 때의 나</b>가 번갈아 나옵니다. 두 장면을 구분해 답하면 축별 차이가 그대로 드러납니다.</p>' +
+        '<p>보통이다(3)를 많이 고르면 그 축은 경계로 잡히고, 마지막에 <b>결정 문답</b>이 한 번 더 나옵니다. 그것도 의미 있는 결과입니다.</p>' +
+        '<div class="facts"><span class="fact">40문항</span><span class="fact">경계축 결정 문답 최대 4문항</span><span class="fact">약 6분</span><span class="fact">결과 한 번에 복사</span></div>' +
       '</div>' +
       '<div class="card">' +
         '<h2>결과로 보게 되는 것</h2>' +
-        '<p>네 축의 스펙트럼 비율과 경계축, 일할 때와 평소의 차이, 인지기능 8종 성향, 추정 주기능과 부기능입니다.</p>' +
-        '<p>마지막에 <b>나래에게 보낼 결과 복사</b>를 누르면 응답 40개가 모두 담긴 글이 복사됩니다. 채팅방에 그대로 붙여넣으면 됩니다.</p>' +
+        '<p>코어 유형과 검사지 표면 유형, 네 축의 퍼센트와 경계축, 일할 때와 평소의 차이, 인지기능 8종, 추정 주기능과 부기능입니다.</p>' +
+        '<p>축 점수가 50에 가까워 어느 쪽인지 애매한 축이 있으면, 결과로 넘어가기 전에 <b>둘 중 하나를 고르는 결정 문답</b>이 자동으로 나옵니다. 표면 성향과 진짜 판단 코어를 가르는 마지막 한 표입니다.</p>' +
+        '<p><b>결과 복사</b>를 누르면 응답 40개와 결정 문답까지 담긴 글이 순수 텍스트로 복사됩니다. 메신저에 그대로 붙여넣거나 다른 사람에게 보여 주면 됩니다.</p>' +
       '</div>' +
       '<div class="btnRow">' +
         '<button class="btn" data-act="start">진단 시작하기</button>' +
@@ -623,7 +857,7 @@ function buildReportText(answers, r, when) {
     const i = state.idx;
     const q = QUESTIONS[i];
     const tagClass = q.ctx === 'work' ? 'qTag work' : (q.ctx === 'fn' ? 'qTag fn' : 'qTag');
-    const label = q.ctx === 'work' ? '일할 때의 나' : (q.ctx === 'fn' ? '생각의 결' : '평소의 나');
+    const label = ctxLabel(q.ctx);
     const opts = OPTIONS.map((o, k) => {
       const sel = state.answers[i] === o.v;
       return '<button class="opt" data-v="' + o.v + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
@@ -644,12 +878,64 @@ function buildReportText(answers, r, when) {
       '</div>';
   }
 
+  function tieIntroHTML() {
+    const list = state.tieList.map(k => {
+      const def = AXIS_BY_KEY[k];
+      const s = axisScore(state.answers, k, null);
+      return '<div class="tieItem">' + def.name + ' <span>' + def.a + ' ' + s.aPct + ' · ' + def.b + ' ' + (100 - s.aPct) + '</span></div>';
+    }).join('');
+    return '' +
+      '<div class="hero" style="padding-bottom:0">' +
+        '<div class="eyebrow">결정 문답</div>' +
+        '<h1 style="font-size:25px">축 ' + knum(state.tieList.length) + '개가 경계에 걸렸습니다</h1>' +
+        '<p class="lead" style="margin-bottom:6px">40문항만으로는 어느 쪽이 진짜인지 가를 수 없는 축입니다. 축마다 <b>둘 중 하나만</b> 고르는 문항이 하나씩 나옵니다. 마지막 한 표가 표면 성향과 판단 코어를 가릅니다.</p>' +
+      '</div>' +
+      '<div class="card">' +
+        '<h2>경계에 걸린 축</h2>' +
+        '<div class="tieList">' + list + '</div>' +
+      '</div>' +
+      '<div class="btnRow">' +
+        '<button class="btn" data-act="tieStart">결정 문답 ' + state.tieList.length + '문항 시작</button>' +
+      '</div>' +
+      '<p class="hint">두 답 모두 나일 수 있습니다. 실제로 결정을 내릴 때 더 자주 쓰는 쪽을 고르세요.</p>';
+  }
+
+  function tieHTML() {
+    const key = state.tieList[state.tieIdx];
+    const def = AXIS_BY_KEY[key];
+    const t = TIE[key];
+    const cur = state.tieAnswers[key];
+    const mk = (pole, text) => {
+      const sel = cur === pole;
+      return '<button class="tieOpt" data-tie="' + pole + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
+        '<span class="tieL">' + (pole === def.a ? def.a : def.b) + '</span>' +
+        '<span>' + text + '</span></button>';
+    };
+    const prevDisabled = (state.tieIdx === 0 && state.answers[QUESTIONS.length - 1] == null) ? ' disabled' : '';
+    return '' +
+      '<div class="qWrap">' +
+        '<div class="qTagRow"><span class="qTag tie">결정 문답 · ' + def.name + '</span><span class="qNum">' + (state.tieIdx + 1) + ' / ' + state.tieList.length + '</span></div>' +
+        '<p class="qText">' + t.q + '</p>' +
+        '<p class="qSub">지금의 나에 더 가까운 쪽 하나를 고르세요. 점수가 아니라 실제 판단 방식을 봅니다.</p>' +
+        '<div class="tieOpts">' + mk(def.a, t.a) + mk(def.b, t.b) + '</div>' +
+        '<div class="qNav">' +
+          '<button class="btn ghost small" data-act="prev"' + prevDisabled + '>이전</button>' +
+        '</div>' +
+        '<p class="kb">숫자 1이나 2를 눌러도 고를 수 있습니다. 고르면 다음으로 넘어갑니다.</p>' +
+      '</div>';
+  }
+
   function gaugeHTML(a) {
+    const leftPct = a.finalAPct;
+    const rightPct = 100 - leftPct;
     const leftIsDom = a.letter === a.def.a;
-    const leftPct = a.aPct, rightPct = a.bPct;
-    const note = a.diff === 0
-      ? '정확히 반반 · 어느 쪽도 우세하지 않음'
-      : a.letter + ' ' + a.domPct + '% · ' + a.diff + '포인트 차 · <span class="edge">' + a.level + '</span>';
+    const markPos = a.aPct;
+    const note = a.letter + ' ' + a.sidePct + '% · ' + a.finalDiff + '포인트 차' +
+      (a.tiePole ? ' · <span class="edge">결정 문답 반영</span>' : ' · ' + a.level);
+    const sub = a.tiePole
+      ? '검사지 ' + a.def.a + ' ' + a.aPct + '% / ' + a.def.b + ' ' + a.bPct + '%' +
+        (a.flipped ? ' → 코어 ' + a.letter + '로 뒤집힘' : (a.surfaceEven ? ' → 반반에서 ' + a.letter + '로 확정' : ' → 그대로 유지'))
+      : '';
     return '' +
       '<div class="g">' +
         '<div class="gHead">' +
@@ -657,8 +943,9 @@ function buildReportText(answers, r, when) {
           '<span class="nm">' + a.def.name + '</span>' +
           '<span class="side">' + (leftIsDom ? a.def.b + ' ' + rightPct + '%' : '<b>' + a.def.b + ' ' + rightPct + '%</b>') + '</span>' +
         '</div>' +
-        '<div class="track"><span class="fillA" style="width:' + leftPct + '%"></span><span class="mark" style="left:' + leftPct + '%"></span></div>' +
+        '<div class="track"><span class="fillA" style="width:' + leftPct + '%"></span><span class="mark" style="left:' + markPos + '%"></span></div>' +
         '<div class="gNote">' + note + '</div>' +
+        (sub ? '<div class="gSub">' + sub + '</div>' : '') +
       '</div>';
   }
 
@@ -667,36 +954,62 @@ function buildReportText(answers, r, when) {
     const clip = n => Math.max(0, Math.min(100, n));
     const gap = Math.abs(a.workA - a.dayA);
     const note = gap === 0 ? '두 장면 차이 없음'
-      : ('차이 <b>' + gap + '포인트</b>' + (gap >= 10 ? ' · 뚜렷한 차이' : ''));
+      : ('차이 <b>' + gap + '포인트</b>' + (gap >= 12 ? ' · 뚜렷한 차이' : ''));
     return '' +
       '<div class="wdAxis">' + a.def.name + ' <span style="font-weight:400;color:#8a8478;font-size:12px">' + a.def.a + ' ' + a.def.aName + ' / ' + a.def.b + ' ' + a.def.bName + '</span></div>' +
       '<div class="wdRow">' +
-        '<span class="wdLab">일할 때</span>' +
+        '<span class="wdLab">일·공부</span>' +
         '<span class="wdNums">' + (a.workA >= 50 ? '<b>' + a.def.a + ' ' + a.workA + '%</b> · ' + a.def.b + ' ' + wB + '%' : a.def.a + ' ' + a.workA + '% · <b>' + a.def.b + ' ' + wB + '%</b>') + '</span>' +
         '<span class="mini"><i class="a" style="width:' + clip(a.workA) + '%"></i><i class="b" style="width:' + clip(wB) + '%"></i></span>' +
       '</div>' +
       '<div class="wdRow">' +
-        '<span class="wdLab">평소</span>' +
+        '<span class="wdLab">평소·쉴 때</span>' +
         '<span class="wdNums">' + (a.dayA >= 50 ? '<b>' + a.def.a + ' ' + a.dayA + '%</b> · ' + a.def.b + ' ' + dB + '%' : a.def.a + ' ' + a.dayA + '% · <b>' + a.def.b + ' ' + dB + '%</b>') + '</span>' +
         '<span class="mini"><i class="a" style="width:' + clip(a.dayA) + '%"></i><i class="b" style="width:' + clip(dB) + '%"></i></span>' +
       '</div>' +
       '<div class="wdNote">' + note + '</div>';
   }
 
+  function tieCardHTML(x) {
+    const def = AXIS_BY_KEY[x.def.key];
+    const t = TIE[def.key];
+    const pick = x.tiePole === def.a ? t.a : t.b;
+    const stateCls = x.flipped ? 'flip' : (x.surfaceEven ? 'settle' : 'keep');
+    const stateText = x.flipped
+      ? '표면 ' + x.surfaceLetter + '에서 코어 ' + x.letter + '로 뒤집힘'
+      : (x.surfaceEven ? '반반에서 ' + x.letter + '로 확정' : '표면과 같은 ' + x.letter + '로 확인');
+    return '' +
+      '<div class="tieCard">' +
+        '<div class="axisLab">' + def.name + ' · ' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + '</div>' +
+        '<div class="axisQ">' + t.q + '</div>' +
+        '<div class="axisA">고른 답: ' + pick + '</div>' +
+        '<div class="axisR ' + stateCls + '">' + stateText + '</div>' +
+      '</div>';
+  }
+
   function resultHTML() {
     const r = lastResult;
+    const insight = buildInsight(r);
     const axesHTML = r.axes.map(gaugeHTML).join('');
     const wdHTMLAll = r.axes.map(wdHTML).join('');
     const fnHTML = r.funcs.map((f, i) => {
       const top = i < 3 ? ' top' : '';
       return '<div class="fnRow' + top + '">' +
         '<div class="fnTop"><span class="fnCode">' + f.code + '</span><span class="fnName">' + f.name + '</span><span class="fnVal">' + f.rel + '</span></div>' +
+        '<div class="fnDesc">' + f.desc + '</div>' +
         '<div class="fnBar"><i style="width:' + f.rel + '%"></i></div>' +
       '</div>';
     }).join('');
-    const borderChips = r.borderAxes.length
-      ? r.borderAxes.map(a => '<span class="chip2">' + a.def.name + ' ' + a.def.a + ' ' + a.aPct + ' · ' + a.def.b + ' ' + a.bPct + '</span>').join('')
-      : '<span class="chip3">경계축 없음</span>';
+
+    const cmpHTML = r.borderAxes.length
+      ? '<div class="cmpCard">' +
+          '<div class="cmpRow"><span class="k">검사지 표면</span><span class="v">' + r.surfaceType + '</span><span class="cmpArrow">→ 결정 문답 반영</span><span class="v core">' + r.type + '</span></div>' +
+          '<div class="c2Note">' + (r.flippedAxes.length
+            ? '결정 문답에서 뒤집힌 축: ' + r.flippedAxes.map(x => x.def.name).join(', ')
+            : '경계축이 모두 결정 문답으로 확정되었습니다.') + '</div>' +
+        '</div>'
+      : '';
+
     const baseFn = r.typeInfo.fn[0] + ' ' + FN_NAME[r.typeInfo.fn[0]];
     const auxFn = r.typeInfo.fn[1] + ' ' + FN_NAME[r.typeInfo.fn[1]];
     const measured = r.top.map(c => c + ' ' + FN_NAME[c]).join(', ');
@@ -706,23 +1019,45 @@ function buildReportText(answers, r, when) {
         ? '측정 상위 기능에 유형 기준 주기능이 들어 있습니다. 부기능 쪽에서 흔들린 응답이 있다는 뜻입니다.'
         : '측정 상위 기능이 유형 기준 주기능과 다릅니다. 경계축이 많은 사람에게서 흔한 결과이고, 두 후보 유형을 함께 읽을 신호입니다.');
 
-    const mixedLine = r.mixedCount >= 3
-      ? '네 축 가운데 ' + r.mixedCount + '개가 경계나 약한 우세입니다. 어느 한 유형으로 단정하기보다 장면별로 달라지는 폭을 보는 편이 맞습니다.'
-      : '경계축이 ' + r.mixedCount + '개입니다. 우세한 축은 비교적 또렷하고, 경계축은 상황에 따라 뒤집힐 수 있습니다.';
+    const mixedLine = r.mixedCount === 0
+      ? '네 축 모두 10포인트 넘게 갈려 결정 문답 없이 코어가 정해졌습니다.'
+      : (r.mixedCount >= 3
+        ? '네 축 가운데 ' + knum(r.mixedCount) + '개가 경계나 약한 우세입니다. 어느 한 유형으로 단정하기보다 장면별로 달라지는 폭을 보는 편이 맞습니다.'
+        : '경계축이 ' + knum(r.mixedCount) + '개입니다. 우세한 축은 비교적 또렷하고, 경계축은 결정 문답으로 확정했습니다.');
+
+    const badgeRow = r.borderAxes.length
+      ? r.borderAxes.map(x => '<span class="badge ' + (x.flipped ? 'flip' : (x.surfaceEven ? 'settle' : 'keep')) + '">' + x.def.name + ' ' + (x.flipped ? '뒤집힘 ' : (x.surfaceEven ? '확정 ' : '확인 ')) + x.letter + '</span>').join('')
+      : '<span class="badge none">경계축 없음</span>';
 
     return '' +
       '<div class="resTop">' +
-        '<div class="resKicker">진단 결과</div>' +
+        '<div class="resKicker">' + (r.borderAxes.length ? '결정 문답 반영 코어' : '진단 결과') + '</div>' +
         '<div class="typeCode">' + r.type + '</div>' +
         '<div class="typeName">' + r.typeInfo.name + '</div>' +
         '<p class="typeLine">' + r.typeInfo.line + '</p>' +
       '</div>' +
 
+      (cmpHTML ? '<div class="sec" style="margin-top:14px">' + cmpHTML + '</div>' : '') +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>핵심 해석</h3><span>' + (r.borderAxes.length ? '경계축 반영' : '축 확정') + '</span></div>' +
+        '<div class="c2">' + insight.map(p => '<div class="c2Note" style="margin-top:0;color:var(--body);font-size:13.8px">' + p + '</div>').join('') + '</div>' +
+      '</div>' +
+
       '<div class="sec">' +
         '<div class="secT"><h3>축별 스펙트럼</h3><span>E·S·T·J가 왼쪽</span></div>' +
         '<div class="card" style="padding-top:6px;padding-bottom:8px">' + axesHTML + '</div>' +
-        '<p class="typeLine" style="margin:4px 4px 0;font-size:13.4px">' + mixedLine + '</p>' +
+        '<p class="legend">가는 세로선이 검사지 점수, 막대가 결정 문답까지 반영한 코어 점수입니다.</p>' +
+        '<p class="typeLine" style="margin:8px 4px 0;font-size:13.4px">' + mixedLine + '</p>' +
       '</div>' +
+
+      (r.borderAxes.length
+        ? '<div class="sec">' +
+            '<div class="secT"><h3>결정 문답</h3><span>경계축 ' + r.borderAxes.length + '문항</span></div>' +
+            '<div class="card" style="padding:6px 16px 10px"><div class="tieList2">' + r.borderAxes.map(tieCardHTML).join('') + '</div></div>' +
+            '<div class="badgeRow" style="margin-top:10px">' + badgeRow + '</div>' +
+          '</div>'
+        : '') +
 
       '<div class="sec">' +
         '<div class="secT"><h3>일할 때와 평소의 차이</h3><span>축마다 두 장면 비교</span></div>' +
@@ -744,25 +1079,27 @@ function buildReportText(answers, r, when) {
       '</div>' +
 
       '<div class="sec">' +
-        '<div class="secT"><h3>경계축</h3><span>10포인트 안쪽</span></div>' +
-        '<div class="chips">' + borderChips + '</div>' +
-        '<p class="typeLine" style="margin:10px 2px 0;font-size:13.2px">보통으로 답한 문항 ' + r.neutralItems.length + '개, 우세와 반대 방향 응답 ' + r.counterItems.length + '개. 이 문항들은 결과 글에 번호로 함께 담겨 나래가 따로 읽습니다.</p>' +
+        '<div class="secT"><h3>경계축과 응답 습관</h3><span>10포인트 안쪽</span></div>' +
+        '<div class="chips">' + (r.borderAxes.length
+          ? r.borderAxes.map(x => '<span class="chip2">' + x.def.name + ' ' + x.def.a + ' ' + x.aPct + ' · ' + x.def.b + ' ' + x.bPct + '</span>').join('')
+          : '<span class="chip3">경계축 없음</span>') + '</div>' +
+        '<p class="typeLine" style="margin:10px 2px 0;font-size:13.2px">보통으로 답한 문항 ' + r.neutralItems.length + '개, 우세와 반대 방향 응답 ' + r.counterItems.length + '개. 두 목록의 문항 번호는 결과 글에 함께 담겨 나옵니다.</p>' +
       '</div>' +
 
       '<div class="sec">' +
         '<div class="btnRow" style="margin-top:4px">' +
-          '<button class="btn" data-act="copy">나래에게 보낼 결과 복사</button>' +
+          '<button class="btn" data-act="copy">결과 복사</button>' +
           '<button class="btn ghost small" data-act="showtext">결과 텍스트 보기</button>' +
           '<button class="btn ghost small" data-act="restart">처음부터 다시 하기</button>' +
         '</div>' +
-        '<p class="hint">복사한 뒤 채팅방에 그대로 붙여넣으면 됩니다. 붙여넣기가 막히면 결과 텍스트를 길게 눌러 전체 선택해 주세요.</p>' +
+        '<p class="hint">복사한 뒤 메신저에 그대로 붙여넣으면 됩니다. 붙여넣기가 막히면 결과 텍스트를 길게 눌러 전체 선택해 주세요.</p>' +
         '<textarea class="report" id="reportArea" readonly spellcheck="false"></textarea>' +
       '</div>' +
 
       '<div class="sec">' +
         '<div class="c2" style="background:#faf7f0">' +
           '<div class="c2Lab">읽는 법</div>' +
-          '<div class="c2Note" style="margin-top:0">축 퍼센트가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻이고, 그 자체가 쓸모 있는 정보입니다. 일할 때와 평소의 차이가 큰 축은 역할에 따라 성격이 바뀌는 축입니다. 이 진단은 자기보고식이며 의학적 진단이 아닙니다.</div>' +
+          '<div class="c2Note" style="margin-top:0">축 퍼센트가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻이고, 그 자체가 쓸모 있는 정보입니다. 일할 때와 평소의 차이가 큰 축은 역할에 따라 성격이 바뀌는 축입니다. 결정 문답은 양자택일이라 무게를 세 문항분으로 두었습니다. 이 진단은 자기보고식이며 의학적 진단이 아닙니다.</div>' +
         '</div>' +
       '</div>';
   }
@@ -771,14 +1108,16 @@ function buildReportText(answers, r, when) {
     clearTimeout(advanceTimer);
     if (state.view === 'intro') {
       view.innerHTML = introHTML();
-      foot.style.display = '';
     } else if (state.view === 'quiz') {
       view.innerHTML = quizHTML();
-      foot.style.display = '';
+    } else if (state.view === 'tieIntro') {
+      view.innerHTML = tieIntroHTML();
+    } else if (state.view === 'tie') {
+      view.innerHTML = tieHTML();
     } else {
       view.innerHTML = resultHTML();
-      foot.style.display = '';
     }
+    foot.style.display = '';
     updateTopbar();
     scrollTop();
   }
@@ -791,7 +1130,8 @@ function buildReportText(answers, r, when) {
     render();
   }
 
-  function finish() {
+  /* 40문항을 다 답한 뒤: 경계축이 있으면 결정 문답, 없으면 바로 결과 */
+  function finishMain() {
     const missing = firstUnanswered();
     if (missing >= 0) {
       state.idx = missing;
@@ -799,8 +1139,52 @@ function buildReportText(answers, r, when) {
       render();
       return;
     }
-    lastResult = computeResult(state.answers);
+    state.tieList = borderKeys(state.answers);
+    const keep = {};
+    state.tieList.forEach(k => { if (state.tieAnswers[k]) keep[k] = state.tieAnswers[k]; });
+    state.tieAnswers = keep;
+    if (state.tieList.length === 0) { showResult(); return; }
+    const firstTie = firstUnansweredTie();
+    if (firstTie < 0) { showResult(); return; }
+    state.tieIdx = firstTie;
+    state.view = 'tieIntro';
+    save();
+    render();
+  }
+
+  function startTie() {
+    const i = firstUnansweredTie();
+    state.tieIdx = i < 0 ? 0 : i;
+    state.view = 'tie';
+    save();
+    render();
+  }
+
+  function showResult() {
+    lastResult = computeResult(state.answers, state.tieAnswers);
     state.view = 'result';
+    save();
+    render();
+  }
+
+  function chooseTie(pole) {
+    const key = state.tieList[state.tieIdx];
+    state.tieAnswers[key] = pole;
+    save();
+    const btns = view.querySelectorAll('.tieOpt');
+    btns.forEach(b => b.setAttribute('aria-pressed', b.getAttribute('data-tie') === pole ? 'true' : 'false'));
+    updateTopbar();
+    clearTimeout(advanceTimer);
+    advanceTimer = setTimeout(() => {
+      if (state.tieList[state.tieIdx] !== key) return;
+      advanceTie();
+    }, 190);
+  }
+
+  function advanceTie() {
+    const nextMissing = firstUnansweredTie();
+    if (nextMissing < 0) { showResult(); return; }
+    state.tieIdx = nextMissing;
     save();
     render();
   }
@@ -809,10 +1193,7 @@ function buildReportText(answers, r, when) {
     const i = state.idx;
     state.answers[i] = v;
     save();
-    if (i >= QUESTIONS.length - 1) {
-      finish();
-      return;
-    }
+    if (i >= QUESTIONS.length - 1) { finishMain(); return; }
     state.idx = i + 1;
     render();
   }
@@ -831,12 +1212,25 @@ function buildReportText(answers, r, when) {
     clearTimeout(advanceTimer);
     advanceTimer = setTimeout(() => {
       if (i !== state.idx) return;
-      if (i >= QUESTIONS.length - 1) { finish(); }
+      if (i >= QUESTIONS.length - 1) { finishMain(); }
       else { state.idx = i + 1; render(); }
     }, 170);
   }
 
   function prev() {
+    if (state.view === 'tie') {
+      if (state.tieIdx > 0) {
+        state.tieIdx--;
+        save();
+        render();
+        return;
+      }
+      state.view = 'quiz';
+      state.idx = QUESTIONS.length - 1;
+      save();
+      render();
+      return;
+    }
     if (state.idx === 0) return;
     state.idx = Math.max(0, state.idx - 1);
     save();
@@ -848,13 +1242,13 @@ function buildReportText(answers, r, when) {
       toast('먼저 답을 골라 주세요.');
       return;
     }
-    if (state.idx >= QUESTIONS.length - 1) finish();
+    if (state.idx >= QUESTIONS.length - 1) finishMain();
     else { state.idx++; save(); render(); }
   }
 
   function reportText() {
-    if (!lastResult) lastResult = computeResult(state.answers);
-    return buildReportText(state.answers, lastResult, new Date());
+    if (!lastResult) lastResult = computeResult(state.answers, state.tieAnswers);
+    return buildReportText(state.answers, state.tieAnswers, lastResult, new Date());
   }
 
   function showReportArea(text) {
@@ -888,7 +1282,7 @@ function buildReportText(answers, r, when) {
     }
 
     if (ok) {
-      toast('복사했습니다. 채팅방에 붙여넣어 주세요.');
+      toast('복사했습니다. 붙여넣어 주세요.');
     } else {
       const area = showReportArea(text);
       if (area) {
@@ -902,9 +1296,11 @@ function buildReportText(answers, r, when) {
 
   function restart() {
     state.answers = new Array(QUESTIONS.length).fill(null);
+    state.tieAnswers = {};
+    state.tieList = [];
+    state.tieIdx = 0;
     state.idx = 0;
     state.view = 'intro';
-    state.partial = 0;
     lastResult = null;
     clearSaved();
     render();
@@ -918,6 +1314,7 @@ function buildReportText(answers, r, when) {
       else if (act === 'resume') startQuiz();
       else if (act === 'prev') prev();
       else if (act === 'next') next();
+      else if (act === 'tieStart') startTie();
       else if (act === 'copy') copyReport();
       else if (act === 'showtext') {
         const area = showReportArea(reportText());
@@ -926,6 +1323,8 @@ function buildReportText(answers, r, when) {
       else if (act === 'restart') restart();
       return;
     }
+    const tieBtn = e.target.closest('.tieOpt');
+    if (tieBtn) { chooseTie(tieBtn.getAttribute('data-tie')); return; }
     const opt = e.target.closest('.opt');
     if (opt) {
       chooseWithDelay(Number(opt.getAttribute('data-v')));
@@ -933,9 +1332,15 @@ function buildReportText(answers, r, when) {
   });
 
   document.addEventListener('keydown', e => {
-    if (state.view !== 'quiz') return;
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const k = e.key;
+    if (state.view === 'tie') {
+      if (k === '1') { e.preventDefault(); chooseTie(AXIS_BY_KEY[state.tieList[state.tieIdx]].a); return; }
+      if (k === '2') { e.preventDefault(); chooseTie(AXIS_BY_KEY[state.tieList[state.tieIdx]].b); return; }
+      if (k === 'ArrowLeft') { e.preventDefault(); prev(); }
+      return;
+    }
+    if (state.view !== 'quiz') return;
     if (k >= '1' && k <= '5') {
       e.preventDefault();
       choose(OPTIONS[Number(k) - 1].v);
@@ -953,13 +1358,20 @@ function buildReportText(answers, r, when) {
   const saved = load();
   if (saved) {
     state.answers = saved.answers.map(v => (typeof v === 'number' ? v : null));
+    if (saved.tieAnswers && typeof saved.tieAnswers === 'object') state.tieAnswers = saved.tieAnswers;
     const answered = answeredCount();
     if (answered === QUESTIONS.length) {
-      lastResult = computeResult(state.answers);
-      state.view = 'result';
+      state.tieList = borderKeys(state.answers);
+      state.tieList.forEach(k => { if (state.tieAnswers[k] == null) delete state.tieAnswers[k]; });
+      if (state.tieList.length && firstUnansweredTie() >= 0) {
+        state.view = 'tie';
+        state.tieIdx = firstUnansweredTie();
+      } else {
+        lastResult = computeResult(state.answers, state.tieAnswers);
+        state.view = 'result';
+      }
     } else if (answered > 0) {
       state.idx = Math.min(saved.idx || 0, QUESTIONS.length - 1);
-      state.partial = answered;
     }
   }
   render();

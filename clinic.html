@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>정밀 성격 유형 진단 · 40문항</title>
+<meta name="description" content="네 축이 섞여 있는 사람을 위한 정밀 성격 유형 진단. 축별 스펙트럼과 일할 때와 평소의 차이, 인지기능 8종 성향까지 40문항으로 살펴봅니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mujusang.github.io/mbti-test/">
+<meta property="og:title" content="정밀 성격 유형 진단 · 40문항">
+<meta property="og:description" content="축별 스펙트럼, 일할 때와 평소의 차이, 인지기능 8종까지. 결과는 한 번에 복사해 비서에게 보낼 수 있습니다.">
+<meta property="og:locale" content="ko_KR">
+<meta name="theme-color" content="#f4f2ec">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233d5a80'/%3E%3Crect x='14' y='14' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3Crect x='34' y='14' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='14' y='34' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='34' y='34' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#f4f2ec;
+    --card:#fffdf8;
+    --ink:#21262e;
+    --body:#3b4048;
+    --muted:#7c7669;
+    --line:#e6e0d4;
+    --a:#3d5a80;
+    --aSoft:#dfe8f3;
+    --b:#a9825a;
+    --bSoft:#f3ebdf;
+    --ok:#3f7a5c;
+    --sans:"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic","Helvetica Neue",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-text-size-adjust:100%;}
+  html{background:var(--bg);}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--body);
+    background-color:var(--bg);
+    background-image:
+      radial-gradient(120% 55% at 50% 0%, #fbf9f3 0%, rgba(251,249,243,0) 62%),
+      radial-gradient(90% 45% at 50% 100%, #f7f3e9 0%, rgba(247,243,233,0) 70%);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.62;
+    min-height:100dvh;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 16px calc(44px + env(safe-area-inset-bottom));}
+
+  .topbar{
+    position:sticky;top:0;z-index:20;
+    background:rgba(244,242,236,.94);
+    backdrop-filter:saturate(150%) blur(8px);
+    -webkit-backdrop-filter:saturate(150%) blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 0 9px;
+    margin:0 -16px 18px;
+    padding-left:16px;padding-right:16px;
+    display:none;
+  }
+  .topbar.on{display:block;}
+  .tbRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px;}
+  .tbTitle{font-size:12.5px;letter-spacing:.10em;color:var(--muted);font-weight:600;}
+  .tbCount{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .tbTrack{height:5px;border-radius:4px;background:#e7e1d4;overflow:hidden;}
+  .tbTrack i{display:block;height:100%;width:0;background:var(--a);border-radius:4px;transition:width .28s ease;}
+
+  /* intro */
+  .hero{padding:26px 4px 6px;}
+  .eyebrow{font-size:11.5px;letter-spacing:.30em;color:var(--b);font-weight:700;text-indent:.30em;}
+  h1{font-size:29px;line-height:1.32;margin:10px 0 8px;color:var(--ink);letter-spacing:-.02em;font-weight:700;}
+  .lead{font-size:16px;color:var(--body);margin:0 0 20px;}
+  .lead b{color:var(--ink);font-weight:700;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:18px 18px;margin:0 0 14px;
+    box-shadow:0 1px 0 rgba(60,50,30,.03), 0 8px 22px -18px rgba(50,40,20,.35);
+  }
+  .card h2{font-size:14px;margin:0 0 10px;color:var(--muted);font-weight:700;letter-spacing:.02em;}
+  .card p{margin:0 0 10px;font-size:14.6px;}
+  .card p:last-child{margin-bottom:0;}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 0;}
+  .fact{font-size:12.8px;color:var(--a);background:var(--aSoft);border-radius:999px;padding:5px 11px;font-weight:600;}
+  .hint{font-size:13.4px;color:var(--muted);margin:14px 2px 0;}
+  .hint b{color:var(--b);}
+
+  .btnRow{display:flex;flex-direction:column;gap:9px;margin-top:20px;}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;border:1px solid transparent;border-radius:15px;
+    padding:16px 18px;font-size:16.5px;font-weight:700;font-family:inherit;
+    background:var(--a);color:#fff;cursor:pointer;
+    transition:transform .12s ease, background .15s ease, box-shadow .15s ease;
+    box-shadow:0 8px 20px -14px rgba(40,60,90,.9);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn.ghost{background:transparent;color:var(--a);border-color:#cfd8e4;box-shadow:none;font-weight:600;}
+  .btn.small{font-size:14.5px;padding:13px 16px;border-radius:13px;}
+  .btn[disabled]{opacity:.42;cursor:default;box-shadow:none;}
+
+  /* question */
+  .qWrap{padding-top:2px;}
+  .qTagRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;}
+  .qTag{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--b);background:var(--bSoft);border-radius:999px;padding:5px 11px;}
+  .qTag.work{color:#2f4f6d;background:var(--aSoft);}
+  .qTag.fn{color:#5c6b52;background:#e9efe2;}
+  .qNum{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .qText{
+    font-size:20px;line-height:1.55;color:var(--ink);font-weight:600;letter-spacing:-.01em;
+    margin:0 0 20px;word-break:keep-all;
+  }
+  .opts{display:grid;gap:8px;}
+  .opt{
+    display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:14px 15px;font-family:inherit;font-size:16px;color:var(--body);
+    cursor:pointer;-webkit-tap-highlight-color:transparent;
+    transition:background .13s ease, border-color .13s ease, color .13s ease;
+  }
+  .opt .chip{
+    flex:0 0 auto;width:26px;height:26px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;color:var(--muted);background:#f1ece1;border:1px solid #e7e0d2;
+  }
+  .opt .optT{flex:1 1 auto;}
+  .opt:hover{border-color:#cfd8e4;background:#fff;}
+  .opt[aria-pressed="true"]{background:var(--a);border-color:var(--a);color:#fff;font-weight:600;}
+  .opt[aria-pressed="true"] .chip{background:rgba(255,255,255,.20);border-color:rgba(255,255,255,.30);color:#fff;}
+
+  .qNav{display:flex;align-items:center;gap:9px;margin-top:18px;}
+  .qNav .btn{flex:1 1 0;margin:0;}
+  .kb{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;display:none;}
+  @media (hover:hover) and (pointer:fine){ .kb{display:block;} }
+
+  /* result */
+  .resTop{padding:16px 2px 4px;text-align:center;}
+  .resKicker{font-size:11.5px;letter-spacing:.26em;color:var(--b);font-weight:700;text-indent:.26em;}
+  .typeCode{
+    font-size:52px;font-weight:800;letter-spacing:.06em;color:var(--ink);
+    margin:6px 0 0;line-height:1.05;font-variant-numeric:tabular-nums;
+  }
+  .typeName{font-size:17px;color:var(--a);font-weight:700;margin:8px 0 0;}
+  .typeLine{font-size:14.6px;color:var(--muted);margin:8px 14px 0;word-break:keep-all;}
+
+  .sec{margin-top:22px;}
+  .secT{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 2px 10px;}
+  .secT h3{font-size:15px;margin:0;color:var(--ink);font-weight:700;letter-spacing:-.01em;}
+  .secT span{font-size:12px;color:var(--muted);}
+
+  .g{padding:13px 0 14px;border-bottom:1px solid var(--line);}
+  .g:last-child{border-bottom:0;padding-bottom:2px;}
+  .gHead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:2px;}
+  .gHead .side{font-size:13.5px;font-variant-numeric:tabular-nums;color:var(--muted);}
+  .gHead .side b{color:var(--ink);font-weight:800;font-size:15px;}
+  .gHead .nm{font-size:12.5px;color:var(--muted);letter-spacing:.02em;}
+  .track{position:relative;height:9px;border-radius:6px;background:var(--bSoft);margin:8px 0 7px;}
+  .track .fillA{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--aSoft);}
+  .track .mark{position:absolute;top:-4px;bottom:-4px;width:2px;background:#5c5548;border-radius:2px;transform:translateX(-1px);}
+  .gNote{font-size:12.5px;color:var(--muted);}
+  .gNote b{color:var(--b);font-weight:700;}
+  .gNote .edge{color:#9b5c3f;font-weight:700;}
+
+  .wdRow{display:grid;grid-template-columns:64px 1fr;gap:6px 10px;align-items:center;padding:9px 0;border-bottom:1px dashed #ece6da;}
+  .wdRow:last-child{border-bottom:0;}
+  .wdLab{font-size:12.5px;color:var(--muted);font-weight:600;}
+  .wdNums{font-size:13.8px;font-variant-numeric:tabular-nums;color:var(--muted);}
+  .wdNums b{color:var(--ink);font-weight:800;}
+  .mini{grid-column:2;display:flex;height:6px;border-radius:4px;overflow:hidden;background:#efe9dd;}
+  .mini i{display:block;height:100%;}
+  .mini i.a{background:var(--aSoft);}
+  .mini i.b{background:#e3cbb0;}
+  .wdAxis{font-size:13px;font-weight:700;color:var(--ink);padding-top:14px;}
+  .wdNote{font-size:12px;color:var(--muted);padding:6px 0 2px;border-top:1px dashed #ece6da;margin-top:6px;}
+  .wdNote b{color:var(--b);font-weight:700;}
+
+  .fnRow{padding:8px 0;}
+  .fnTop{display:flex;align-items:baseline;gap:7px;margin-bottom:5px;}
+  .fnCode{font-size:12.6px;color:var(--a);background:var(--aSoft);border-radius:6px;padding:1px 6px;font-weight:800;}
+  .fnName{font-size:13.2px;color:var(--body);}
+  .fnVal{margin-left:auto;font-size:12.6px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .fnBar{height:7px;border-radius:5px;background:#efe9dd;overflow:hidden;}
+  .fnBar i{display:block;height:100%;border-radius:5px;background:#c3cddb;width:0;}
+  .fnRow.top .fnCode{background:var(--a);color:#fff;}
+  .fnRow.top .fnBar i{background:var(--a);}
+  .fnRow.top .fnVal{color:var(--ink);font-weight:700;}
+
+  .c2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;}
+  .c2Lab{font-size:11.8px;letter-spacing:.1em;color:var(--b);font-weight:700;margin-bottom:6px;}
+  .c2Main{font-size:15.4px;color:var(--ink);font-weight:700;line-height:1.5;}
+  .c2Main em{font-style:normal;color:var(--a);}
+  .c2Note{font-size:13.2px;color:var(--muted);margin-top:8px;word-break:keep-all;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;}
+  .chip2{font-size:12.4px;color:#8a5b3d;background:#f6ede1;border-radius:999px;padding:5px 10px;font-weight:600;font-variant-numeric:tabular-nums;}
+  .chip3{font-size:12.4px;color:var(--muted);background:#f1ece1;border-radius:999px;padding:5px 10px;font-variant-numeric:tabular-nums;}
+
+  .report{
+    width:100%;margin:10px 0 0;padding:14px;border-radius:14px;border:1px solid var(--line);
+    background:#fbf8f1;color:var(--body);font-family:ui-monospace,Menlo,Consolas,"Apple SD Gothic Neo",monospace;
+    font-size:12.2px;line-height:1.66;white-space:pre-wrap;word-break:break-word;
+    max-height:340px;overflow:auto;display:none;
+  }
+  .report.on{display:block;}
+  textarea.report{resize:vertical;}
+
+  .foot{font-size:11.8px;color:#9a9384;text-align:center;margin-top:26px;line-height:1.6;}
+
+  .toast{
+    position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,14px);
+    background:#2b323c;color:#fff;font-size:13.6px;padding:10px 16px;border-radius:12px;
+    opacity:0;pointer-events:none;transition:opacity .2s ease, transform .2s ease;z-index:60;max-width:86vw;text-align:center;
+  }
+  .toast.on{opacity:1;transform:translate(-50%,0);}
+
+  @media (max-width:380px){
+    h1{font-size:25px;}
+    .typeCode{font-size:44px;}
+    .qText{font-size:18.5px;}
+    .opt{font-size:15.4px;padding:13px 14px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar" id="topbar">
+    <div class="tbRow"><span class="tbTitle" id="tbTitle">정밀 성격 유형 진단</span><span class="tbCount" id="tbCount">0 / 40</span></div>
+    <div class="tbTrack"><i id="tbFill"></i></div>
+  </div>
+  <main id="view"></main>
+  <div class="foot" id="foot">자기보고식 성격 진단입니다 · 진단명이 아니라 경향의 지도로 읽어 주세요</div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* LOGIC START */
+const AXES = [
+  { key:'EI', a:'E', b:'I', aName:'외향', bName:'내향', name:'에너지 방향', desc:'사람과 어울릴 때 기운이 차는가, 혼자 있을 때 충전되는가' },
+  { key:'SN', a:'S', b:'N', aName:'감각', bName:'직관', name:'인식 방식', desc:'실제 경험과 데이터를 먼저 보는가, 큰 그림과 구조를 먼저 보는가' },
+  { key:'TF', a:'T', b:'F', aName:'사고', bName:'감정', name:'판단 기준', desc:'효율과 논리로 판단하는가, 공감과 의미로 판단하는가' },
+  { key:'JP', a:'J', b:'P', aName:'계획', bName:'즉흥', name:'생활 양식', desc:'계획과 통제로 움직이는가, 유연과 즉흥으로 움직이는가' }
+];
+const AXIS_BY_KEY = {};
+AXES.forEach(d => { AXIS_BY_KEY[d.key] = d; });
+
+const BANK = {
+  EI: [
+    { pole:'E', ctx:'work', t:'여러 사람과 머리를 맞대고 의논하는 자리에서 생각이 더 잘 정리된다.' },
+    { pole:'I', ctx:'day',  t:'사람을 만나고 온 날은 혼자 조용히 있어야 기운이 돌아온다.' },
+    { pole:'I', ctx:'work', t:'진료나 업무에 집중할 때 옆에서 말을 걸면 흐름이 끊긴다.' },
+    { pole:'E', ctx:'day',  t:'주말에 사람 만날 약속이 없으면 하루가 무기력하게 흘러간다.' },
+    { pole:'E', ctx:'work', t:'환자나 동료에게 설명하는 도중에 좋은 답이 떠오르는 편이다.' },
+    { pole:'I', ctx:'day',  t:'모임이 끝나면 집에 와서 오늘 있었던 일을 혼자 정리해야 마음이 놓인다.' },
+    { pole:'I', ctx:'work', t:'중요한 결정은 조용히 혼자 정리한 뒤에야 확신이 선다.' },
+    { pole:'E', ctx:'day',  t:'처음 보는 사람에게도 먼저 말을 거는 편이다.' }
+  ],
+  SN: [
+    { pole:'S', ctx:'work', t:'환자를 볼 때 설명보다 실제로 관찰된 소견과 지난 사례가 먼저 신뢰가 간다.' },
+    { pole:'N', ctx:'day',  t:'눈에 보이는 것보다 그 이면의 의미나 분위기를 먼저 읽는다.' },
+    { pole:'N', ctx:'work', t:'개별 사례를 넘어 그 뒤의 원리와 구조가 잡힐 때 판단이 선다.' },
+    { pole:'S', ctx:'day',  t:'여행이나 나들이는 구체적인 일정과 정보가 정해져 있어야 즐겁다.' },
+    { pole:'S', ctx:'work', t:'새로운 방식을 시도하기보다 이미 검증된 방식이 확실할 때 안심이 된다.' },
+    { pole:'N', ctx:'day',  t:'이야기를 듣다가 연상이 이어져 화제가 옆으로 새는 일이 잦다.' },
+    { pole:'N', ctx:'work', t:'아직 없는 아이디어나 앞으로의 가능성을 그려보는 일이 즐겁다.' },
+    { pole:'S', ctx:'day',  t:'경험한 일은 구체적인 장면과 사실로 또렷하게 기억한다.' }
+  ],
+  TF: [
+    { pole:'T', ctx:'work', t:'진료 판단에서는 환자가 서운해하더라도 근거가 분명한 쪽을 택한다.' },
+    { pole:'F', ctx:'day',  t:'친구의 고민을 들을 때 해결책보다 함께 마음 아파하는 게 먼저다.' },
+    { pole:'F', ctx:'work', t:'업무를 지시할 때 내용보다 그 사람이 어떻게 받아들일지를 먼저 생각한다.' },
+    { pole:'T', ctx:'day',  t:'친구의 고민을 들으면 자연스럽게 해결책을 찾아준다.' },
+    { pole:'T', ctx:'work', t:'회의에서 반대 의견이 나오면 감정보다 논리적 타당성을 기준으로 본다.' },
+    { pole:'F', ctx:'day',  t:'사람을 볼 때 능력보다 마음가짐과 신뢰가 먼저 눈에 들어온다.' },
+    { pole:'F', ctx:'work', t:'바쁜 날에도 동료가 힘들어 보이면 하던 일을 멈추고 먼저 살핀다.' },
+    { pole:'T', ctx:'day',  t:'논리가 맞으면 분위기가 불편해져도 옳고 그름을 짚고 넘어간다.' }
+  ],
+  JP: [
+    { pole:'J', ctx:'work', t:'하루 일정이 미리 정해져 있어야 마음이 편하다.' },
+    { pole:'P', ctx:'day',  t:'쉬는 날은 계획 없이 그때그때 하고 싶은 대로 보내는 게 좋다.' },
+    { pole:'P', ctx:'work', t:'일정이 갑자기 바뀌어도 그 자리에서 새로 짜는 게 어렵지 않다.' },
+    { pole:'J', ctx:'day',  t:'집안 물건이나 서류는 정해진 자리에 있어야 마음이 놓인다.' },
+    { pole:'J', ctx:'work', t:'일은 마감이 닥치기 전에 미리 끝내 두어야 안심이 된다.' },
+    { pole:'P', ctx:'day',  t:'결정을 미뤄둘수록 더 나은 선택지가 나타날 것 같아 미루는 편이다.' },
+    { pole:'P', ctx:'work', t:'완벽하게 준비하기보다 일단 시작하고 도중에 고치는 편이다.' },
+    { pole:'J', ctx:'day',  t:'약속 시간에는 늦지 않게 몇 분 먼저 도착하는 편이다.' }
+  ]
+};
+
+const FN_QUESTIONS = [
+  { fn:'Ne', t:'떠오르는 생각이 여러 갈래로 뻗어 나가 하나를 붙잡기가 어려울 때가 있다.' },
+  { fn:'Ni', t:'설명하기 어렵지만 앞으로 벌어질 일이 그림처럼 먼저 보일 때가 있다.' },
+  { fn:'Se', t:'지금 이 순간의 소리와 색, 분위기 같은 감각 자극에 민감하게 반응한다.' },
+  { fn:'Si', t:'예전과 달라진 점을 세세하게 알아차리고, 익숙한 방식에서 벗어나면 불편하다.' },
+  { fn:'Te', t:'목표를 정하면 단계와 순서를 나눠 효율적으로 밀어붙인다.' },
+  { fn:'Ti', t:'개념이 정확하지 않으면 넘어가지 못하고 정의부터 바로잡고 싶다.' },
+  { fn:'Fe', t:'자리 분위기가 어색하면 먼저 나서서 부드럽게 만든다.' },
+  { fn:'Fi', t:'겉으로 드러내지 않아도 내가 옳다고 여기는 것에 어긋나면 참기 어렵다.' }
+];
+
+const QUESTIONS = [];
+for (let i = 0; i < 8; i++) {
+  AXES.forEach(d => {
+    const q = BANK[d.key][i];
+    QUESTIONS.push({ t: q.t, axis: d.key, pole: q.pole, ctx: q.ctx });
+  });
+}
+FN_QUESTIONS.forEach(f => QUESTIONS.push({ t: f.t, axis: null, fn: f.fn, ctx: 'fn' }));
+
+const FN_NAME = {
+  Ni:'내향 직관', Ne:'외향 직관', Si:'내향 감각', Se:'외향 감각',
+  Ti:'내향 사고', Te:'외향 사고', Fi:'내향 감정', Fe:'외향 감정'
+};
+
+const TYPE_INFO = {
+  ISTJ:{ name:'청렴결백한 논리주의자', fn:['Si','Te'], line:'맡은 일을 정확하게 끝까지 해내고, 경험과 원칙을 신뢰합니다.' },
+  ISFJ:{ name:'용감한 수호자', fn:['Si','Fe'], line:'가까운 사람을 조용히 돌보고, 구체적인 기억으로 신뢰를 쌓습니다.' },
+  INFJ:{ name:'선의의 옹호자', fn:['Ni','Fe'], line:'사람과 일의 이면을 읽고, 오래 보고 큰 그림으로 움직입니다.' },
+  INTJ:{ name:'용의주도한 전략가', fn:['Ni','Te'], line:'구조를 세우고 미리 길을 내며, 감정보다 원리로 판단합니다.' },
+  ISTP:{ name:'만능 재주꾼', fn:['Ti','Se'], line:'말보다 손이 먼저 나가는 실전형이고, 지금 필요한 것을 정확히 해냅니다.' },
+  ISFP:{ name:'호기심 많은 예술가', fn:['Fi','Se'], line:'자기 안의 결을 지키며, 지금의 감각과 마음을 소중히 여깁니다.' },
+  INFP:{ name:'열정적인 중재자', fn:['Fi','Ne'], line:'자기 안의 옳음이 분명하고, 사람과 의미를 오래 붙듭니다.' },
+  INTP:{ name:'논리적인 사색가', fn:['Ti','Ne'], line:'개념의 정합성을 끝까지 따지고, 설명보다 이해가 먼저입니다.' },
+  ESTP:{ name:'모험을 즐기는 사업가', fn:['Se','Ti'], line:'판이 벌어지면 몸이 먼저 움직이는 현장형입니다.' },
+  ESFP:{ name:'자유로운 영혼의 연예인', fn:['Se','Fi'], line:'지금 이 자리를 밝히고, 감각과 사람에 충실합니다.' },
+  ENFP:{ name:'재기발랄한 활동가', fn:['Ne','Fi'], line:'가능성을 먼저 보고 사람에게 불을 붙이는 사람입니다.' },
+  ENTP:{ name:'뜨거운 논쟁을 즐기는 변론가', fn:['Ne','Ti'], line:'익숙한 것을 뒤집어 보며 새 길을 여는 사람입니다.' },
+  ESTJ:{ name:'엄격한 관리자', fn:['Te','Si'], line:'일을 구조화하고 끝까지 밀어붙이는 실행가입니다.' },
+  ESFJ:{ name:'사교적인 외교관', fn:['Fe','Si'], line:'사람 사이를 잇고 자리를 정돈하는 사람입니다.' },
+  ENFJ:{ name:'정의로운 사회운동가', fn:['Fe','Ni'], line:'사람의 가능성을 보고 함께 움직이는 사람입니다.' },
+  ENTJ:{ name:'대담한 통솔자', fn:['Te','Ni'], line:'목표를 세우고 판을 키워 결과까지 가는 사람입니다.' }
+};
+
+function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
+
+function signed(v) { return 3 - v; }
+
+function axisScore(answers, key, ctx) {
+  const def = AXIS_BY_KEY[key];
+  let sum = 0, n = 0;
+  QUESTIONS.forEach((q, i) => {
+    if (q.axis !== key) return;
+    if (ctx && q.ctx !== ctx) return;
+    const v = answers[i];
+    if (v == null) return;
+    const s = signed(v);
+    sum += (q.pole === def.a ? s : -s);
+    n++;
+  });
+  const max = n * 2 || 1;
+  return { aPct: clamp(Math.round(50 + (sum / max) * 50), 0, 100), n };
+}
+
+function levelOf(diff) {
+  if (diff <= 5) return '경계에 걸침';
+  if (diff <= 10) return '약한 우세';
+  return '뚜렷한 우세';
+}
+
+function distOf(answers, key) {
+  const c = { 5:0, 4:0, 3:0, 2:0, 1:0 };
+  QUESTIONS.forEach((q, i) => {
+    if (q.axis !== key) return;
+    const v = answers[i];
+    if (v != null && c[v] != null) c[v]++;
+  });
+  return c;
+}
+
+function computeResult(answers) {
+  const axes = AXES.map(def => {
+    const all = axisScore(answers, def.key, null);
+    const work = axisScore(answers, def.key, 'work');
+    const day = axisScore(answers, def.key, 'day');
+    const aPct = all.aPct;
+    const bPct = 100 - aPct;
+    const letter = aPct > 50 ? def.a : def.b;
+    const domPct = letter === def.a ? aPct : bPct;
+    const diff = Math.abs(aPct - 50);
+    return {
+      def, aPct, bPct, letter, domPct, diff,
+      level: levelOf(diff),
+      workA: work.aPct, dayA: day.aPct,
+      dist: distOf(answers, def.key)
+    };
+  });
+
+  const type = axes.map(x => x.letter).join('');
+  const typeInfo = TYPE_INFO[type] || { name:'', fn:['',''], line:'' };
+
+  const pct = {};
+  axes.forEach(x => { pct[x.def.a] = x.aPct; pct[x.def.b] = x.bPct; });
+
+  // 성향 지수 = 직접 응답(문항) 60% + 축 기울기 40%
+  const FN_AXIS = { Ne:['N','E'], Ni:['N','I'], Se:['S','E'], Si:['S','I'], Te:['T','E'], Ti:['T','I'], Fe:['F','E'], Fi:['F','I'] };
+  const idx = {};
+  FN_QUESTIONS.forEach((f, j) => {
+    const v = answers[32 + j];
+    const itemScore = (v == null) ? 50 : ((signed(v) + 2) / 4) * 100;
+    const ax = FN_AXIS[f.fn];
+    const tilt = (pct[ax[0]] + pct[ax[1]]) / 2;
+    idx[f.fn] = Math.round(clamp(0.6 * itemScore + 0.4 * tilt, 0, 100));
+  });
+  const maxIdx = Math.max.apply(null, Object.keys(idx).map(k => idx[k])) || 1;
+  const funcs = Object.keys(idx).map(code => ({
+    code, name: FN_NAME[code], idx: idx[code], rel: Math.round((idx[code] / maxIdx) * 100)
+  })).sort((x, y) => y.idx - x.idx);
+
+  const top = funcs.slice(0, 3).map(f => f.code);
+  const agree = top[0] === typeInfo.fn[0] ? '일치'
+    : (top.slice(0, 2).indexOf(typeInfo.fn[0]) >= 0 ? '부분 일치' : '불일치');
+
+  const neutralItems = [];
+  const counterItems = [];
+  QUESTIONS.forEach((q, i) => {
+    const v = answers[i];
+    if (v == null) return;
+    if (v === 3) { neutralItems.push(i); return; }
+    if (!q.axis) return;
+    const ax = axes.filter(x => x.def.key === q.axis)[0];
+    const s = signed(v);
+    const towardDominant = (q.pole === ax.letter) ? s : -s;
+    if (towardDominant < 0) counterItems.push(i);
+  });
+
+  const borderAxes = axes.filter(x => x.diff <= 10);
+  const mixedCount = borderAxes.length;
+
+  return { axes, type, typeInfo, funcs, top, agree, neutralItems, counterItems, borderAxes, mixedCount };
+}
+
+function ctxLabel(ctx) {
+  if (ctx === 'work') return '일할 때';
+  if (ctx === 'day') return '평소';
+  return '생각의 결';
+}
+
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function koreanDateTime(d) {
+  return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+}
+
+function buildReportText(answers, r, when) {
+  const L = [];
+  L.push('[정밀 성격 유형 진단 결과]');
+  L.push('유형: ' + r.type + ' (' + r.typeInfo.name + ')');
+  L.push('진단 일시: ' + koreanDateTime(when));
+  L.push('문항: ' + QUESTIONS.length + '문항, 5단계 (1 매우 그렇다, 2 그렇다, 3 보통이다, 4 그렇지 않다, 5 전혀 그렇지 않다)');
+  L.push('');
+
+  L.push('■ 축별 스펙트럼');
+  r.axes.forEach(a => {
+    const head = a.diff === 0
+      ? a.def.a + ' 50% / ' + a.def.b + ' 50% → 정확히 반반'
+      : a.def.a + ' ' + a.aPct + '% / ' + a.def.b + ' ' + a.bPct + '% → ' + a.letter + ' 우세 ' + a.diff + '포인트';
+    L.push(a.def.name + ': ' + head + ', ' + a.level);
+  });
+  L.push('');
+
+  L.push('■ 일할 때와 평소의 차이');
+  r.axes.forEach(a => {
+    const side = p => (p === 50
+      ? (a.def.a + ' 50 · ' + a.def.b + ' 50 (반반)')
+      : ((p > 50 ? a.def.a : a.def.b) + ' ' + Math.max(p, 100 - p) + '%'));
+    const gap = Math.abs(a.workA - a.dayA);
+    let tail;
+    if (gap === 0) tail = '차이 없음';
+    else if (gap >= 10) tail = '차이 ' + gap + '포인트 (뚜렷한 차이)';
+    else tail = '차이 ' + gap + '포인트';
+    L.push(a.def.name + ': 일할 때 ' + side(a.workA) + ' / 평소 ' + side(a.dayA) + ' → ' + tail);
+  });
+  L.push('');
+
+  L.push('■ 축별 응답 분포 (화면에서 고른 번호별 개수)');
+  r.axes.forEach(a => {
+    const d = a.dist;
+    L.push(a.def.name + ': 1이 ' + d[1] + '개, 2가 ' + d[2] + '개, 3이 ' + d[3] + '개, 4가 ' + d[4] + '개, 5가 ' + d[5] + '개');
+  });
+  L.push('');
+
+  L.push('■ 인지기능 8종 상대 지수 (가장 높은 기능을 100으로 둔 상대값, 직접 응답과 축 기울기 반영)');
+  r.funcs.forEach((f, i) => {
+    L.push((i + 1) + '. ' + f.code + ' ' + f.name + ' ' + f.rel);
+  });
+  L.push('');
+
+  L.push('■ 추정 주기능과 부기능');
+  L.push('유형 기준: 주기능 ' + r.typeInfo.fn[0] + ' ' + FN_NAME[r.typeInfo.fn[0]] + ', 부기능 ' + r.typeInfo.fn[1] + ' ' + FN_NAME[r.typeInfo.fn[1]]);
+  L.push('측정 상위: ' + r.top.map(c => c + ' ' + FN_NAME[c]).join(', ') + ' → 유형 기준과 ' + r.agree);
+  L.push('');
+
+  L.push('■ 경계축과 혼합 응답');
+  if (r.borderAxes.length === 0) {
+    L.push('경계축: 없음');
+  } else {
+    L.push('경계축: ' + r.borderAxes.map(a => {
+      const d = Math.abs(a.aPct - 50);
+      return a.def.name + ' (' + a.def.a + ' ' + a.aPct + ' / ' + a.def.b + ' ' + a.bPct + ', ' + d + '포인트)';
+    }).join(', '));
+  }
+  L.push('보통으로 답한 문항: ' + (r.neutralItems.length ? r.neutralItems.map(i => i + 1).join(', ') : '없음'));
+  L.push('우세와 반대 방향 응답: ' + (r.counterItems.length ? r.counterItems.map(i => i + 1).join(', ') : '없음'));
+  L.push('');
+
+  L.push('■ 문항별 응답');
+  QUESTIONS.forEach((q, i) => {
+    const where = q.axis ? AXIS_BY_KEY[q.axis].name + ' / ' + ctxLabel(q.ctx) : '생각의 결';
+    const v = answers[i];
+    L.push((i + 1) + '. [' + where + '] ' + q.t + ' → ' + (v == null ? '무응답' : v));
+  });
+
+  return L.join('\n');
+}
+/* LOGIC END */
+
+(function () {
+  'use strict';
+
+  const STORE = 'mbti40.v1';
+  const OPTIONS = [
+    { v:1, label:'매우 그렇다' },
+    { v:2, label:'그렇다' },
+    { v:3, label:'보통이다' },
+    { v:4, label:'그렇지 않다' },
+    { v:5, label:'전혀 그렇지 않다' }
+  ];
+
+  const state = { view:'intro', idx:0, answers:new Array(QUESTIONS.length).fill(null), partial:0 };
+  let lastResult = null;
+  let advanceTimer = null;
+
+  const view = document.getElementById('view');
+  const topbar = document.getElementById('topbar');
+  const tbFill = document.getElementById('tbFill');
+  const tbCount = document.getElementById('tbCount');
+  const tbTitle = document.getElementById('tbTitle');
+  const foot = document.getElementById('foot');
+  const toastEl = document.getElementById('toast');
+
+  let toastTimer = null;
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('on');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('on'), 2400);
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({ answers: state.answers, idx: state.idx }));
+    } catch (e) {}
+  }
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORE);
+      if (!raw) return null;
+      const d = JSON.parse(raw);
+      if (!d || !Array.isArray(d.answers) || d.answers.length !== QUESTIONS.length) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function clearSaved() {
+    try { localStorage.removeItem(STORE); } catch (e) {}
+  }
+
+  function answeredCount() {
+    return state.answers.filter(v => v != null).length;
+  }
+
+  function firstUnanswered() {
+    for (let i = 0; i < state.answers.length; i++) if (state.answers[i] == null) return i;
+    return -1;
+  }
+
+  function updateTopbar() {
+    if (state.view === 'intro') { topbar.classList.remove('on'); return; }
+    topbar.classList.add('on');
+    if (state.view === 'result') {
+      tbTitle.textContent = '진단 완료';
+      tbCount.textContent = QUESTIONS.length + ' / ' + QUESTIONS.length;
+      tbFill.style.width = '100%';
+      return;
+    }
+    tbTitle.textContent = '정밀 성격 유형 진단';
+    const n = answeredCount();
+    tbCount.textContent = n + ' / ' + QUESTIONS.length;
+    tbFill.style.width = (n / QUESTIONS.length * 100) + '%';
+  }
+
+  function scrollTop() {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function introHTML() {
+    const saved = load();
+    let resume = '';
+    if (saved) {
+      const done = saved.answers.filter(v => v != null).length;
+      if (done > 0 && done < QUESTIONS.length) {
+        resume = '<button class="btn ghost small" data-act="resume">이어서 하기 (' + (done + 1) + '번째 문항부터)</button>';
+      }
+    }
+    return '' +
+      '<div class="hero">' +
+        '<div class="eyebrow">정밀 진단 · 40문항</div>' +
+        '<h1>네 축이 섞여 있는 사람을 위한<br>성격 유형 진단</h1>' +
+        '<p class="lead">한쪽으로 또렷하게 기울지 않는 사람은 짧은 검사로는 유형이 잘 안 잡힙니다. 이 진단은 <b>축마다 어느 쪽으로 얼마나 기울었는지</b>, <b>일할 때와 평소가 어떻게 다른지</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
+      '</div>' +
+      '<div class="card">' +
+        '<h2>어떻게 답하면 정확한가</h2>' +
+        '<p>정답은 없습니다. 오래 고민하지 말고 <b>지금의 나</b>에 가장 가까운 것을 고르세요.</p>' +
+        '<p>문항마다 <b>일할 때의 나</b>와 <b>평소의 나</b>가 번갈아 나옵니다. 두 장면을 구분해 답하면 축별 차이가 그대로 드러납니다.</p>' +
+        '<p>보통이다(3)를 많이 고르면 경계축으로 잡히고, 그것도 의미 있는 결과입니다. 억지로 한쪽을 고르지 않아도 됩니다.</p>' +
+        '<div class="facts"><span class="fact">40문항</span><span class="fact">5단계 선택</span><span class="fact">약 6분</span><span class="fact">결과 한 번에 복사</span></div>' +
+      '</div>' +
+      '<div class="card">' +
+        '<h2>결과로 보게 되는 것</h2>' +
+        '<p>네 축의 스펙트럼 비율과 경계축, 일할 때와 평소의 차이, 인지기능 8종 성향, 추정 주기능과 부기능입니다.</p>' +
+        '<p>마지막에 <b>나래에게 보낼 결과 복사</b>를 누르면 응답 40개가 모두 담긴 글이 복사됩니다. 채팅방에 그대로 붙여넣으면 됩니다.</p>' +
+      '</div>' +
+      '<div class="btnRow">' +
+        '<button class="btn" data-act="start">진단 시작하기</button>' +
+        resume +
+      '</div>' +
+      '<p class="hint">답은 이 기기에만 저장됩니다. 중간에 나갔다 와도 이어서 할 수 있습니다.</p>';
+  }
+
+  function quizHTML() {
+    const i = state.idx;
+    const q = QUESTIONS[i];
+    const tagClass = q.ctx === 'work' ? 'qTag work' : (q.ctx === 'fn' ? 'qTag fn' : 'qTag');
+    const label = q.ctx === 'work' ? '일할 때의 나' : (q.ctx === 'fn' ? '생각의 결' : '평소의 나');
+    const opts = OPTIONS.map((o, k) => {
+      const sel = state.answers[i] === o.v;
+      return '<button class="opt" data-v="' + o.v + '" aria-pressed="' + (sel ? 'true' : 'false') + '">' +
+        '<span class="chip">' + (k + 1) + '</span><span class="optT">' + o.label + '</span></button>';
+    }).join('');
+    const prevDisabled = i === 0 ? ' disabled' : '';
+    const nextDisabled = state.answers[i] == null ? ' disabled' : '';
+    return '' +
+      '<div class="qWrap">' +
+        '<div class="qTagRow"><span class="' + tagClass + '">' + label + '</span><span class="qNum">' + (i + 1) + ' / ' + QUESTIONS.length + '</span></div>' +
+        '<p class="qText">' + q.t + '</p>' +
+        '<div class="opts">' + opts + '</div>' +
+        '<div class="qNav">' +
+          '<button class="btn ghost small" data-act="prev"' + prevDisabled + '>이전</button>' +
+          '<button class="btn small" data-act="next"' + nextDisabled + '>다음</button>' +
+        '</div>' +
+        '<p class="kb">숫자 1에서 5를 눌러도 답할 수 있습니다. 고르면 다음 문항으로 넘어갑니다.</p>' +
+      '</div>';
+  }
+
+  function gaugeHTML(a) {
+    const leftIsDom = a.letter === a.def.a;
+    const leftPct = a.aPct, rightPct = a.bPct;
+    const note = a.diff === 0
+      ? '정확히 반반 · 어느 쪽도 우세하지 않음'
+      : a.letter + ' ' + a.domPct + '% · ' + a.diff + '포인트 차 · <span class="edge">' + a.level + '</span>';
+    return '' +
+      '<div class="g">' +
+        '<div class="gHead">' +
+          '<span class="side">' + (leftIsDom ? '<b>' + a.def.a + ' ' + leftPct + '%</b>' : a.def.a + ' ' + leftPct + '%') + '</span>' +
+          '<span class="nm">' + a.def.name + '</span>' +
+          '<span class="side">' + (leftIsDom ? a.def.b + ' ' + rightPct + '%' : '<b>' + a.def.b + ' ' + rightPct + '%</b>') + '</span>' +
+        '</div>' +
+        '<div class="track"><span class="fillA" style="width:' + leftPct + '%"></span><span class="mark" style="left:' + leftPct + '%"></span></div>' +
+        '<div class="gNote">' + note + '</div>' +
+      '</div>';
+  }
+
+  function wdHTML(a) {
+    const wB = 100 - a.workA, dB = 100 - a.dayA;
+    const clip = n => Math.max(0, Math.min(100, n));
+    const gap = Math.abs(a.workA - a.dayA);
+    const note = gap === 0 ? '두 장면 차이 없음'
+      : ('차이 <b>' + gap + '포인트</b>' + (gap >= 10 ? ' · 뚜렷한 차이' : ''));
+    return '' +
+      '<div class="wdAxis">' + a.def.name + ' <span style="font-weight:400;color:#8a8478;font-size:12px">' + a.def.a + ' ' + a.def.aName + ' / ' + a.def.b + ' ' + a.def.bName + '</span></div>' +
+      '<div class="wdRow">' +
+        '<span class="wdLab">일할 때</span>' +
+        '<span class="wdNums">' + (a.workA >= 50 ? '<b>' + a.def.a + ' ' + a.workA + '%</b> · ' + a.def.b + ' ' + wB + '%' : a.def.a + ' ' + a.workA + '% · <b>' + a.def.b + ' ' + wB + '%</b>') + '</span>' +
+        '<span class="mini"><i class="a" style="width:' + clip(a.workA) + '%"></i><i class="b" style="width:' + clip(wB) + '%"></i></span>' +
+      '</div>' +
+      '<div class="wdRow">' +
+        '<span class="wdLab">평소</span>' +
+        '<span class="wdNums">' + (a.dayA >= 50 ? '<b>' + a.def.a + ' ' + a.dayA + '%</b> · ' + a.def.b + ' ' + dB + '%' : a.def.a + ' ' + a.dayA + '% · <b>' + a.def.b + ' ' + dB + '%</b>') + '</span>' +
+        '<span class="mini"><i class="a" style="width:' + clip(a.dayA) + '%"></i><i class="b" style="width:' + clip(dB) + '%"></i></span>' +
+      '</div>' +
+      '<div class="wdNote">' + note + '</div>';
+  }
+
+  function resultHTML() {
+    const r = lastResult;
+    const axesHTML = r.axes.map(gaugeHTML).join('');
+    const wdHTMLAll = r.axes.map(wdHTML).join('');
+    const fnHTML = r.funcs.map((f, i) => {
+      const top = i < 3 ? ' top' : '';
+      return '<div class="fnRow' + top + '">' +
+        '<div class="fnTop"><span class="fnCode">' + f.code + '</span><span class="fnName">' + f.name + '</span><span class="fnVal">' + f.rel + '</span></div>' +
+        '<div class="fnBar"><i style="width:' + f.rel + '%"></i></div>' +
+      '</div>';
+    }).join('');
+    const borderChips = r.borderAxes.length
+      ? r.borderAxes.map(a => '<span class="chip2">' + a.def.name + ' ' + a.def.a + ' ' + a.aPct + ' · ' + a.def.b + ' ' + a.bPct + '</span>').join('')
+      : '<span class="chip3">경계축 없음</span>';
+    const baseFn = r.typeInfo.fn[0] + ' ' + FN_NAME[r.typeInfo.fn[0]];
+    const auxFn = r.typeInfo.fn[1] + ' ' + FN_NAME[r.typeInfo.fn[1]];
+    const measured = r.top.map(c => c + ' ' + FN_NAME[c]).join(', ');
+    const agreeNote = r.agree === '일치'
+      ? '측정 상위 기능이 유형 기준 주기능과 일치합니다. 응답이 안정적이라는 신호입니다.'
+      : (r.agree === '부분 일치'
+        ? '측정 상위 기능에 유형 기준 주기능이 들어 있습니다. 부기능 쪽에서 흔들린 응답이 있다는 뜻입니다.'
+        : '측정 상위 기능이 유형 기준 주기능과 다릅니다. 경계축이 많은 사람에게서 흔한 결과이고, 두 후보 유형을 함께 읽을 신호입니다.');
+
+    const mixedLine = r.mixedCount >= 3
+      ? '네 축 가운데 ' + r.mixedCount + '개가 경계나 약한 우세입니다. 어느 한 유형으로 단정하기보다 장면별로 달라지는 폭을 보는 편이 맞습니다.'
+      : '경계축이 ' + r.mixedCount + '개입니다. 우세한 축은 비교적 또렷하고, 경계축은 상황에 따라 뒤집힐 수 있습니다.';
+
+    return '' +
+      '<div class="resTop">' +
+        '<div class="resKicker">진단 결과</div>' +
+        '<div class="typeCode">' + r.type + '</div>' +
+        '<div class="typeName">' + r.typeInfo.name + '</div>' +
+        '<p class="typeLine">' + r.typeInfo.line + '</p>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>축별 스펙트럼</h3><span>E·S·T·J가 왼쪽</span></div>' +
+        '<div class="card" style="padding-top:6px;padding-bottom:8px">' + axesHTML + '</div>' +
+        '<p class="typeLine" style="margin:4px 4px 0;font-size:13.4px">' + mixedLine + '</p>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>일할 때와 평소의 차이</h3><span>축마다 두 장면 비교</span></div>' +
+        '<div class="card" style="padding:10px 16px 14px">' + wdHTMLAll + '</div>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>인지기능 성향</h3><span>가장 높은 기능 = 100</span></div>' +
+        '<div class="card" style="padding:8px 16px 12px">' + fnHTML + '</div>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>추정 주기능과 부기능</h3><span>' + r.agree + '</span></div>' +
+        '<div class="c2">' +
+          '<div class="c2Lab">유형 기준</div>' +
+          '<div class="c2Main">주기능 <em>' + baseFn + '</em> · 부기능 <em>' + auxFn + '</em></div>' +
+          '<div class="c2Note">측정 상위 기능: ' + measured + '. ' + agreeNote + '</div>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="secT"><h3>경계축</h3><span>10포인트 안쪽</span></div>' +
+        '<div class="chips">' + borderChips + '</div>' +
+        '<p class="typeLine" style="margin:10px 2px 0;font-size:13.2px">보통으로 답한 문항 ' + r.neutralItems.length + '개, 우세와 반대 방향 응답 ' + r.counterItems.length + '개. 이 문항들은 결과 글에 번호로 함께 담겨 나래가 따로 읽습니다.</p>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="btnRow" style="margin-top:4px">' +
+          '<button class="btn" data-act="copy">나래에게 보낼 결과 복사</button>' +
+          '<button class="btn ghost small" data-act="showtext">결과 텍스트 보기</button>' +
+          '<button class="btn ghost small" data-act="restart">처음부터 다시 하기</button>' +
+        '</div>' +
+        '<p class="hint">복사한 뒤 채팅방에 그대로 붙여넣으면 됩니다. 붙여넣기가 막히면 결과 텍스트를 길게 눌러 전체 선택해 주세요.</p>' +
+        '<textarea class="report" id="reportArea" readonly spellcheck="false"></textarea>' +
+      '</div>' +
+
+      '<div class="sec">' +
+        '<div class="c2" style="background:#faf7f0">' +
+          '<div class="c2Lab">읽는 법</div>' +
+          '<div class="c2Note" style="margin-top:0">축 퍼센트가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻이고, 그 자체가 쓸모 있는 정보입니다. 일할 때와 평소의 차이가 큰 축은 역할에 따라 성격이 바뀌는 축입니다. 이 진단은 자기보고식이며 의학적 진단이 아닙니다.</div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function render() {
+    clearTimeout(advanceTimer);
+    if (state.view === 'intro') {
+      view.innerHTML = introHTML();
+      foot.style.display = '';
+    } else if (state.view === 'quiz') {
+      view.innerHTML = quizHTML();
+      foot.style.display = '';
+    } else {
+      view.innerHTML = resultHTML();
+      foot.style.display = '';
+    }
+    updateTopbar();
+    scrollTop();
+  }
+
+  function startQuiz(atIdx) {
+    const first = firstUnanswered();
+    state.view = 'quiz';
+    state.idx = (typeof atIdx === 'number') ? atIdx : (first < 0 ? 0 : first);
+    save();
+    render();
+  }
+
+  function finish() {
+    const missing = firstUnanswered();
+    if (missing >= 0) {
+      state.idx = missing;
+      toast('아직 답하지 않은 문항이 있습니다.');
+      render();
+      return;
+    }
+    lastResult = computeResult(state.answers);
+    state.view = 'result';
+    save();
+    render();
+  }
+
+  function choose(v) {
+    const i = state.idx;
+    state.answers[i] = v;
+    save();
+    if (i >= QUESTIONS.length - 1) {
+      finish();
+      return;
+    }
+    state.idx = i + 1;
+    render();
+  }
+
+  function chooseWithDelay(v) {
+    const i = state.idx;
+    state.answers[i] = v;
+    save();
+    const btns = view.querySelectorAll('.opt');
+    btns.forEach(b => {
+      b.setAttribute('aria-pressed', Number(b.getAttribute('data-v')) === v ? 'true' : 'false');
+    });
+    const nextBtn = view.querySelector('[data-act="next"]');
+    if (nextBtn) nextBtn.disabled = false;
+    updateTopbar();
+    clearTimeout(advanceTimer);
+    advanceTimer = setTimeout(() => {
+      if (i !== state.idx) return;
+      if (i >= QUESTIONS.length - 1) { finish(); }
+      else { state.idx = i + 1; render(); }
+    }, 170);
+  }
+
+  function prev() {
+    if (state.idx === 0) return;
+    state.idx = Math.max(0, state.idx - 1);
+    save();
+    render();
+  }
+
+  function next() {
+    if (state.answers[state.idx] == null) {
+      toast('먼저 답을 골라 주세요.');
+      return;
+    }
+    if (state.idx >= QUESTIONS.length - 1) finish();
+    else { state.idx++; save(); render(); }
+  }
+
+  function reportText() {
+    if (!lastResult) lastResult = computeResult(state.answers);
+    return buildReportText(state.answers, lastResult, new Date());
+  }
+
+  function showReportArea(text) {
+    const area = document.getElementById('reportArea');
+    if (!area) return null;
+    area.value = text;
+    area.classList.add('on');
+    return area;
+  }
+
+  async function copyReport() {
+    const text = reportText();
+    let ok = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      }
+    } catch (e) { ok = false; }
+
+    if (!ok) {
+      try {
+        const area = showReportArea(text);
+        if (area) {
+          area.focus();
+          area.select();
+          area.setSelectionRange(0, text.length);
+          ok = document.execCommand('copy');
+        }
+      } catch (e) { ok = false; }
+    }
+
+    if (ok) {
+      toast('복사했습니다. 채팅방에 붙여넣어 주세요.');
+    } else {
+      const area = showReportArea(text);
+      if (area) {
+        area.focus();
+        area.select();
+        area.setSelectionRange(0, text.length);
+      }
+      toast('복사가 막혔습니다. 아래 글을 길게 눌러 전체 선택해 주세요.');
+    }
+  }
+
+  function restart() {
+    state.answers = new Array(QUESTIONS.length).fill(null);
+    state.idx = 0;
+    state.view = 'intro';
+    state.partial = 0;
+    lastResult = null;
+    clearSaved();
+    render();
+  }
+
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-act]');
+    if (t) {
+      const act = t.getAttribute('data-act');
+      if (act === 'start') startQuiz(0);
+      else if (act === 'resume') startQuiz();
+      else if (act === 'prev') prev();
+      else if (act === 'next') next();
+      else if (act === 'copy') copyReport();
+      else if (act === 'showtext') {
+        const area = showReportArea(reportText());
+        if (area) toast('아래 글을 길게 눌러 전체 선택할 수 있습니다.');
+      }
+      else if (act === 'restart') restart();
+      return;
+    }
+    const opt = e.target.closest('.opt');
+    if (opt) {
+      chooseWithDelay(Number(opt.getAttribute('data-v')));
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (state.view !== 'quiz') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const k = e.key;
+    if (k >= '1' && k <= '5') {
+      e.preventDefault();
+      choose(OPTIONS[Number(k) - 1].v);
+      return;
+    }
+    if (k === 'ArrowLeft') { e.preventDefault(); prev(); }
+    else if (k === 'ArrowRight' || k === 'Enter') {
+      if (document.activeElement && document.activeElement.classList.contains('opt')) return;
+      e.preventDefault();
+      next();
+    }
+  });
+
+  // init
+  const saved = load();
+  if (saved) {
+    state.answers = saved.answers.map(v => (typeof v === 'number' ? v : null));
+    const answered = answeredCount();
+    if (answered === QUESTIONS.length) {
+      lastResult = computeResult(state.answers);
+      state.view = 'result';
+    } else if (answered > 0) {
+      state.idx = Math.min(saved.idx || 0, QUESTIONS.length - 1);
+      state.partial = answered;
+    }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
