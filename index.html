@@ -649,7 +649,7 @@ function buildReportText(answers, r, when) {
     const leftPct = a.aPct, rightPct = a.bPct;
     const note = a.diff === 0
       ? '정확히 반반 · 어느 쪽도 우세하지 않음'
-      : a.letter + ' ' + a.domPct + '% 우세 · ' + a.diff + '포인트 차 · <span class="edge">' + a.level + '</span>';
+      : a.letter + ' ' + a.domPct + '% · ' + a.diff + '포인트 차 · <span class="edge">' + a.level + '</span>';
     return '' +
       '<div class="g">' +
         '<div class="gHead">' +
@@ -719,7 +719,7 @@ function buildReportText(answers, r, when) {
       '</div>' +
 
       '<div class="sec">' +
-        '<div class="secT"><h3>축별 스펙트럼</h3><span>E·S·T·J 가 왼쪽</span></div>' +
+        '<div class="secT"><h3>축별 스펙트럼</h3><span>E·S·T·J가 왼쪽</span></div>' +
         '<div class="card" style="padding-top:6px;padding-bottom:8px">' + axesHTML + '</div>' +
         '<p class="typeLine" style="margin:4px 4px 0;font-size:13.4px">' + mixedLine + '</p>' +
       '</div>' +
