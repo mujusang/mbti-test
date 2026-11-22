@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>검사 상태 준비</title>
+<style>body{font-family:-apple-system,"Apple SD Gothic Neo",sans-serif;padding:24px;line-height:1.6;color:#3b4048;background:#f4f2ec}code{background:#fff;border:1px solid #e6e0d4;border-radius:6px;padding:1px 5px}</style>
+</head>
+<body>
+<p id="msg">저장 상태를 준비하는 중…</p>
+<script>
+/* 검증용 임시 페이지 — ?s=empty|partial|tie|done 로 이 기기의 저장 상태를 만들고 검사 첫 화면으로 넘어간다. */
+(function () {
+  var KEY = 'mbti40.v3';
+  var s = new URLSearchParams(location.search).get('s') || 'empty';
+  function go() {
+    if (s === 'empty') {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      location.replace('./?b=' + Date.now());
+      return;
+    }
+    fetch('index.html?x=' + Date.now())
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        var logic = t.split('/* LOGIC START */')[1].split('/* LOGIC END */')[0];
+        var api = new Function(logic + '\nreturn {QUESTIONS:QUESTIONS, borderKeys:borderKeys};')();
+        var Q = api.QUESTIONS;
+        var answers, idx = 0, tieAnswers = {};
+        if (s === 'partial') {
+          answers = Q.map(function (q, i) { return i < 12 ? 3 : null; });
+          idx = 12;
+        } else if (s === 'tie') {
+          answers = Q.map(function (q) { return q.axis ? 3 : 2; });
+          tieAnswers = { EI: 'E' };
+        } else {
+          /* done — 축마다 확실히 기운 답으로 채운 완료본(ESTJ) */
+          answers = Q.map(function (q) {
+            if (!q.axis) return 3;
+            return 'ESTJ'.indexOf(q.pole) >= 0 ? 1 : 5;
+          });
+        }
+        localStorage.setItem(KEY, JSON.stringify({
+          answers: answers, idx: idx, tieAnswers: tieAnswers, tieIdx: 0
+        }));
+        location.replace('./?b=' + Date.now());
+      })
+      .catch(function (e) { document.getElementById('msg').textContent = '실패: ' + e; });
+  }
+  go();
+})();
+</script>
+</body>
+</html>
