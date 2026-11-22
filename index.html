@@ -870,7 +870,7 @@ function buildReportText(answers, tieAnswers, r, when) {
   if (r.borderAxes.length === 0) {
     L.push('비슷하게 나온 축: 없음 (네 축 모두 10포인트 넘게 갈림)');
   } else {
-    L.push('비슷하게 나온 축: ' + r.borderAxes.map(x => x.def.name + ' (' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + ', ' + x.diff + '포인트)').join(', '));
+    L.push('비슷하게 나온 축: ' + r.borderAxes.map(x => x.def.name + ' (' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + ', ' + (x.diff === 0 ? '반반' : x.diff + '포인트 차') + ')').join(', '));
   }
   L.push('보통으로 답한 문항: ' + (r.neutralItems.length ? r.neutralItems.map(i => i + 1).join(', ') : '없음'));
   L.push('우세와 반대 방향 응답: ' + (r.counterItems.length ? r.counterItems.map(i => i + 1).join(', ') : '없음'));
@@ -1074,7 +1074,7 @@ function buildReportText(answers, tieAnswers, r, when) {
       '<p class="howto">문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 두 문장 가운데 한쪽을 누르면 그쪽으로 <b>완전히</b> 기울인 답이 되고, 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽, 5에 가까울수록 오른쪽 문장입니다. 마지막 여덟 문항은 <b>생각의 결</b>을 보는 문항이라 분위기가 조금 다릅니다. 결과에서는 네 글자 유형과 축별 비율, 일할 때와 평소의 차이, 인지기능 8종, 주기능과 부기능을 확인할 수 있습니다.</p>' +
       '<div class="ctaBlock">' +
         '<div class="btnRow" style="margin-top:0">' + startBtn + '</div>' +
-        '<p class="ctaNote">네 축 가운데 어느 쪽으로도 비슷하게 나온 축이 있으면, 결과로 넘어가기 전에 <b>양자택일 확인 문답</b>이 축마다 한 문항씩 더 나옵니다.</p>' +
+        '<p class="ctaNote">네 축 가운데 어느 쪽으로도 확실히 기울지 않은 축이 있으면, 결과로 넘어가기 전에 <b>양자택일 확인 문답</b>이 축마다 한 문항씩 더 나옵니다.</p>' +
       '</div>';
   }
 
