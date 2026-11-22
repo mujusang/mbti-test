@@ -11,6 +11,7 @@
 <meta property="og:title" content="정밀 성격 유형 진단 · 40문항 + 결정 문답">
 <meta property="og:description" content="장면 속에서 고르는 40문항, 축별 스펙트럼과 일할 때와 평소의 차이, 인지기능 8종, 경계축 결정 문답까지. 결과는 한 번에 복사할 수 있습니다.">
 <meta property="og:locale" content="ko_KR">
+<meta property="og:image" content="https://mujusang.github.io/mbti-test/assets/hero.jpg">
 <meta name="theme-color" content="#f4f2ec">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233d5a80'/%3E%3Crect x='14' y='14' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3Crect x='34' y='14' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='14' y='34' width='16' height='16' rx='4' fill='%23c9b183'/%3E%3Crect x='34' y='34' width='16' height='16' rx='4' fill='%23f4f2ec'/%3E%3C/svg%3E">
 <style>
@@ -283,8 +284,79 @@
   }
   .toast.on{opacity:1;transform:translate(-50%,0);}
 
+  /* intro v2 — 대표 이미지 · 지표 · 16유형 · 팁 */
+  .heroArt{
+    margin:0 0 20px;border-radius:20px;overflow:hidden;
+    border:1px solid var(--line);background:#efe9dd;
+    box-shadow:0 24px 44px -36px rgba(50,40,20,.75);
+  }
+  .heroArt img{display:block;width:100%;height:clamp(206px,52vw,300px);object-fit:cover;object-position:50% 46%;}
+  .hero .btnRow{margin-top:18px;}
+
+  .secHead{margin:28px 2px 11px;}
+  .secHead .kicker{display:block;font-size:10.8px;letter-spacing:.24em;color:var(--b);font-weight:800;text-indent:.24em;margin-bottom:5px;}
+  .secHead h2{font-size:16.6px;margin:0 0 5px;color:var(--ink);font-weight:700;letter-spacing:-.015em;line-height:1.4;word-break:keep-all;}
+  .secHead p{margin:0;font-size:13.1px;color:var(--muted);line-height:1.6;word-break:keep-all;}
+
+  .axWrap{display:grid;gap:9px;}
+  .axCard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 14px 12px;box-shadow:0 1px 0 rgba(60,50,30,.03);}
+  .axHd{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:9px;}
+  .axHd b{font-size:13.6px;color:var(--ink);font-weight:700;letter-spacing:-.01em;}
+  .axHd span{font-size:10.6px;color:#a49c8c;letter-spacing:.02em;text-align:right;}
+  .axTwo{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .axSide{border:1px solid #dfe8f2;background:#f4f8fc;border-radius:12px;padding:9px 10px 10px;}
+  .axSide.r{border-color:#eee2ce;background:#fcf6ec;}
+  .axTop{display:flex;align-items:baseline;gap:6px;}
+  .axTop i{font-style:normal;font-size:15.5px;font-weight:800;color:var(--a);line-height:1;font-variant-numeric:tabular-nums;}
+  .axSide.r .axTop i{color:var(--b);}
+  .axTop b{font-size:12.8px;color:var(--ink);font-weight:700;}
+  .axEn{display:block;font-size:10.4px;color:#9c9484;letter-spacing:.01em;margin-top:3px;}
+  .axSide p{margin:5px 0 0;font-size:12.05px;line-height:1.5;color:var(--body);word-break:keep-all;}
+  .axDiff{margin-top:9px;padding-top:8px;border-top:1px dashed #ece5d6;font-size:11.9px;color:#8a7f6c;text-align:center;word-break:keep-all;}
+  .axDiff b{color:var(--b);font-weight:700;}
+
+  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 11px;}
+  .tabBtn{
+    display:flex;flex-direction:column;align-items:center;gap:1px;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:8px 3px 7px;font-family:inherit;font-size:12.3px;font-weight:700;color:var(--muted);
+    cursor:pointer;-webkit-tap-highlight-color:transparent;
+    transition:background .13s ease,border-color .13s ease,color .13s ease;
+  }
+  .tabBtn span{font-size:10.2px;font-weight:800;letter-spacing:.10em;color:#b3a894;transition:color .13s ease;}
+  .tabBtn:active{transform:translateY(1px);}
+  .tabBtn[aria-selected="true"]{background:var(--a);border-color:var(--a);color:#fff;box-shadow:0 8px 18px -14px rgba(40,60,90,.9);}
+  .tabBtn[aria-selected="true"] span{color:rgba(255,255,255,.74);}
+  .grpDesc{font-size:12.5px;color:var(--muted);margin:0 2px 9px;line-height:1.55;word-break:keep-all;}
+  .tGrid{display:grid;grid-template-columns:1fr;gap:8px;}
+  .tCard{display:flex;align-items:flex-start;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px;}
+  .tCode{flex:0 0 56px;font-size:13.4px;font-weight:800;letter-spacing:.04em;color:var(--a);background:var(--aSoft);border-radius:9px;padding:5px 0;text-align:center;font-variant-numeric:tabular-nums;}
+  .tBody b{display:block;font-size:13.2px;color:var(--ink);font-weight:700;line-height:1.42;word-break:keep-all;}
+  .tBody p{margin:3px 0 0;font-size:12.05px;color:#7f7869;line-height:1.52;word-break:keep-all;}
+  .g-NF .tCode{color:#4b6b52;background:#e7efe6;}
+  .g-SJ .tCode{color:#8a6a3f;background:#f5edde;}
+  .g-SP .tCode{color:#96563f;background:#f8e9e2;}
+
+  .tipList{display:grid;gap:8px;}
+  .tipItem{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px 13px;}
+  .tipNo{flex:0 0 21px;height:21px;border-radius:50%;background:var(--bSoft);color:var(--b);font-size:11.4px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;font-variant-numeric:tabular-nums;}
+  .tipItem b{color:var(--ink);font-weight:700;}
+  .tipItem p{margin:0;font-size:13.05px;line-height:1.58;word-break:keep-all;}
+  .howto{margin:12px 2px 0;font-size:12.35px;color:#8a8272;line-height:1.65;word-break:keep-all;}
+  .howto b{color:var(--b);font-weight:700;}
+  .ctaBlock{margin-top:22px;}
+  .ctaNote{text-align:center;font-size:12.1px;color:var(--muted);margin:10px 0 0;line-height:1.6;word-break:keep-all;}
+  .ctaNote b{color:var(--b);font-weight:700;}
+
+  @media (min-width:520px){
+    .tGrid{grid-template-columns:1fr 1fr;}
+  }
+
   @media (max-width:380px){
     h1{font-size:25px;}
+    .tabBtn{font-size:11.6px;padding:7px 2px;}
+    .axSide p{font-size:11.6px;}
+    .axHd span{font-size:10px;}
     .typeCode{font-size:44px;}
     .scene{font-size:14.2px;}
     .ask{font-size:19.5px;}
@@ -347,8 +419,8 @@ const BANK = {
       l:'무슨 의미인지 해석을 찾는다', r:'그런 꿈도 있구나 하고 넘긴다' },
     { pole:'N', ctx:'work', s:'비슷한 문의가 다섯 건 연달아 들어왔습니다. 내용은 조금씩 다릅니다.',
       l:'공통된 원인이 뭔지 먼저 본다', r:'하나씩 구체적으로 처리한다' },
-    { pole:'S', ctx:'day', s:'주말 여행을 계획합니다. 이틀 뒤 출발입니다.',
-      l:'숙소와 동선을 미리 정해 둔다', r:'가서 정하는 재미를 남긴다' },
+    { pole:'S', ctx:'day', s:'주문한 물건이 도착해 상자를 열었습니다. 포장을 벗겨 냅니다.',
+      l:'재질과 마감을 손으로 만져 확인한다', r:'어디에 어떻게 쓸지 먼저 그려 본다' },
     { pole:'S', ctx:'work', s:'지금까지 해 오던 방식이 있습니다. 누군가 새 방식을 제안합니다.',
       l:'해 보던 방식이 더 편하다', r:'새 방식이 나을 것 같아 해 본다' },
     { pole:'N', ctx:'day', s:'재미있는 이야기를 한 시간째 듣고 있습니다.',
@@ -470,6 +542,41 @@ const TYPE_INFO = {
   ENFJ:{ name:'정의로운 사회운동가', fn:['Fe','Ni'], line:'사람의 가능성을 보고 함께 움직이는 사람입니다.' },
   ENTJ:{ name:'대담한 통솔자', fn:['Te','Ni'], line:'목표를 세우고 판을 키워 결과까지 가는 사람입니다.' }
 };
+
+/* 인트로: 네 축 여덟 지표 안내 */
+const AXIS_GUIDE = [
+  { key:'EI', name:'에너지의 방향', en:'Extraversion / Introversion',
+    a:{ code:'E', ko:'외향', en:'Extraversion', line:'사람과 어울리고 밖으로 나가며 기운을 채운다' },
+    b:{ code:'I', ko:'내향', en:'Introversion', line:'혼자 정리하고 안으로 모으며 기운을 채운다' },
+    diff:'기운이 밖으로 향하는가, 안으로 모으는가' },
+  { key:'SN', name:'정보를 받아들이는 방식', en:'Sensing / iNtuition',
+    a:{ code:'S', ko:'감각', en:'Sensing', line:'보이는 사실과 오감, 겪어 본 경험을 먼저 붙든다' },
+    b:{ code:'N', ko:'직관', en:'iNtuition', line:'그 너머의 의미와 가능성, 큰 그림을 먼저 본다' },
+    diff:'지금 있는 것을 보는가, 될 수 있는 것을 보는가' },
+  { key:'TF', name:'판단하고 결정하는 기준', en:'Thinking / Feeling',
+    a:{ code:'T', ko:'사고', en:'Thinking', line:'논리와 기준, 일관성으로 판단한다' },
+    b:{ code:'F', ko:'감정', en:'Feeling', line:'사람의 마음과 관계의 무게로 판단한다' },
+    diff:'맞고 틀림으로 보는가, 누가 어떻게 되는가로 보는가' },
+  { key:'JP', name:'생활하고 실행하는 양식', en:'Judging / Perceiving',
+    a:{ code:'J', ko:'판단', en:'Judging', line:'미리 정해 두고 끝내야 마음이 놓인다' },
+    b:{ code:'P', ko:'인식', en:'Perceiving', line:'열어 두고 그때그때 맞추는 편이 편하다' },
+    diff:'정해 두고 사는가, 열어 두고 사는가' }
+];
+
+/* 인트로: 기질 넷으로 묶은 16유형 */
+const TYPE_GROUPS = [
+  { key:'NT', name:'분석형', desc:'원리와 구조를 먼저 보고, 가능성을 계산해 움직이는 사람들입니다.', types:['INTJ','INTP','ENTJ','ENTP'] },
+  { key:'NF', name:'외교형', desc:'사람과 의미를 먼저 보고, 관계의 가능성에 마음을 두는 사람들입니다.', types:['INFJ','INFP','ENFJ','ENFP'] },
+  { key:'SJ', name:'관리자형', desc:'경험과 질서를 믿고, 맡은 자리를 끝까지 단단히 지키는 사람들입니다.', types:['ISTJ','ISFJ','ESTJ','ESFJ'] },
+  { key:'SP', name:'탐험가형', desc:'지금 이 순간에 반응하고, 손으로 부딪혀 익히는 사람들입니다.', types:['ISTP','ISFP','ESTP','ESFP'] }
+];
+
+const TIPS = [
+  { b:'이상적인 내가 아니라, 평소의 나', p:'잘하고 싶은 모습이 아니라 <b>평소 가장 자연스럽고 편한 나</b>를 고르세요. 유형은 잘난 사람을 가리는 시험이 아닙니다.' },
+  { b:'일할 때와 쉴 때가 다르면, 집에서의 나', p:'직장에서의 모습과 집에서의 모습이 다르면 <b>집에서 혼자 쉴 때의 나</b>를 기준으로 답하세요. 그쪽이 더 오래된 내 모습입니다.' },
+  { b:'애매하면 3보다 2나 4', p:'둘 다 비슷해도 <b>조금이라도 더 끌리는 쪽</b>을 고르세요. 3만 쌓이면 축이 흐려져 유형이 잘 잡히지 않습니다.' },
+  { b:'생각보다 첫 느낌', p:'오래 재지 말고 <b>직관적으로 떠오르는 첫 느낌</b>대로 빠르게 답하세요. 계산이 들어가면 성격이 아니라 바람이 찍힙니다.' }
+];
 
 const BORDER_LIMIT = 10;   // 축 점수가 50에서 이 값 이내면 경계축으로 보고 결정 문답을 띄운다
 const TIE_WEIGHT = 6;      // 결정 문답 1문항의 무게(보통 문항 3개분, 최대 기여 16점 기준)
@@ -877,6 +984,48 @@ function buildReportText(answers, tieAnswers, r, when) {
 
   function scrollTop() { window.scrollTo({ top: 0, behavior: 'auto' }); }
 
+  let introTab = 'NT';
+
+  function axCardHTML(ax) {
+    const side = (d, cls) =>
+      '<div class="axSide ' + cls + '">' +
+        '<div class="axTop"><i>' + d.code + '</i><b>' + d.ko + '</b></div>' +
+        '<span class="axEn">' + d.en + '</span>' +
+        '<p>' + d.line + '</p>' +
+      '</div>';
+    return '<div class="axCard">' +
+      '<div class="axHd"><b>' + ax.name + '</b><span>' + ax.en + '</span></div>' +
+      '<div class="axTwo">' + side(ax.a, 'l') + side(ax.b, 'r') + '</div>' +
+      '<div class="axDiff"><b>차이</b> · ' + ax.diff + '</div>' +
+    '</div>';
+  }
+
+  function typeTabsHTML() {
+    const on = k => (k === introTab ? 'true' : 'false');
+    const tabs = TYPE_GROUPS.map(g =>
+      '<button class="tabBtn" role="tab" data-act="tab" data-tab="' + g.key + '" aria-selected="' + on(g.key) + '">' + g.name + '<span>' + g.key + '</span></button>'
+    ).join('');
+    const panels = TYPE_GROUPS.map(g =>
+      '<div class="tabPanel g-' + g.key + '" role="tabpanel" data-panel="' + g.key + '"' + (g.key === introTab ? '' : ' hidden') + '>' +
+        '<p class="grpDesc">' + g.desc + '</p>' +
+        '<div class="tGrid">' + g.types.map(code => {
+          const info = TYPE_INFO[code];
+          return '<div class="tCard"><div class="tCode">' + code + '</div><div class="tBody"><b>' + info.name + '</b><p>' + info.line + '</p></div></div>';
+        }).join('') + '</div>' +
+      '</div>'
+    ).join('');
+    return '<div class="tabs" id="typeTabs" role="tablist" aria-label="기질 그룹">' + tabs + '</div>' + panels;
+  }
+
+  function setIntroTab(key) {
+    if (!key) return;
+    introTab = key;
+    const wrap = document.getElementById('typeTabs');
+    if (!wrap) return;
+    wrap.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-tab') === key ? 'true' : 'false'));
+    document.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.getAttribute('data-panel') !== key; });
+  }
+
   function introHTML() {
     const saved = load();
     let resume = '';
@@ -886,31 +1035,44 @@ function buildReportText(answers, tieAnswers, r, when) {
         resume = '<button class="btn ghost small" data-act="resume">이어서 하기 (' + (done + 1) + '번째 문항부터)</button>';
       }
     }
+    const startBtn = '<button class="btn" data-act="start">자세한 검사 시작하기</button>';
     return '' +
-      '<div class="hero">' +
+      '<div class="heroArt">' +
+        '<img src="assets/hero-1200.jpg" srcset="assets/hero-1200.jpg 1200w, assets/hero.jpg 1536w" sizes="(max-width:680px) 92vw, 648px" width="1536" height="1024" alt="사람의 머리 안에 별자리처럼 이어진 성격의 지도를 그린 일러스트">' +
+      '</div>' +
+      '<div class="hero" style="padding-top:4px">' +
         '<div class="eyebrow">정밀 진단 · 40문항</div>' +
         '<h1>네 축이 섞여 있는 사람을 위한<br>성격 유형 진단</h1>' +
-        '<p class="lead">한쪽으로 또렷하게 기울지 않는 사람은 짧은 검사로는 유형이 잘 안 잡힙니다. 이 진단은 <b>장면 속에서 고른 반응</b>으로 <b>축마다 어느 쪽으로 얼마나 기울었는지</b>, <b>일할 때와 평소가 어떻게 다른지</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
+        '<p class="lead" style="margin-bottom:14px">한쪽으로 또렷하게 기울지 않는 사람은 짧은 검사로는 유형이 잘 안 잡힙니다. 이 진단은 <b>장면 속에서 고른 반응</b>으로 <b>축마다 어느 쪽으로 얼마나 기울었는지</b>, <b>일할 때와 평소가 어떻게 다른지</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
+        '<div class="facts"><span class="fact">40문항</span><span class="fact">결정 문답 최대 4문항</span><span class="fact">약 7분</span><span class="fact">결과 한 번에 복사</span></div>' +
+        '<div class="btnRow">' + startBtn + resume + '</div>' +
+        '<p class="hint">답은 이 기기에만 저장됩니다. 중간에 나갔다 와도 이어서 할 수 있습니다.</p>' +
       '</div>' +
-      '<div class="card">' +
-        '<h2>이렇게 답하면 정확합니다</h2>' +
-        '<p>문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 그 장면을 머릿속에 한 번 그려 보고, <b>그 순간 가장 먼저 드는 쪽</b>을 고르세요.</p>' +
-        '<p>두 문장 가운데 한쪽을 그냥 누르면 그쪽으로 <b>완전히</b> 기울었다는 뜻입니다. 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽 문장, 5에 가까울수록 오른쪽 문장입니다.</p>' +
-        '<p>둘 다 비슷하면 3을 고르세요. 다만 애매할 때는 <b>실제로 더 자주 하는 쪽</b>을 떠올리면 답이 갈립니다.</p>' +
-        '<p>마지막 여덟 문항은 <b>생각의 결</b>입니다. 판단할 때 무의식적으로 기대는 방식을 보는 문항이라 분위기가 조금 다릅니다.</p>' +
-        '<div class="facts"><span class="fact">40문항</span><span class="fact">경계축 결정 문답 최대 4문항</span><span class="fact">약 7분</span><span class="fact">결과 한 번에 복사</span></div>' +
+      '<div class="secHead">' +
+        '<span class="kicker">01 지표</span>' +
+        '<h2>MBTI 네 글자, 이렇게 읽습니다</h2>' +
+        '<p>알파벳 하나가 성향의 한쪽을 뜻합니다. 네 축 가운데 어느 쪽에 더 자연스럽게 서 있는지를 봅니다.</p>' +
       '</div>' +
-      '<div class="card">' +
-        '<h2>결과로 보게 되는 것</h2>' +
-        '<p>코어 유형과 검사지 표면 유형, 네 축의 퍼센트와 경계축, 일할 때와 평소의 차이, 인지기능 8종, 추정 주기능과 부기능입니다.</p>' +
-        '<p>축 점수가 50에 가까워 어느 쪽인지 애매한 축이 있으면, 결과로 넘어가기 전에 <b>둘 중 하나를 고르는 결정 문답</b>이 자동으로 나옵니다. 표면 성향과 진짜 판단 코어를 가르는 마지막 한 표입니다.</p>' +
-        '<p><b>결과 복사</b>를 누르면 장면과 고른 답 40개까지 담긴 글이 순수 텍스트로 복사됩니다. 메신저에 그대로 붙여넣거나 다른 사람에게 보여 주면 됩니다.</p>' +
+      '<div class="axWrap">' + AXIS_GUIDE.map(axCardHTML).join('') + '</div>' +
+      '<div class="secHead">' +
+        '<span class="kicker">02 열여섯 유형</span>' +
+        '<h2>16가지 성격유형 한눈에</h2>' +
+        '<p>네 글자가 만드는 열여섯 가지입니다. 기질이 비슷한 넷씩 묶었습니다.</p>' +
       '</div>' +
-      '<div class="btnRow">' +
-        '<button class="btn" data-act="start">진단 시작하기</button>' +
-        resume +
+      typeTabsHTML() +
+      '<div class="secHead">' +
+        '<span class="kicker">03 검사 팁</span>' +
+        '<h2>정확하게 답하는 네 가지</h2>' +
+        '<p>같은 사람도 답하는 태도에 따라 결과가 달라집니다.</p>' +
       '</div>' +
-      '<p class="hint">답은 이 기기에만 저장됩니다. 중간에 나갔다 와도 이어서 할 수 있습니다.</p>';
+      '<div class="tipList">' + TIPS.map((tp, i) =>
+        '<div class="tipItem"><span class="tipNo">' + (i + 1) + '</span><p><b>' + tp.b + '</b> — ' + tp.p + '</p></div>'
+      ).join('') + '</div>' +
+      '<p class="howto">문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 두 문장 가운데 한쪽을 누르면 그쪽으로 <b>완전히</b> 기울인 답이 되고, 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽, 5에 가까울수록 오른쪽 문장입니다. 마지막 여덟 문항은 <b>생각의 결</b>을 보는 문항이라 분위기가 조금 다릅니다. 결과에서는 코어 유형과 검사지 표면 유형, 네 축 퍼센트, 일할 때와 평소의 차이, 인지기능 8종, 추정 주기능과 부기능을 봅니다.</p>' +
+      '<div class="ctaBlock">' +
+        '<div class="btnRow" style="margin-top:0">' + startBtn + '</div>' +
+        '<p class="ctaNote">축 점수가 50에 가까운 축은 결과로 넘어가기 전에 <b>양자택일 결정 문답</b>이 한 번 더 나옵니다.</p>' +
+      '</div>';
   }
 
   function quizHTML() {
@@ -1364,6 +1526,7 @@ function buildReportText(answers, tieAnswers, r, when) {
       const act = t.getAttribute('data-act');
       if (act === 'start') startQuiz(0);
       else if (act === 'resume') startQuiz();
+      else if (act === 'tab') setIntroTab(t.getAttribute('data-tab'));
       else if (act === 'prev') prev();
       else if (act === 'next') next();
       else if (act === 'tieStart') startTie();
