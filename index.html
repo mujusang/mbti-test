@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <!-- build: general-public 40Q scene+tiebreak, 2026-11-22 -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>정밀 성격 유형 진단 · 40문항 + 결정 문답</title>
-<meta name="description" content="장면을 읽고 그 순간 더 자연스러운 쪽을 고르는 정밀 성격 유형 진단. 40문항으로 네 축과 인지기능을 살피고, 경계에 걸린 축은 결정 문답으로 진짜 코어 유형까지 확정합니다.">
+<title>MBTI 성격유형 검사 · 40문항</title>
+<meta name="description" content="일상 속 장면을 읽고 더 자연스러운 쪽을 고르는 40문항 MBTI 성격유형 검사. 네 축의 비율과 일할 때와 평소의 차이, 인지기능 성향, 16유형 해설을 한 번에 확인하고 결과를 복사할 수 있습니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://mujusang.github.io/mbti-test/">
-<meta property="og:title" content="정밀 성격 유형 진단 · 40문항 + 결정 문답">
-<meta property="og:description" content="장면 속에서 고르는 40문항, 축별 스펙트럼과 일할 때와 평소의 차이, 인지기능 8종, 경계축 결정 문답까지. 결과는 한 번에 복사할 수 있습니다.">
+<meta property="og:title" content="MBTI 성격유형 검사 · 40문항">
+<meta property="og:description" content="장면 속에서 고르는 40문항, 축별 비율과 일할 때와 평소의 차이, 인지기능 성향, 16유형 해설까지. 결과는 한 번에 복사할 수 있습니다.">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:image" content="https://mujusang.github.io/mbti-test/assets/hero.jpg">
 <meta name="theme-color" content="#f4f2ec">
@@ -372,11 +372,11 @@
 <body>
 <div class="wrap">
   <div class="topbar" id="topbar">
-    <div class="tbRow"><span class="tbTitle" id="tbTitle">정밀 성격 유형 진단</span><span class="tbCount" id="tbCount">0 / 40</span></div>
+    <div class="tbRow"><span class="tbTitle" id="tbTitle">MBTI 성격유형 검사</span><span class="tbCount" id="tbCount">0 / 40</span></div>
     <div class="tbTrack"><i id="tbFill"></i></div>
   </div>
   <main id="view"></main>
-  <div class="foot" id="foot">자기보고식 성격 진단입니다 · 진단명이 아니라 경향의 지도로 읽어 주세요</div>
+  <div class="foot" id="foot">자기보고식 성격 검사입니다 · 유형은 정답이 아니라 나를 이해하는 지도로 읽어 주세요</div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -468,7 +468,7 @@ const BANK = {
   ]
 };
 
-/* 경계축 결정 문답: 축마다 양자택일 1문항 */
+/* 확인 문답: 축이 비슷하게 나왔을 때 축마다 양자택일 1문항 */
 const TIE = {
   EI: { s:'중요한 문제를 앞두고 마음이 복잡합니다. 결론이 잘 나지 않습니다.', q:'이때, 답이 잡히는 쪽은?',
         a:'사람을 만나 이야기하다 보면 정리된다.', b:'혼자 조용히 정리하는 시간이 있어야 풀린다.' },
@@ -578,7 +578,7 @@ const TIPS = [
   { b:'생각보다 첫 느낌', p:'오래 재지 말고 <b>직관적으로 떠오르는 첫 느낌</b>대로 빠르게 답하세요. 계산이 들어가면 성격이 아니라 바람이 찍힙니다.' }
 ];
 
-const BORDER_LIMIT = 10;   // 축 점수가 50에서 이 값 이내면 경계축으로 보고 결정 문답을 띄운다
+const BORDER_LIMIT = 10;   // 축 점수가 50에서 이 값 이내면 비슷하게 나온 축으로 보고 확인 문답을 띄운다
 const TIE_WEIGHT = 6;      // 결정 문답 1문항의 무게(보통 문항 3개분, 최대 기여 16점 기준)
 
 function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
@@ -606,7 +606,7 @@ function axisScore(answers, key, ctx) {
 }
 
 function levelOf(diff) {
-  if (diff <= 5) return '경계에 걸침';
+  if (diff <= 5) return '비슷함';
   if (diff <= 10) return '약한 우세';
   return '뚜렷한 우세';
 }
@@ -748,39 +748,39 @@ function answerText(q, v) {
   return v + ' · ' + side + ' 쪽 (' + ((v === 1 || v === 5) ? '완전히' : '가까이') + ')';
 }
 
-/* 코어 해석 문장 만들기 */
+/* 해석 문장 만들기 */
 function buildInsight(r) {
   const paras = [];
 
   if (r.flippedAxes.length) {
-    paras.push('검사지 표면으로는 ' + r.surfaceType + '였지만, 결정 문답에서 축 ' + knum(r.flippedAxes.length) + ' 개가 뒤집혀 코어는 ' + r.type + '입니다. 점수가 비슷할 때 마지막 한 표를 어디에 두느냐가 진짜 판단 방식을 가릅니다.');
+    paras.push('40문항만으로는 ' + r.surfaceType + '로 나왔지만, 확인 문답에서 축 ' + knum(r.flippedAxes.length) + ' 개가 뒤집혀 최종 유형은 ' + r.type + '입니다. 점수가 비슷할 때 마지막 한 표를 어디에 두느냐가 실제 판단 방식을 가릅니다.');
   } else if (r.borderAxes.length) {
-    paras.push('경계에 걸린 축 ' + knum(r.borderAxes.length) + ' 개가 결정 문답에서 검사지와 같은 쪽으로 확인되었습니다. 표면과 코어가 같은 ' + r.type + '으로 읽힙니다.');
+    paras.push('비슷하게 나온 축 ' + knum(r.borderAxes.length) + ' 개가 확인 문답에서도 40문항과 같은 쪽으로 확인되었습니다. 최종 유형은 ' + r.type + '입니다.');
   } else {
-    paras.push('네 축 모두 10포인트 넘게 갈려 결정 문답 없이 코어가 정해졌습니다. 결과는 ' + r.type + '입니다.');
+    paras.push('네 축 모두 10포인트 넘게 갈려 확인 문답 없이 유형이 정해졌습니다. 결과는 ' + r.type + '입니다.');
   }
 
   r.flippedAxes.forEach(x => {
-    let s = x.def.name + ' 축은 결정 문답에서 ' + x.letter + ro(x.letter) + ' 확정되었습니다. 검사지 점수는 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 기울어 있었지만, 마지막 문답이 방향을 바꿨습니다.';
+    let s = x.def.name + ' 축은 확인 문답에서 ' + x.letter + ro(x.letter) + ' 확정되었습니다. 40문항 점수는 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 기울어 있었지만, 마지막 문답이 방향을 바꿨습니다.';
     if (x.workLetter === x.letter && x.dayLetter !== x.letter) {
-      s += ' 일·공부할 때의 방식(' + x.letter + ')이 판단의 코어이고, 평소의 ' + x.dayLetter + '는 편안할 때 드러나는 표면 성향입니다.';
+      s += ' 일·공부할 때의 방식(' + x.letter + ')이 판단의 중심이고, 평소의 ' + x.dayLetter + '는 편안할 때 드러나는 모습입니다.';
     } else if (x.dayLetter === x.letter && x.workLetter !== x.letter) {
-      s += ' 평소의 방식(' + x.letter + ')이 코어이고, 일·공부할 때는 상황에 맞춰 ' + x.workLetter + ro(x.workLetter) + ' 움직입니다.';
+      s += ' 평소의 방식(' + x.letter + ')이 중심이고, 일·공부할 때는 상황에 맞춰 ' + x.workLetter + ro(x.workLetter) + ' 움직입니다.';
     }
     paras.push(s);
   });
 
   r.confirmedAxes.forEach(x => {
     if (x.surfaceEven) {
-      paras.push(x.def.name + ' 축은 검사지에서 정확히 반반이었고, 결정 문답에서 ' + x.letter + ro(x.letter) + ' 확정되었습니다. 숫자만으로는 알 수 없던 부분입니다.');
+      paras.push(x.def.name + ' 축은 40문항에서 정확히 반반이었고, 확인 문답에서 ' + x.letter + ro(x.letter) + ' 확정되었습니다. 숫자만으로는 알 수 없던 부분입니다.');
     } else {
-      paras.push(x.def.name + ' 축은 검사지에서 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 앞섰는데, 결정 문답에서도 ' + x.letter + ' 쪽으로 확인되었습니다. 이 축은 ' + x.letter + ' 성향이 맞습니다.');
+      paras.push(x.def.name + ' 축은 40문항에서 ' + x.surfaceLetter + ' 쪽으로 ' + x.diff + '포인트 앞섰는데, 확인 문답에서도 ' + x.letter + ' 쪽으로 확인되었습니다. 이 축은 ' + x.letter + ' 성향이 맞습니다.');
     }
   });
 
   const swing = r.axes.filter(x => Math.abs(x.workA - x.dayA) >= 12);
   if (swing.length) {
-    paras.push('일·공부할 때와 평소의 기울기가 크게 다른 축이 ' + knum(swing.length) + ' 개입니다(' + swing.map(x => x.def.name).join(', ') + '). 상황에 따라 성향이 바뀌는 이중 엔진으로, 어느 한 장면만 보고 판단하면 유형을 잘못 잡기 쉽습니다.');
+    paras.push('일·공부할 때와 평소의 기울기가 크게 다른 축이 ' + knum(swing.length) + ' 개입니다(' + swing.map(x => x.def.name).join(', ') + '). 상황에 따라 다르게 쓰는 축이라, 한 장면만 보고 판단하면 유형을 잘못 잡기 쉽습니다.');
   }
 
   if (r.agree === '불일치') {
@@ -796,31 +796,31 @@ function sideLabel(x, p) {
 }
 
 function desiredLine(x) {
-  const base = '검사지 ' + x.def.a + ' ' + x.aPct + '% / ' + x.def.b + ' ' + x.bPct + '%';
+  const base = '40문항 ' + x.def.a + ' ' + x.aPct + '% / ' + x.def.b + ' ' + x.bPct + '%';
   if (!x.tiePole) return x.def.name + ': ' + base + ', ' + x.level;
-  const tag = x.flipped ? '표면과 뒤집힘' : (x.surfaceEven ? '반반에서 확정' : '표면과 같음');
-  return x.def.name + ': ' + base + ' → 결정 문답 반영 ' + x.letter + ' ' + x.sidePct + '%, ' + tag;
+  const tag = x.flipped ? '40문항과 뒤집힘' : (x.surfaceEven ? '반반에서 확정' : '40문항과 같음');
+  return x.def.name + ': ' + base + ' → 확인 문답 반영 ' + x.letter + ' ' + x.sidePct + '%, ' + tag;
 }
 
 function buildReportText(answers, tieAnswers, r, when) {
   const L = [];
-  L.push('[성격 유형 정밀 진단 결과]');
-  L.push('코어 유형: ' + r.type + ' (' + r.typeInfo.name + ')');
-  if (r.surfaceType !== r.type) L.push('검사지 표면 유형: ' + r.surfaceType + ' (' + r.surfaceInfo.name + ')');
-  L.push('진단 일시: ' + koreanDateTime(when));
-  L.push('구성: 40문항' + (r.tieCount ? ' + 결정 문답 ' + knum(r.tieCount) + ' 문항' : '') + '. 문항마다 장면을 읽고 두 반응 중 더 자연스러운 쪽을 5단계로 골랐습니다 (1 왼쪽 반응에 완전히, 3 반반, 5 오른쪽 반응에 완전히).');
+  L.push('[MBTI 성격유형 검사 결과]');
+  L.push('유형: ' + r.type + ' (' + r.typeInfo.name + ')');
+  if (r.surfaceType !== r.type) L.push('40문항 기준 유형: ' + r.surfaceType + ' (' + r.surfaceInfo.name + ')');
+  L.push('검사 일시: ' + koreanDateTime(when));
+  L.push('구성: 40문항' + (r.tieCount ? ' + 확인 문답 ' + knum(r.tieCount) + ' 문항' : '') + '. 문항마다 장면을 읽고 두 반응 중 더 자연스러운 쪽을 5단계로 골랐습니다 (1 왼쪽 반응에 완전히, 3 반반, 5 오른쪽 반응에 완전히).');
   L.push('');
 
   L.push('■ 핵심 해석');
   buildInsight(r).forEach(p => L.push(p));
   L.push('');
 
-  L.push('■ 축별 점수 (결정 문답 반영)');
+  L.push('■ 축별 점수 (확인 문답 반영)');
   r.axes.forEach(x => L.push(desiredLine(x)));
   L.push('');
 
   if (r.tieCount) {
-    L.push('■ 결정 문답 (경계축 확정)');
+    L.push('■ 확인 문답 (비슷한 축 확정)');
     let k = 0;
     r.borderAxes.forEach(x => {
       k++;
@@ -829,7 +829,7 @@ function buildReportText(answers, tieAnswers, r, when) {
       L.push('문답 ' + k + '. [' + x.def.name + '] ' + t.s);
       L.push('   물음: ' + t.q);
       L.push('   고른 답: ' + pick);
-      L.push('   결과: ' + x.letter + ' 확정, ' + (x.flipped ? '표면 ' + x.surfaceLetter + '에서 뒤집힘' : (x.surfaceEven ? '검사지에서 반반이던 축' : '표면과 같음')));
+      L.push('   결과: ' + x.letter + ' 확정, ' + (x.flipped ? '40문항 ' + x.surfaceLetter + '에서 뒤집힘' : (x.surfaceEven ? '40문항에서 반반이던 축' : '40문항과 같음')));
     });
     L.push('');
   }
@@ -863,11 +863,11 @@ function buildReportText(answers, tieAnswers, r, when) {
   L.push('측정 상위: ' + r.top.map(c => c + ' ' + FN_NAME[c]).join(', ') + ' → 유형 기준과 ' + r.agree);
   L.push('');
 
-  L.push('■ 경계축과 응답 습관');
+  L.push('■ 비슷하게 나온 축과 응답 습관');
   if (r.borderAxes.length === 0) {
-    L.push('경계축: 없음 (네 축 모두 10포인트 넘게 갈림)');
+    L.push('비슷하게 나온 축: 없음 (네 축 모두 10포인트 넘게 갈림)');
   } else {
-    L.push('경계축: ' + r.borderAxes.map(x => x.def.name + ' (' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + ', ' + x.diff + '포인트)').join(', '));
+    L.push('비슷하게 나온 축: ' + r.borderAxes.map(x => x.def.name + ' (' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + ', ' + x.diff + '포인트)').join(', '));
   }
   L.push('보통으로 답한 문항: ' + (r.neutralItems.length ? r.neutralItems.map(i => i + 1).join(', ') : '없음'));
   L.push('우세와 반대 방향 응답: ' + (r.counterItems.length ? r.counterItems.map(i => i + 1).join(', ') : '없음'));
@@ -881,7 +881,7 @@ function buildReportText(answers, tieAnswers, r, when) {
     L.push('   답: ' + answerText(q, answers[i]));
   });
   L.push('');
-  L.push('자기보고식 진단이며 의학적 진단이 아닙니다. 축 점수가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻입니다.');
+  L.push('자기보고식 검사이며 의학적 진단이 아닙니다. 축 점수가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻입니다.');
 
   return L.join('\n');
 }
@@ -958,25 +958,25 @@ function buildReportText(answers, tieAnswers, r, when) {
     if (state.view === 'intro') { topbar.classList.remove('on'); return; }
     topbar.classList.add('on');
     if (state.view === 'result') {
-      tbTitle.textContent = '진단 완료';
+      tbTitle.textContent = '검사 완료';
       tbCount.textContent = QUESTIONS.length + ' / ' + QUESTIONS.length;
       tbFill.style.width = '100%';
       return;
     }
     if (state.view === 'tieIntro') {
-      tbTitle.textContent = '결정 문답';
+      tbTitle.textContent = '확인 문답';
       tbCount.textContent = state.tieList.length + '문항 남음';
       tbFill.style.width = '100%';
       return;
     }
     if (state.view === 'tie') {
-      tbTitle.textContent = '결정 문답';
+      tbTitle.textContent = '확인 문답';
       const done = tieAnswered();
       tbCount.textContent = done + ' / ' + state.tieList.length;
       tbFill.style.width = (state.tieList.length ? (done / state.tieList.length * 100) : 100) + '%';
       return;
     }
-    tbTitle.textContent = '정밀 성격 유형 진단';
+    tbTitle.textContent = 'MBTI 성격유형 검사';
     const n = answeredCount();
     tbCount.textContent = n + ' / ' + QUESTIONS.length;
     tbFill.style.width = (n / QUESTIONS.length * 100) + '%';
@@ -1035,16 +1035,16 @@ function buildReportText(answers, tieAnswers, r, when) {
         resume = '<button class="btn ghost small" data-act="resume">이어서 하기 (' + (done + 1) + '번째 문항부터)</button>';
       }
     }
-    const startBtn = '<button class="btn" data-act="start">자세한 검사 시작하기</button>';
+    const startBtn = '<button class="btn" data-act="start">검사 시작하기</button>';
     return '' +
       '<div class="heroArt">' +
         '<img src="assets/hero-1200.jpg" srcset="assets/hero-1200.jpg 1200w, assets/hero.jpg 1536w" sizes="(max-width:680px) 92vw, 648px" width="1536" height="1024" alt="사람의 머리 안에 별자리처럼 이어진 성격의 지도를 그린 일러스트">' +
       '</div>' +
       '<div class="hero" style="padding-top:4px">' +
-        '<div class="eyebrow">정밀 진단 · 40문항</div>' +
-        '<h1>네 축이 섞여 있는 사람을 위한<br>성격 유형 진단</h1>' +
-        '<p class="lead" style="margin-bottom:14px">한쪽으로 또렷하게 기울지 않는 사람은 짧은 검사로는 유형이 잘 안 잡힙니다. 이 진단은 <b>장면 속에서 고른 반응</b>으로 <b>축마다 어느 쪽으로 얼마나 기울었는지</b>, <b>일할 때와 평소가 어떻게 다른지</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
-        '<div class="facts"><span class="fact">40문항</span><span class="fact">결정 문답 4문항</span><span class="fact">약 7분</span><span class="fact">결과 복사</span></div>' +
+        '<div class="eyebrow">MBTI 성격유형 검사 · 40문항</div>' +
+        '<h1>나를 이해하는<br>MBTI 성격유형 검사</h1>' +
+        '<p class="lead" style="margin-bottom:14px">일상 속 구체적인 장면을 떠올리며 답하면 내 성향이 어느 쪽으로 얼마나 기울었는지 또렷하게 확인할 수 있습니다. 이 검사는 <b>장면 속에서 고른 반응</b>으로 <b>네 축의 비율</b>, <b>일할 때와 평소의 차이</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
+        '<div class="facts"><span class="fact">40문항</span><span class="fact">약 7분</span><span class="fact">16유형 해설</span><span class="fact">결과 복사</span></div>' +
         '<div class="btnRow">' + startBtn + resume + '</div>' +
         '<p class="hint">답은 이 기기에만 저장됩니다. 중간에 나갔다 와도 이어서 할 수 있습니다.</p>' +
       '</div>' +
@@ -1068,10 +1068,10 @@ function buildReportText(answers, tieAnswers, r, when) {
       '<div class="tipList">' + TIPS.map((tp, i) =>
         '<div class="tipItem"><span class="tipNo">' + (i + 1) + '</span><p><b>' + tp.b + '</b> — ' + tp.p + '</p></div>'
       ).join('') + '</div>' +
-      '<p class="howto">문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 두 문장 가운데 한쪽을 누르면 그쪽으로 <b>완전히</b> 기울인 답이 되고, 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽, 5에 가까울수록 오른쪽 문장입니다. 마지막 여덟 문항은 <b>생각의 결</b>을 보는 문항이라 분위기가 조금 다릅니다. 결과에서는 코어 유형과 검사지 표면 유형, 네 축 퍼센트, 일할 때와 평소의 차이, 인지기능 8종, 추정 주기능과 부기능을 봅니다.</p>' +
+      '<p class="howto">문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 두 문장 가운데 한쪽을 누르면 그쪽으로 <b>완전히</b> 기울인 답이 되고, 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽, 5에 가까울수록 오른쪽 문장입니다. 마지막 여덟 문항은 <b>생각의 결</b>을 보는 문항이라 분위기가 조금 다릅니다. 결과에서는 네 글자 유형과 축별 비율, 일할 때와 평소의 차이, 인지기능 8종, 주기능과 부기능을 확인할 수 있습니다.</p>' +
       '<div class="ctaBlock">' +
         '<div class="btnRow" style="margin-top:0">' + startBtn + '</div>' +
-        '<p class="ctaNote">축 점수가 50에 가까운 축은 결과로 넘어가기 전에 <b>양자택일 결정 문답</b>이 한 번 더 나옵니다.</p>' +
+        '<p class="ctaNote">네 축 가운데 어느 쪽으로도 비슷하게 나온 축이 있으면, 결과로 넘어가기 전에 <b>양자택일 확인 문답</b>이 축마다 한 문항씩 더 나옵니다.</p>' +
       '</div>';
   }
 
@@ -1113,16 +1113,16 @@ function buildReportText(answers, tieAnswers, r, when) {
     }).join('');
     return '' +
       '<div class="hero" style="padding-bottom:0">' +
-        '<div class="eyebrow">결정 문답</div>' +
-        '<h1 style="font-size:25px">축 ' + knum(state.tieList.length) + ' 개가 경계에 걸렸습니다</h1>' +
-        '<p class="lead" style="margin-bottom:6px">40문항만으로는 어느 쪽이 진짜인지 가를 수 없는 축입니다. 축마다 <b>둘 중 하나만</b> 고르는 문항이 하나씩 나옵니다. 마지막 한 표가 표면 성향과 판단 코어를 가릅니다.</p>' +
+        '<div class="eyebrow">확인 문답</div>' +
+        '<h1 style="font-size:25px">축 ' + knum(state.tieList.length) + ' 개가 비슷하게 나왔습니다</h1>' +
+        '<p class="lead" style="margin-bottom:6px">40문항만으로는 어느 쪽이 더 가까운지 가르기 어려운 축입니다. 축마다 <b>둘 중 하나만</b> 고르는 문항이 한 문항씩 나옵니다. 이 한 표가 내 성향을 조금 더 정확하게 정해 줍니다.</p>' +
       '</div>' +
       '<div class="card">' +
-        '<h2>경계에 걸린 축</h2>' +
+        '<h2>비슷하게 나온 축</h2>' +
         '<div class="tieList">' + list + '</div>' +
       '</div>' +
       '<div class="btnRow">' +
-        '<button class="btn" data-act="tieStart">결정 문답 ' + state.tieList.length + '문항 시작</button>' +
+        '<button class="btn" data-act="tieStart">확인 문답 ' + state.tieList.length + '문항 시작</button>' +
       '</div>' +
       '<p class="hint">이번에는 중간이 없습니다. 실제로 결정을 내릴 때 더 자주 쓰는 쪽을 고르세요.</p>';
   }
@@ -1140,7 +1140,7 @@ function buildReportText(answers, tieAnswers, r, when) {
     };
     return '' +
       '<div class="qWrap">' +
-        '<div class="qTagRow"><span class="qTag tie">결정 문답 · ' + def.name + '</span><span class="qNum">' + (state.tieIdx + 1) + ' / ' + state.tieList.length + '</span></div>' +
+        '<div class="qTagRow"><span class="qTag tie">확인 문답 · ' + def.name + '</span><span class="qNum">' + (state.tieIdx + 1) + ' / ' + state.tieList.length + '</span></div>' +
         '<p class="scene">' + t.s + '</p>' +
         '<p class="ask">' + t.q + '</p>' +
         '<div class="tieOpts">' + mk(def.a, t.a) + mk(def.b, t.b) + '</div>' +
@@ -1156,10 +1156,10 @@ function buildReportText(answers, tieAnswers, r, when) {
     const rightPct = 100 - leftPct;
     const leftIsDom = a.letter === a.def.a;
     const note = a.letter + ' ' + a.sidePct + '% · ' + a.finalDiff + '포인트 차' +
-      (a.tiePole ? ' · <span class="edge">결정 문답 반영</span>' : ' · ' + a.level);
+      (a.tiePole ? ' · <span class="edge">확인 문답 반영</span>' : ' · ' + a.level);
     const sub = a.tiePole
-      ? '검사지 ' + a.def.a + ' ' + a.aPct + '% / ' + a.def.b + ' ' + a.bPct + '%' +
-        (a.flipped ? ' → 코어 ' + a.letter + ro(a.letter) + ' 뒤집힘' : (a.surfaceEven ? ' → 반반에서 ' + a.letter + ro(a.letter) + ' 확정' : ' → 그대로 유지'))
+      ? '40문항 ' + a.def.a + ' ' + a.aPct + '% / ' + a.def.b + ' ' + a.bPct + '%' +
+        (a.flipped ? ' → 최종 ' + a.letter + ro(a.letter) + ' 뒤집힘' : (a.surfaceEven ? ' → 반반에서 ' + a.letter + ro(a.letter) + ' 확정' : ' → 그대로 유지'))
       : '';
     return '' +
       '<div class="g">' +
@@ -1201,8 +1201,8 @@ function buildReportText(answers, tieAnswers, r, when) {
     const pick = x.tiePole === def.a ? t.a : t.b;
     const stateCls = x.flipped ? 'flip' : (x.surfaceEven ? 'settle' : 'keep');
     const stateText = x.flipped
-      ? '표면 ' + x.surfaceLetter + '에서 코어 ' + x.letter + ro(x.letter) + ' 뒤집힘'
-      : (x.surfaceEven ? '반반에서 ' + x.letter + ro(x.letter) + ' 확정' : '표면과 같은 ' + x.letter + ro(x.letter) + ' 확인');
+      ? '40문항 ' + x.surfaceLetter + '에서 최종 ' + x.letter + ro(x.letter) + ' 뒤집힘'
+      : (x.surfaceEven ? '반반에서 ' + x.letter + ro(x.letter) + ' 확정' : '40문항과 같은 ' + x.letter + ro(x.letter) + ' 확인');
     return '' +
       '<div class="tieCard">' +
         '<div class="axisLab">' + def.name + ' · ' + x.def.a + ' ' + x.aPct + ' / ' + x.def.b + ' ' + x.bPct + '</div>' +
@@ -1228,10 +1228,10 @@ function buildReportText(answers, tieAnswers, r, when) {
 
     const cmpHTML = r.borderAxes.length
       ? '<div class="cmpCard">' +
-          '<div class="cmpRow"><span class="k">검사지 표면</span><span class="v">' + r.surfaceType + '</span><span class="cmpArrow">→ 결정 문답 반영</span><span class="v core">' + r.type + '</span></div>' +
+          '<div class="cmpRow"><span class="k">40문항 결과</span><span class="v">' + r.surfaceType + '</span><span class="cmpArrow">→ 확인 문답 반영</span><span class="v core">' + r.type + '</span></div>' +
           '<div class="c2Note">' + (r.flippedAxes.length
-            ? '결정 문답에서 뒤집힌 축: ' + r.flippedAxes.map(x => x.def.name).join(', ')
-            : '경계축이 모두 결정 문답으로 확정되었습니다.') + '</div>' +
+            ? '확인 문답에서 뒤집힌 축: ' + r.flippedAxes.map(x => x.def.name).join(', ')
+            : '비슷하게 나온 축이 모두 확인 문답으로 정해졌습니다.') + '</div>' +
         '</div>'
       : '';
 
@@ -1242,21 +1242,21 @@ function buildReportText(answers, tieAnswers, r, when) {
       ? '측정 상위 기능이 유형 기준 주기능과 일치합니다. 응답이 안정적이라는 신호입니다.'
       : (r.agree === '부분 일치'
         ? '측정 상위 기능에 유형 기준 주기능이 들어 있습니다. 부기능 쪽에서 흔들린 응답이 있다는 뜻입니다.'
-        : '측정 상위 기능이 유형 기준 주기능과 다릅니다. 경계축이 많은 사람에게서 흔한 결과이고, 두 후보 유형을 함께 읽을 신호입니다.');
+        : '측정한 상위 기능이 유형 기준 주기능과 다릅니다. 축이 비슷하게 나온 경우에 흔한 결과이고, 두 후보 유형을 함께 읽어 보라는 신호입니다.');
 
     const mixedLine = r.mixedCount === 0
-      ? '네 축 모두 10포인트 넘게 갈려 결정 문답 없이 코어가 정해졌습니다.'
+      ? '네 축 모두 10포인트 넘게 갈려 확인 문답 없이 유형이 정해졌습니다.'
       : (r.mixedCount >= 3
-        ? '네 축 가운데 ' + knum(r.mixedCount) + ' 개가 경계나 약한 우세입니다. 어느 한 유형으로 단정하기보다 장면별로 달라지는 폭을 보는 편이 맞습니다.'
-        : '경계축이 ' + knum(r.mixedCount) + ' 개입니다. 우세한 축은 비교적 또렷하고, 경계축은 결정 문답으로 확정했습니다.');
+        ? '네 축 가운데 ' + knum(r.mixedCount) + ' 개가 비슷하게 나왔습니다. 한 유형으로 단정하기보다 장면에 따라 달라지는 폭을 함께 보는 편이 좋습니다.'
+        : '비슷하게 나온 축이 ' + knum(r.mixedCount) + ' 개입니다. 뚜렷한 축은 그대로 두고, 비슷한 축만 확인 문답으로 정했습니다.');
 
     const badgeRow = r.borderAxes.length
       ? r.borderAxes.map(x => '<span class="badge ' + (x.flipped ? 'flip' : (x.surfaceEven ? 'settle' : 'keep')) + '">' + x.def.name + ' ' + (x.flipped ? '뒤집힘 ' : (x.surfaceEven ? '확정 ' : '확인 ')) + x.letter + '</span>').join('')
-      : '<span class="badge none">경계축 없음</span>';
+      : '<span class="badge none">추가 확인 없음</span>';
 
     return '' +
       '<div class="resTop">' +
-        '<div class="resKicker">' + (r.borderAxes.length ? '결정 문답 반영 코어' : '진단 결과') + '</div>' +
+        '<div class="resKicker">' + (r.borderAxes.length ? '확인 문답 반영 유형' : '검사 결과') + '</div>' +
         '<div class="typeCode">' + r.type + '</div>' +
         '<div class="typeName">' + r.typeInfo.name + '</div>' +
         '<p class="typeLine">' + r.typeInfo.line + '</p>' +
@@ -1265,20 +1265,20 @@ function buildReportText(answers, tieAnswers, r, when) {
       (cmpHTML ? '<div class="sec" style="margin-top:14px">' + cmpHTML + '</div>' : '') +
 
       '<div class="sec">' +
-        '<div class="secT"><h3>핵심 해석</h3><span>' + (r.borderAxes.length ? '경계축 반영' : '축 확정') + '</span></div>' +
+        '<div class="secT"><h3>핵심 해석</h3><span>' + (r.borderAxes.length ? '확인 문답 반영' : '축 확정') + '</span></div>' +
         '<div class="c2">' + insight.map(p => '<div class="c2Note insightP" style="margin-top:0;color:var(--body);font-size:13.8px">' + p + '</div>').join('') + '</div>' +
       '</div>' +
 
       '<div class="sec">' +
         '<div class="secT"><h3>축별 스펙트럼</h3><span>E·S·T·J가 왼쪽</span></div>' +
         '<div class="card" style="padding-top:6px;padding-bottom:8px">' + axesHTML + '</div>' +
-        '<p class="legend">가는 세로선이 검사지 점수, 막대가 결정 문답까지 반영한 코어 점수입니다.</p>' +
+        '<p class="legend">가는 세로선이 40문항 점수, 막대가 확인 문답까지 반영한 최종 점수입니다.</p>' +
         '<p class="typeLine" style="margin:8px 4px 0;font-size:13.4px">' + mixedLine + '</p>' +
       '</div>' +
 
       (r.borderAxes.length
         ? '<div class="sec">' +
-            '<div class="secT"><h3>결정 문답</h3><span>경계축 ' + r.borderAxes.length + '문항</span></div>' +
+            '<div class="secT"><h3>확인 문답</h3><span>비슷하게 나온 축 ' + r.borderAxes.length + '문항</span></div>' +
             '<div class="card" style="padding:6px 16px 10px"><div class="tieList2">' + r.borderAxes.map(tieCardHTML).join('') + '</div></div>' +
             '<div class="badgeRow" style="margin-top:10px">' + badgeRow + '</div>' +
           '</div>'
@@ -1304,10 +1304,10 @@ function buildReportText(answers, tieAnswers, r, when) {
       '</div>' +
 
       '<div class="sec">' +
-        '<div class="secT"><h3>경계축과 응답 습관</h3><span>10포인트 안쪽</span></div>' +
+        '<div class="secT"><h3>비슷하게 나온 축과 응답 습관</h3><span>50에서 10포인트 안쪽</span></div>' +
         '<div class="chips">' + (r.borderAxes.length
           ? r.borderAxes.map(x => '<span class="chip2">' + x.def.name + ' ' + x.def.a + ' ' + x.aPct + ' · ' + x.def.b + ' ' + x.bPct + '</span>').join('')
-          : '<span class="chip3">경계축 없음</span>') + '</div>' +
+          : '<span class="chip3">없음</span>') + '</div>' +
         '<p class="typeLine" style="margin:10px 2px 0;font-size:13.2px">보통으로 답한 문항 ' + r.neutralItems.length + '개, 우세와 반대 방향 응답 ' + r.counterItems.length + '개. 두 목록의 문항 번호는 결과 글에 함께 담겨 나옵니다.</p>' +
       '</div>' +
 
@@ -1324,7 +1324,7 @@ function buildReportText(answers, tieAnswers, r, when) {
       '<div class="sec">' +
         '<div class="c2" style="background:#faf7f0">' +
           '<div class="c2Lab">읽는 법</div>' +
-          '<div class="c2Note" style="margin-top:0">축 퍼센트가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻이고, 그 자체가 쓸모 있는 정보입니다. 일할 때와 평소의 차이가 큰 축은 역할에 따라 성격이 바뀌는 축입니다. 결정 문답은 양자택일이라 무게를 세 문항분으로 두었습니다. 이 진단은 자기보고식이며 의학적 진단이 아닙니다.</div>' +
+          '<div class="c2Note" style="margin-top:0">축 퍼센트가 50에 가까울수록 장면에 따라 양쪽이 다 나타난다는 뜻이고, 그 자체도 쓸모 있는 정보입니다. 일할 때와 평소의 차이가 큰 축은 역할에 따라 다르게 쓰는 축입니다. 확인 문답은 둘 중 하나를 고르는 문항이라 무게를 세 문항분으로 두었습니다. 이 검사는 자기보고식이며 의학적 진단이 아닙니다.</div>' +
         '</div>' +
       '</div>';
   }
