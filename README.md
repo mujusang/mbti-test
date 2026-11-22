@@ -13,10 +13,12 @@
 ## 페이지
 
 - `index.html` — 일반사람용. 가족·지인·누구나 쓰는 판.
+- `items.html` — 40문항 인쇄·열람용 문항지(첫 화면 아래 '문항지만 보기'로 연결).
 - `clinic.html` — 진료실·한의사 맥락 표현이 들어간 이전 판(보관용).
 
 주소
 - 일반사람용: https://mujusang.github.io/mbti-test/
+- 문항지: https://mujusang.github.io/mbti-test/items.html
 - 보관용: https://mujusang.github.io/mbti-test/clinic.html
 
 ## 문항 방식
@@ -37,8 +39,16 @@
 
 자기보고식 검사이며 의학적 진단이 아닙니다.
 
+## 저장과 다시 열기
+
+- 링크를 열면 그 기기에 남은 답안·결과가 있어도 **항상 첫 화면(인트로)** 에서 시작합니다. 지인에게 보내거나 폰을 건네쓸 때 앞사람 결과가 먼저 뜨지 않습니다.
+- 완료된 결과가 저장돼 있으면 첫 화면 아래 `지난 검사 결과 보기`를 눌렀을 때만 그 결과가 열립니다.
+- 검사 도중 닫은 경우에는 첫 화면에서 `이어서 하기 (N번째 문항부터)`와 `처음부터 하기` 가운데 고릅니다. 확인 문답만 남았으면 `이어서 하기 (확인 문답부터)`가 나옵니다.
+- `검사 시작하기`·`처음부터 하기`는 이 기기의 저장분을 지우고 1번 문항부터 새로 시작합니다.
+- 답안은 그 기기의 localStorage(`mbti40.v3`)에만 저장되며 서버로 보내지 않습니다.
+
 ## 배포
 
     ./deploy.sh mbti-test
 
-deploy.sh가 index.html·clinic.html·README.md·assets/를 복제해 push하고, Pages 상태와 본문·대표 이미지 응답을 확인합니다.
+deploy.sh가 index.html·items.html·clinic.html·README.md·assets/를 복제해 push하고, Pages 상태와 본문·문항지·대표 이미지 응답을 확인합니다.

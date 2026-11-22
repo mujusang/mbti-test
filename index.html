@@ -82,6 +82,10 @@
   .fact{font-size:12.8px;color:var(--a);background:var(--aSoft);border-radius:999px;padding:5px 11px;font-weight:600;}
   .hint{font-size:13.4px;color:var(--muted);margin:14px 2px 0;word-break:keep-all;}
   .hint b{color:var(--b);}
+  .miniLinks{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:9px;margin:12px 0 0;font-size:13px;color:var(--muted);}
+  .miniLinks button,.miniLinks a{font:inherit;color:var(--muted);background:none;border:0;padding:1px 0;text-decoration:none;border-bottom:1px solid #d9d2c3;cursor:pointer;line-height:1.5;}
+  .miniLinks button:active,.miniLinks a:active{color:var(--a);border-bottom-color:var(--a);}
+  .miniLinks .dot{color:#cfc8b8;}
 
   .btnRow{display:flex;flex-direction:column;gap:9px;margin-top:20px;}
   .btn{
@@ -1031,14 +1035,36 @@ function buildReportText(answers, tieAnswers, r, when) {
 
   function introHTML() {
     const saved = load();
-    let resume = '';
-    if (saved) {
-      const done = saved.answers.filter(v => v != null).length;
-      if (done > 0 && done < QUESTIONS.length) {
-        resume = '<button class="btn ghost small" data-act="resume">이어서 하기 (' + (done + 1) + '번째 문항부터)</button>';
+    const done = saved ? saved.answers.filter(v => v != null).length : 0;
+    let resumeAt = -1;
+    let resumeLabel = '';
+    let hasResult = false;
+    if (done > 0) {
+      if (done < QUESTIONS.length) {
+        resumeAt = resumeIndex(saved);
+        resumeLabel = '이어서 하기 (' + (resumeAt + 1) + '번째 문항부터)';
+      } else {
+        const ties = borderKeys(saved.answers);
+        if (ties.some(k => !state.tieAnswers[k])) {
+          resumeAt = 0;
+          resumeLabel = '이어서 하기 (확인 문답부터)';
+        } else {
+          hasResult = true;
+        }
       }
     }
     const startBtn = '<button class="btn" data-act="start">검사 시작하기</button>';
+    const primaryBtn = resumeAt >= 0
+      ? '<button class="btn" data-act="resume">' + resumeLabel + '</button>'
+      : startBtn;
+    const resume = resumeAt >= 0
+      ? '<button class="btn ghost small" data-act="fresh">처음부터 하기</button>'
+      : '';
+    const miniLinks = '<p class="miniLinks">' +
+      (hasResult ? '<button type="button" data-act="viewlast">지난 검사 결과 보기</button>' : '') +
+      (hasResult ? '<span class="dot">·</span>' : '') +
+      '<a href="items.html">문항지만 보기</a>' +
+    '</p>';
     return '' +
       '<div class="heroArt">' +
         '<img src="assets/hero-1200.jpg" srcset="assets/hero-1200.jpg 1200w, assets/hero.jpg 1536w" sizes="(max-width:680px) 92vw, 648px" width="1536" height="1024" alt="사람의 머리 안에 별자리처럼 이어진 성격의 지도를 그린 일러스트">' +
@@ -1048,8 +1074,9 @@ function buildReportText(answers, tieAnswers, r, when) {
         '<h1>나를 이해하는<br>MBTI 성격유형 검사</h1>' +
         '<p class="lead" style="margin-bottom:14px">일상 속 구체적인 장면을 떠올리며 답하면 내 성향이 어느 쪽으로 얼마나 기울었는지 또렷하게 확인할 수 있습니다. 이 검사는 <b>장면 속에서 고른 반응</b>으로 <b>네 축의 비율</b>, <b>일할 때와 평소의 차이</b>, <b>생각의 결이 어느 기능에 가까운지</b>를 함께 봅니다.</p>' +
         '<div class="facts"><span class="fact">40문항</span><span class="fact">약 7분</span><span class="fact">16유형 해설</span><span class="fact">결과 복사</span></div>' +
-        '<div class="btnRow">' + startBtn + resume + '</div>' +
+        '<div class="btnRow">' + primaryBtn + resume + '</div>' +
         '<p class="hint">답은 이 기기에만 저장됩니다. 중간에 나갔다 와도 이어서 할 수 있습니다.</p>' +
+        miniLinks +
       '</div>' +
       '<div class="secHead">' +
         '<span class="kicker">01 지표</span>' +
@@ -1073,7 +1100,7 @@ function buildReportText(answers, tieAnswers, r, when) {
       ).join('') + '</div>' +
       '<p class="howto">문항마다 <b>짧은 장면</b>이 먼저 나옵니다. 두 문장 가운데 한쪽을 누르면 그쪽으로 <b>완전히</b> 기울인 답이 되고, 조금만 기울었다면 아래 <b>1~5</b>에서 고르면 됩니다. 1에 가까울수록 왼쪽, 5에 가까울수록 오른쪽 문장입니다. 마지막 여덟 문항은 <b>생각의 결</b>을 보는 문항이라 분위기가 조금 다릅니다. 결과에서는 네 글자 유형과 축별 비율, 일할 때와 평소의 차이, 인지기능 8종, 주기능과 부기능을 확인할 수 있습니다.</p>' +
       '<div class="ctaBlock">' +
-        '<div class="btnRow" style="margin-top:0">' + startBtn + '</div>' +
+        '<div class="btnRow" style="margin-top:0">' + primaryBtn + '</div>' +
         '<p class="ctaNote">네 축 가운데 어느 쪽으로도 확실히 기울지 않은 축이 있으면, 결과로 넘어가기 전에 <b>양자택일 확인 문답</b>이 축마다 한 문항씩 더 나옵니다.</p>' +
       '</div>';
   }
@@ -1358,6 +1385,58 @@ function buildReportText(answers, tieAnswers, r, when) {
     render();
   }
 
+  /* 저장본을 이어서 할 때 어느 문항부터 볼지 — 저장된 위치가 아직 답하지 않은 문항이면 그곳, 아니면 첫 미답 문항 */
+  function resumeIndex(d) {
+    const arr = (d && Array.isArray(d.answers)) ? d.answers : state.answers;
+    const at = (d && typeof d.idx === 'number') ? d.idx : -1;
+    if (at >= 0 && at < QUESTIONS.length && arr[at] == null) return at;
+    for (let i = 0; i < arr.length; i++) if (arr[i] == null) return i;
+    return -1;
+  }
+
+  /* 새 검사 — 이 기기에 저장된 답안을 지우고 1번 문항부터 시작한다 */
+  function startFresh() {
+    state.answers = new Array(QUESTIONS.length).fill(null);
+    state.tieAnswers = {};
+    state.tieList = [];
+    state.tieIdx = 0;
+    state.idx = 0;
+    lastResult = null;
+    clearSaved();
+    startQuiz(0);
+  }
+
+  /* 인트로의 '이어서 하기' — 하던 곳(미완료 답안 또는 남은 확인 문답)부터 */
+  function resumeSaved() {
+    if (answeredCount() >= QUESTIONS.length) {
+      state.tieList = borderKeys(state.answers);
+      const left = firstUnansweredTie();
+      if (left >= 0) {
+        state.tieIdx = left;
+        state.view = 'tie';
+        save();
+        render();
+        return;
+      }
+      showResult();
+      return;
+    }
+    const saved = load();
+    const at = saved ? resumeIndex(saved) : -1;
+    startQuiz(at < 0 ? undefined : at);
+  }
+
+  /* 인트로의 '지난 검사 결과 보기' — 저장된 답안으로 그때 결과를 다시 그린다 */
+  function viewLastResult() {
+    const saved = load();
+    if (!saved) { toast('저장된 결과가 없습니다.'); state.view = 'intro'; render(); return; }
+    state.answers = saved.answers.map(v => (typeof v === 'number' ? v : null));
+    state.tieAnswers = (saved.tieAnswers && typeof saved.tieAnswers === 'object') ? saved.tieAnswers : {};
+    state.tieList = borderKeys(state.answers);
+    state.tieList.forEach(k => { if (state.tieAnswers[k] == null) delete state.tieAnswers[k]; });
+    showResult();
+  }
+
   function finishMain() {
     const missing = firstUnanswered();
     if (missing >= 0) {
@@ -1527,8 +1606,10 @@ function buildReportText(answers, tieAnswers, r, when) {
     const t = e.target.closest('[data-act]');
     if (t) {
       const act = t.getAttribute('data-act');
-      if (act === 'start') startQuiz(0);
-      else if (act === 'resume') startQuiz();
+      if (act === 'start') startFresh();
+      else if (act === 'fresh') startFresh();
+      else if (act === 'resume') resumeSaved();
+      else if (act === 'viewlast') viewLastResult();
       else if (act === 'tab') setIntroTab(t.getAttribute('data-tab'));
       else if (act === 'prev') prev();
       else if (act === 'next') next();
@@ -1572,25 +1653,12 @@ function buildReportText(answers, tieAnswers, r, when) {
     }
   });
 
-  // init
+  // init — 링크를 열면 항상 인트로(첫 화면)에서 시작한다.
+  // 저장된 답안은 읽어만 두고, 이어 하거나 지난 결과를 볼 때만 쓴다.
   const saved = load();
   if (saved) {
     state.answers = saved.answers.map(v => (typeof v === 'number' ? v : null));
     if (saved.tieAnswers && typeof saved.tieAnswers === 'object') state.tieAnswers = saved.tieAnswers;
-    const answered = answeredCount();
-    if (answered === QUESTIONS.length) {
-      state.tieList = borderKeys(state.answers);
-      state.tieList.forEach(k => { if (state.tieAnswers[k] == null) delete state.tieAnswers[k]; });
-      if (state.tieList.length && firstUnansweredTie() >= 0) {
-        state.view = 'tie';
-        state.tieIdx = firstUnansweredTie();
-      } else {
-        lastResult = computeResult(state.answers, state.tieAnswers);
-        state.view = 'result';
-      }
-    } else if (answered > 0) {
-      state.idx = Math.min(saved.idx || 0, QUESTIONS.length - 1);
-    }
   }
   render();
 })();
