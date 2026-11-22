@@ -755,7 +755,10 @@ function buildInsight(r) {
   if (r.flippedAxes.length) {
     paras.push('40문항만으로는 ' + r.surfaceType + '로 나왔지만, 확인 문답에서 축 ' + knum(r.flippedAxes.length) + ' 개가 뒤집혀 최종 유형은 ' + r.type + '입니다. 점수가 비슷할 때 마지막 한 표를 어디에 두느냐가 실제 판단 방식을 가릅니다.');
   } else if (r.borderAxes.length) {
-    paras.push('비슷하게 나온 축 ' + knum(r.borderAxes.length) + ' 개가 확인 문답에서도 40문항과 같은 쪽으로 확인되었습니다. 최종 유형은 ' + r.type + '입니다.');
+    const allEven = r.borderAxes.every(x => x.surfaceEven);
+    paras.push(allEven
+      ? '비슷하게 나온 축 ' + knum(r.borderAxes.length) + ' 개는 40문항에서 반반이었고, 확인 문답에서 정해졌습니다. 최종 유형은 ' + r.type + '입니다.'
+      : '비슷하게 나온 축 ' + knum(r.borderAxes.length) + ' 개가 확인 문답에서도 40문항과 같은 쪽으로 확인되었습니다. 최종 유형은 ' + r.type + '입니다.');
   } else {
     paras.push('네 축 모두 10포인트 넘게 갈려 확인 문답 없이 유형이 정해졌습니다. 결과는 ' + r.type + '입니다.');
   }
