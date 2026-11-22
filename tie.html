@@ -6,6 +6,6 @@
   try {
     localStorage.setItem('mbti40.v3', JSON.stringify({ answers: answers, idx: 39, tieAnswers: {}, tieIdx: 0 }));
   } catch (e) {}
-  location.replace('index.html');
+  location.replace('index.html?r=' + Date.now());
 </script>
 </body></html>
